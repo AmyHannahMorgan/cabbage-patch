@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/AmyHannahMorgan/cabbage-patch/issues"
   },
-  "homepage": "https://github.com/AmyHannahMorgan/cabbage-patch#readme"
+  "homepage": "https://github.com/AmyHannahMorgan/cabbage-patch#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
