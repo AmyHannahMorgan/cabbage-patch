@@ -61,6 +61,6 @@ console.log(`listening on port ${port}`);
 function filterPrimes(array) {
     let regex = /(?<!excalibur) prime/i;
     return array.filter(item => {
-        return regex.test(item.name);
+        return (regex.test(item.name) && item.hasOwnProperty('components'));
     });
 }
