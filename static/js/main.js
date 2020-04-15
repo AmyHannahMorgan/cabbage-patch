@@ -6,18 +6,25 @@ class itemSelector {
             return regex.test(component.name);
         });
         this.vaulted = item.hasOwnProperty('vaulted') ? item.hasOwnProperty('vaulted') : false;
-        this.element = itemSelectionTemplate.cloneNode();
-        this.element.id = '';
+        this.element = itemSelectionTemplate.content.cloneNode(true);
         this.element.querySelector('.itemImage').querySelector('img').src = `https://cdn.warframestat.us/img/${item.imageName}`
         itemSelect.appendChild(this.element);
     }
 }
 
 const itemSelect = document.querySelector('#itemSelect');
-const templates = document.querySelector('template');
-const itemSelectionTemplate = templates.querySelector('#itemSelectionTemplate');
+const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
+let itemselectors = [];
 
 fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
-})
+    bulidItemSelectors(json.warframes);
+    console.log(itemselectors);
+});
+
+function bulidItemSelectors(array) {
+    array.forEach(item => {
+        itemselectors.push(new itemSelector(item));
+    })
+}
