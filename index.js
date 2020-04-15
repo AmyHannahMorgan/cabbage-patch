@@ -17,5 +17,9 @@ axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/dat
 
 app.use(express.static(`${__dirname}/static`));
 
+app.get('/api/warframes', (req, res) => {
+    res.send(warfameData);
+})
+
 app.listen(port);
 console.log(`listening on port ${port}`);
