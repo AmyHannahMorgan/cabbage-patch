@@ -14,6 +14,7 @@ class ItemSelector {
 
 const itemSelect = document.querySelector('#itemSelect');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
+const itemWrapperTemplate = document.querySelector('#itemWrapperTenplate');
 let itemselectors = [];
 
 fetch('/api/all/').then(response => response.json())
