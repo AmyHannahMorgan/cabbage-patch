@@ -34,6 +34,18 @@ app.get('/api/warframes', (req, res) => {
     res.send(warfameData);
 });
 
+app.get('/api/primary', (req, res) => {
+    res.send(primaryWeaponData);
+});
+
+app.get('/api/secondary', (req, res) => {
+    res.send(secondaryWeaponData);
+});
+
+app.get('/api/melee', (req, res) => {
+    res.send(meleeWeaponData);
+});
+
 app.listen(port);
 console.log(`listening on port ${port}`);
 
