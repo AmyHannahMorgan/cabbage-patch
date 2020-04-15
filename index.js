@@ -10,12 +10,7 @@ let secondaryWeaponData;
 
 axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json')
 .then(response => {
-    warfameData = response.data.filter(warframe => {
-        if(warframe.hasOwnProperty('vaulted')){
-            return true
-        }
-        else return false;
-    });
+    warfameData = filterPrimes(response.data);
 });
 
 app.use(express.static(`${__dirname}/static`));
