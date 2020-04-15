@@ -20,7 +20,9 @@ fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
     bulidItemSelectors(json.warframes);
-    console.log(itemselectors);
+    bulidItemSelectors(json.primary);
+    bulidItemSelectors(json.secondary);
+    bulidItemSelectors(json.melee);
 });
 
 function bulidItemSelectors(array) {
