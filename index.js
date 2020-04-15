@@ -3,6 +3,20 @@ const axios = require('axios').default;
 const app = express();
 const port = process.env.PORT || 3000;
 
+let warfameData;
+
+axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json')
+.then(response => {
+    let newArray = response.data.filter(warframe => {
+        if(warframe.hasOwnProperty('vaulted')){
+            return true
+        }
+        else return false;
+    });
+    warfameData = [...newArray];
+    console.log(warfameData);
+});
+
 app.use(express.static(`${__dirname}/static`));
 
 app.listen(port);
