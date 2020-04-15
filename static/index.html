@@ -11,13 +11,31 @@
 
     </head>
     <main>
-
+        
     </main>
     <footer>
 
     </footer>
     <template>
-
+        <div class="itemSelection" id="itemSelectionTemplate">
+            <div class="itemImage">
+                <img src="/assets/item images/Prime Placeholder.png">
+            </div>
+            <form class="itemOptions">
+                <div class="itemWrapper">
+                    <label for="${item-name}">{{item-name}}</label><input type="checkbox" name="${item-name}" class="itemCheckbox">
+                </div>
+                <div class="itemWrapper">
+                    <label for="${item-name}">{{item-name}}</label><input type="checkbox" name="${item-name}" class="itemCheckbox">
+                </div>
+                <div class="itemWrapper">
+                    <label for="${item-name}">{{item-name}}</label><input type="checkbox" name="${item-name}" class="itemCheckbox">
+                </div>
+                <div class="itemWrapper">
+                    <label for="${item-name}">{{item-name}}</label><input type="checkbox" name="${item-name}" class="itemCheckbox">
+                </div>
+            </form>
+        </div>
     </template>
 </body>
 </html>
