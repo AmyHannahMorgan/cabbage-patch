@@ -1,4 +1,4 @@
-class itemSelector {
+class ItemSelector {
     constructor(item) {
         this.itemName = item.name;
         this.components = item.components.filter(component => {
@@ -27,6 +27,6 @@ fetch('/api/all/').then(response => response.json())
 
 function bulidItemSelectors(array) {
     array.forEach(item => {
-        itemselectors.push(new itemSelector(item));
+        itemselectors.push(new ItemSelector(item));
     })
 }
