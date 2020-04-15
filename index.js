@@ -13,7 +13,6 @@ axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/dat
         }
         else return false;
     });
-    console.log(warfameData);
 });
 
 app.use(express.static(`${__dirname}/static`));
