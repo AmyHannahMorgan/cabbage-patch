@@ -1,7 +1,47 @@
 /* tags */
-
+body {
+    margin: 0;
+}
 /* classes */
+.itemSelection {
+    display: grid;
+    grid-template-rows: 100fr;
+    grid-template-columns: 33fr 66fr;
 
+    margin: 6px;
+}
+
+.itemSelection > .itemImage {
+    display: flex;
+
+    grid-column: 1 / span 1;
+}
+
+.itemSelection > .itemImage > img {
+    object-fit: contain;
+    width: 100%;
+}
+
+.itemSelection > .itemOptions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    grid-column: 2 / span 1;
+
+    font-size: 1.33em;
+}
+
+.itemSelection > .itemOptions > .itemWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.itemSelection > .itemOptions > .itemWrapper > .itemCheckbox {
+    width: 2em;
+    height: 2em;
+}
 /* IDs */
 
 /* media */
