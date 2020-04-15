@@ -59,7 +59,7 @@ app.listen(port);
 console.log(`listening on port ${port}`);
 
 function filterPrimes(array) {
-    let regex = / Prime/;
+    let regex = /(?<!excalibur) prime/i;
     return array.filter(item => {
         return regex.test(item.name);
     });
