@@ -26,3 +26,10 @@ app.get('/api/warframes', (req, res) => {
 
 app.listen(port);
 console.log(`listening on port ${port}`);
+
+function filterPrimes(array) {
+    return array.filter(item => {
+        if(item.hasOwnProperty('vaulted')) return true
+        else return false
+    });
+}
