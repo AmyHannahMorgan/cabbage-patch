@@ -20,6 +20,60 @@ class ItemSelector {
     }
 }
 
+class TabHandler {
+    constructor(selectArray, tabArray) {
+        this.tabSelectors = [];
+
+        selectArray.forEach(selector => {
+            for(let i = 0; i < tabArray.length; i++) {
+                if(tabArray[i].id === selector.getAttribute('tabID')) {
+                    this.tabSelectors.push(new TabSelect(selector, tabArray[i], this));
+                    break;
+                }
+            }
+        })
+
+        this.tabSelectors[0].active = true
+        this.tabSelectors[0].tab.classList.add('active');
+        this.tabSelectors[0].selector.classList.add('active');
+    }
+
+    changeActive(activeTabId) {
+        this.tabSelectors.forEach(tabSelector => {
+            tabSelector.active = false;
+            tabSelector.selector.classList.remove('active');
+
+            if(tabSelector.tab.id === activeTabId) tabSelector.tab.classList.add('active')
+            else tabSelector.tab.classList.remove('active');
+        })
+    }
+}
+
+class TabSelect {
+    constructor(seletor, tab, handler) {
+        this.selector = seletor;
+        this.tab = tab;
+        this.handler = handler;
+        this.active = false;
+
+        this.selector.addEventListener('click', () => {
+            if(!this.active) {
+                this.handler.changeActive(this.tab.id);
+                this.selector.classList.add('active');
+                this.active = true;
+            }
+        })
+    }
+}
+
+const tabSelectors = document.querySelectorAll('.tabSelectHolder');
+const tabs = document.querySelectorAll('.tab');
+let tabHandlers = [];
+
+for(let i = 0; i < tabSelectors.length; i++) {
+    tabHandlers.push(new TabHandler(tabSelectors[i].querySelectorAll('.tabSelect'), tabs));
+}
+
 const itemSelect = document.querySelector('#itemSelect');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
 const itemWrapperTemplate = document.querySelector('#itemWrapperTemplate');
