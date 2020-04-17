@@ -2,7 +2,33 @@
 body {
     margin: 0;
 }
+
+header {
+    display: flex;
+    flex-direction: row;
+
+    max-width: 100%;
+}
+
 /* classes */
+.tabSelect {
+    flex: 1;
+    margin: 0;
+    text-align: center;
+
+    border-style: solid none solid solid;
+    border-color: black;
+    border-width: medium;
+}
+
+.tabSelect:first-child {
+    border-style: solid none;
+}
+
+.tabSelect.active {
+    border-bottom: none;
+}
+
 .itemSelection {
     display: grid;
     grid-template-rows: auto auto auto;
