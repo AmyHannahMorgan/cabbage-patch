@@ -29,6 +29,14 @@ header {
     border-bottom: none;
 }
 
+.tab {
+    display: none;
+}
+
+.tab.active {
+    display: block;
+}
+
 .itemSelection {
     display: grid;
     grid-template-rows: auto auto auto;
