@@ -5,7 +5,8 @@ const port = process.env.PORT || 3000;
 
 let apiData = {
 
-}
+};
+let dataFlag = false;
 
 axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
@@ -18,29 +19,34 @@ axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/deve
     apiData.melee = filterPrimes(melee.data);
 }))
 .then(() => {
-    
+    dataFlag = true;
 });
 
 app.use(express.static(`${__dirname}/static`));
 
 app.get('/api/warframes', (req, res) => {
-    res.send(apiData.warfameData);
+    if(dataFlag) res.send(apiData.warframes)
+    else res.sendStatus(404);
 });
 
 app.get('/api/primary', (req, res) => {
-    res.send(apiData.primaryWeaponData);
+    if(dataFlag) res.send(apiData.primary)
+    else res.sendStatus(404);
 });
 
 app.get('/api/secondary', (req, res) => {
-    res.send(apiData.secondaryWeaponData);
+    if(dataFlag) res.send(apiData.secondary)
+    else res.sendStatus(404);
 });
 
 app.get('/api/melee', (req, res) => {
-    res.send(apiData.meleeWeaponData);
+    if(dataFlag) res.send(apiData.melee)
+    else res.sendStatus(404);
 });
 
 app.get('/api/all', (req, res) => {
-    res.send(apiData);
+    if(dataFlag) res.send(apiData)
+    else res.sendStatus(404);
 })
 
 app.listen(port);
