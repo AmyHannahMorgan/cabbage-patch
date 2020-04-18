@@ -20,6 +20,12 @@ class ItemSelector {
     }
 }
 
+class Relic {
+    constructor(relic, itemList) {
+        
+    }
+}
+
 class TabHandler {
     constructor(selectArray, tabArray) {
         this.tabSelectors = [];
