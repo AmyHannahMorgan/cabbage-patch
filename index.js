@@ -4,10 +4,11 @@ const axios = require('axios').default;
 const app = express();
 const port = process.env.PORT || 3000;
 
+const dataCheck = new eventEmitter();
 let apiData = {
 
 };
-let dataFlag = false;
+let dataFlag = false
 
 axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
@@ -20,6 +21,7 @@ axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/deve
     apiData.melee = filterPrimes(melee.data);
 }))
 .then(() => {
+    dataCheck.emit('dataLoaded');
     dataFlag = true;
 });
 
@@ -27,27 +29,47 @@ app.use(express.static(`${__dirname}/static`));
 
 app.get('/api/warframes', (req, res) => {
     if(dataFlag) res.send(apiData.warframes)
-    else res.sendStatus(404);
+    else {
+        dataCheck.addListener('dataLoaded', () => {
+            res.send(apiData.warframes)
+        })
+    }
 });
 
 app.get('/api/primary', (req, res) => {
     if(dataFlag) res.send(apiData.primary)
-    else res.sendStatus(404);
+    else {
+        dataCheck.addListener('dataLoaded', () => {
+            res.send(apiData.primary)
+        })
+    }
 });
 
 app.get('/api/secondary', (req, res) => {
     if(dataFlag) res.send(apiData.secondary)
-    else res.sendStatus(404);
+    else {
+        dataCheck.addListener('dataLoaded', () => {
+            res.send(apiData.secondary)
+        })
+    }
 });
 
 app.get('/api/melee', (req, res) => {
     if(dataFlag) res.send(apiData.melee)
-    else res.sendStatus(404);
+    else {
+        dataCheck.addListener('dataLoaded', () => {
+            res.send(apiData.melee)
+        })
+    }
 });
 
 app.get('/api/all', (req, res) => {
     if(dataFlag) res.send(apiData)
-    else res.sendStatus(404);
+    else {
+        dataCheck.addListener('dataLoaded', () => {
+            res.send(apiData)
+        })
+    }
 })
 
 app.listen(port);
