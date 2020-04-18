@@ -7,25 +7,19 @@ let apiData = {
 
 }
 
-axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json')
-.then(response => {
-    apiData.warfameData = filterPrimes(response.data);
+axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json'),
+    axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
+    axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Secondary.json'),
+    axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Melee.json')])
+.then(axios.spread((warframes, primaries, secondaries, melee) => {
+    apiData.warframes = filterPrimes(warframes.data);
+    apiData.primary = filterPrimes(primaries.data);
+    apiData.secondary = filterPrimes(secondaries.data);
+    apiData.melee = filterPrimes(melee.data);
+}))
+.then(() => {
+    
 });
-
-axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json')
-.then(response => {
-    apiData.primaryWeaponData = filterPrimes(response.data);
-});
-
-axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Secondary.json')
-.then(response => {
-    apiData.secondaryWeaponData = filterPrimes(response.data);
-});
-
-axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Melee.json')
-.then(response => {
-    apiData.meleeWeaponData = filterPrimes(response.data);
-})
 
 app.use(express.static(`${__dirname}/static`));
 
