@@ -103,4 +103,6 @@ function splitRelics(array) {
         }
         else obj.vaulted.push(relic);
     });
+
+    return obj;
 }
