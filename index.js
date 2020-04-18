@@ -20,7 +20,7 @@ axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/deve
     apiData.primary = filterPrimes(primaries.data);
     apiData.secondary = filterPrimes(secondaries.data);
     apiData.melee = filterPrimes(melee.data);
-    apiData.relics = filterRelics(relics.data);
+    apiData.relics = splitRelics(filterRelics(relics.data));
 }))
 .then(() => {
     dataCheck.emit('dataLoaded');
@@ -89,4 +89,18 @@ function filterRelics(array) {
     return array.filter(relic => {
         return regex.test(relic.name);
     })
+}
+
+function splitRelics(array) {
+    let obj = {
+        available: [],
+        vaulted: []
+    };
+
+    array.forEach(relic => {
+        if(relic.hasOwnProperty('drops')) {
+            obj.available.push(relic);
+        }
+        else obj.vaulted.push(relic);
+    });
 }
