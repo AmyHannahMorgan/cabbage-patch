@@ -22,7 +22,9 @@ class ItemSelector {
 
 class Relic {
     constructor(relic, itemList) {
-        
+        let relicName = relic.name.split(' ');
+        this.era = relicName[0];
+        this.name = relicName[1];
     }
 }
 
