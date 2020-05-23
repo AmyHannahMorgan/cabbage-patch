@@ -10,11 +10,13 @@ class ItemSelector {
         this.element.querySelector('.itemName').innerText = this.itemName;
         this.element.querySelector('.itemImage').querySelector('img').src = `https://cdn.warframestat.us/img/${item.imageName}`
         this.components.forEach(component => {
-            let element = itemWrapperTemplate.content.cloneNode(true);
+            let element = itemWrapperTemplate.content.cloneNode(true).firstElementChild;
             element.querySelector('label').htmlFor = component.name;
             element.querySelector('label').innerText = component.name;
             element.querySelector('input').name = component.name;
-            this.element.querySelector('.itemOptions').appendChild(element);
+            this.element.querySelector('.itemOptions').appendChild(element).querySelector('input').addEventListener('click', e => {
+                console.log(`${this.itemName} ${component.name}`);
+            });;
         });
         itemSelect.appendChild(this.element);
     }
