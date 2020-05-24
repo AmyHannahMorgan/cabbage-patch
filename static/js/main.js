@@ -1,11 +1,8 @@
 class ItemSelector {
     constructor(item) {
         this.itemName = item.name;
-        this.components = item.components.filter(component => {
-            let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link| prime|blade|gauntlet|handle|ornament|chain|pouch|stars/i;
-            return regex.test(component.name);
-        });
-        this.vaulted = item.hasOwnProperty('vaulted') ? item.hasOwnProperty('vaulted') : false;
+        this.components = item.components;
+        this.vaulted = item.vaulted;
         this.element = itemSelectionTemplate.content.cloneNode(true);
         this.element.querySelector('.itemName').innerText = this.itemName;
         this.element.querySelector('.itemImage').querySelector('img').src = `https://cdn.warframestat.us/img/${item.imageName}`
