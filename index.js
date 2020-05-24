@@ -112,7 +112,7 @@ function reduceItems(itemArray) {
     itemArray.forEach(item => {
         let obj = {};
         obj.name = item.name;
-        obj.components = item.components;
+        obj.components = reduceComponents(item.components);
         obj.imageName = item.imageName;
         obj.vaulted = item.hasOwnProperty('vaulted') ? item.vaulted : false;
 
@@ -120,4 +120,11 @@ function reduceItems(itemArray) {
     });
 
     return newArray;
+}
+
+function reduceComponents(componentsArray) {
+    let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link| prime|blade|gauntlet|handle|ornament|chain|pouch|stars/i;
+    return componentsArray.filter(component => {
+        return regex.test(component.name);
+    })
 }
