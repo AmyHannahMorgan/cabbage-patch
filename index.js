@@ -16,10 +16,10 @@ axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/deve
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Melee.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Relics.json')])
 .then(axios.spread((warframes, primaries, secondaries, melee, relics) => {
-    apiData.warframes = filterPrimes(warframes.data);
-    apiData.primary = filterPrimes(primaries.data);
-    apiData.secondary = filterPrimes(secondaries.data);
-    apiData.melee = filterPrimes(melee.data);
+    apiData.warframes = reduceItems(filterPrimes(warframes.data));
+    apiData.primary = reduceItems(filterPrimes(primaries.data));
+    apiData.secondary = reduceItems(filterPrimes(secondaries.data));
+    apiData.melee = reduceItems(filterPrimes(melee.data));
     apiData.relics = splitRelics(filterRelics(relics.data));
 }))
 .then(() => {
