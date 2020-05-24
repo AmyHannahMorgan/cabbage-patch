@@ -106,3 +106,18 @@ function splitRelics(array) {
 
     return obj;
 }
+
+function reduceItems(itemArray) {
+    let newArray =[]
+    itemArray.forEach(item => {
+        let obj = {};
+        obj.name = item.name;
+        obj.components = item.components;
+        obj.imageName = item.imageName;
+        obj.vaulted = item.hasOwnProperty('vaulted') ? item.vaulted : false;
+
+        newArray.push(obj);
+    });
+
+    return newArray;
+}
