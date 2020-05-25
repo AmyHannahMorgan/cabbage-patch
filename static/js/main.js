@@ -19,6 +19,16 @@ class ItemSelector {
     }
 }
 
+class Component {
+    constructor(componentObject, parentItemName, relicArray) {
+        this.name = `${parentItemName} ${componentObject.name}`;
+        this.relics = componentObject.drops.filter(relic => {
+            let regex = / intact/i;
+            return regex.test(relic.name);
+        });
+    }
+}
+
 class Relic {
     constructor(relic) {
         let relicName = relic.name.split(' ');
