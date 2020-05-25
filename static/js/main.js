@@ -20,7 +20,7 @@ class ItemSelector {
 }
 
 class Relic {
-    constructor(relic, itemList) {
+    constructor(relic) {
         let relicName = relic.name.split(' ');
         this.era = relicName[0];
         this.name = relicName[1];
@@ -89,6 +89,8 @@ let itemselectors = [];
 fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
+    buildRelics(json.relics.available);
+    buildRelics(json.relics.vaulted);
     bulidItemSelectors(json.warframes);
     bulidItemSelectors(json.primary);
     bulidItemSelectors(json.secondary);
@@ -99,4 +101,10 @@ function bulidItemSelectors(array) {
     array.forEach(item => {
         itemselectors.push(new ItemSelector(item));
     })
+}
+
+function buildRelics(relicArray, outputArray) {
+    relicArray.forEach(relic => {
+        outputArray.push(new Relic(relic));
+    });
 }
