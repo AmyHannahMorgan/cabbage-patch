@@ -85,12 +85,13 @@ const itemSelect = document.querySelector('#itemSelect');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
 const itemWrapperTemplate = document.querySelector('#itemWrapperTemplate');
 let itemselectors = [];
+let relics = [];
 
 fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
-    buildRelics(json.relics.available);
-    buildRelics(json.relics.vaulted);
+    buildRelics(json.relics.available, relics);
+    buildRelics(json.relics.vaulted, relics);
     bulidItemSelectors(json.warframes);
     bulidItemSelectors(json.primary);
     bulidItemSelectors(json.secondary);
