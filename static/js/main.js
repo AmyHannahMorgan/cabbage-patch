@@ -27,6 +27,12 @@ class Component {
             return regex.test(relic.name);
         });
     }
+
+    associateRelics(relicArray) {
+        relicArray.forEach(relic => {
+            relic.associateComponent(this);
+        })
+    }
 }
 
 class Relic {
