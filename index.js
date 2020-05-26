@@ -141,3 +141,49 @@ function reduceComponents(componentsArray) {
     });
     return newArray;
 }
+
+function consolidateDrops(dropsArray) {
+    function generateRegexsRelics(relicArray, position) {
+        function checkDuplicate(array, test) {
+            let flag = false;
+            array.forEach(item => {
+                if(item === test) flag = true;
+            });
+            return flag;
+        }
+
+        let regexs = [];
+        let checks = [];
+        
+        relicArray.forEach(relic => {
+            let regexString = relic.location.split(' ')[position];
+
+            if(!checkDuplicate(checks, regexString)) regexs.push(new RegExp(`\\b${regexString}\\b`, 'i'));
+        });
+
+        return regexs
+    }
+
+    let erasRegexs = generateRegexsRelics(dropsArray, 0);
+    let eras = [];
+    erasRegexs.forEach(regex => {
+        eras.push(dropsArray.filter(relic => {
+            return regex.test(relic.location);
+        }));
+    });
+
+    let nameRegexs = [];
+    eras.forEach(era => {
+        nameRegexs.push(generateRegexsRelics(era, 1));
+    });
+
+    eras = eras.map(era => {
+        let newArray = []
+        nameRegexs.forEach(name => {
+            newArray.push(era.filter(relic => {
+                return name.test(relic.location);
+            }));
+        });
+        return newArray;
+    })
+}
