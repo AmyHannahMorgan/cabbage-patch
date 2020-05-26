@@ -186,4 +186,6 @@ function consolidateDrops(dropsArray) {
         });
         return newArray;
     })
+
+    //TODO: use reduce method to produce single object from separated relics
 }
