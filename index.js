@@ -112,7 +112,7 @@ function reduceItems(itemArray) {
     itemArray.forEach(item => {
         let obj = {};
         obj.name = item.name;
-        obj.components = filterComponents(item.components);
+        obj.components = reduceComponents(filterComponents(item.components));
         obj.imageName = item.imageName;
         obj.vaulted = item.hasOwnProperty('vaulted') ? item.vaulted : false;
 
@@ -127,4 +127,17 @@ function filterComponents(componentsArray) {
     return componentsArray.filter(component => {
         return regex.test(component.name);
     })
+}
+
+function reduceComponents(componentsArray) {
+    let newArray = [];
+    componentsArray.forEach(component => {
+        let obj = {};
+        obj.name = component.name;
+        obj.ducats = component.ducats;
+        obj.drops = component.drops;
+
+        newArray.push(obj);
+    });
+    return newArray;
 }
