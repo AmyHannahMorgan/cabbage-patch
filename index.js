@@ -180,9 +180,9 @@ function consolidateDrops(dropsArray) {
         nameRegexs.push(generateRegexsRelics(era, 1));
     });
 
-    eras = eras.map(era => {
+    eras = eras.map((era, index) => {
         let newArray = []
-        nameRegexs.forEach(name => {
+        nameRegexs[index].forEach(name => {
             newArray.push(era.filter(relic => {
                 return name.test(relic.location);
             }));
