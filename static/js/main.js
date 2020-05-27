@@ -29,7 +29,8 @@ class ItemSelector {
 
 class Component {
     constructor(componentObject, parentItemName, relicArray) {
-        this.name = `${parentItemName} ${componentObject.name}`;
+        this.fullName = `${parentItemName} ${componentObject.name}`;
+        this.name = componentObject.name;
         this.relics = this.associateRelics(relicArray, componentObject.drops);
         this.ducats = componentObject.ducats;
     }
@@ -59,7 +60,7 @@ class Relic {
 
     associateDrop(componentObject, dropDetails) {
         this.contents.push({
-            name: componentObject.name,
+            name: componentObject.fullName,
             selected: false,
             intact: dropDetails.intact,
             exceptional: dropDetails.exceptional,
