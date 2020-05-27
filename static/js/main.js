@@ -22,16 +22,22 @@ class ItemSelector {
 class Component {
     constructor(componentObject, parentItemName, relicArray) {
         this.name = `${parentItemName} ${componentObject.name}`;
-        this.relics = componentObject.drops.filter(relic => {
-            let regex = / intact/i;
-            return regex.test(relic.name);
-        });
+        this.relics = this.associateRelics(relicArray, componentObject.drops);
+        this.ducats = componentObject.ducats;
     }
 
-    associateRelics(relicArray) {
-        relicArray.forEach(relic => {
-            relic.associateComponent(this);
+    associateRelics(relicArray, componentDrops) {
+        let array = [];
+        componentDrops.forEach(drop => {
+            relicArray.forEach(relic => {
+                if(drop.era === relic.era) {
+                    relic.associateDrop(this, drop);
+                    array.push(relic);
+                }
+            })
         })
+
+        return array;
     }
 }
 
@@ -40,6 +46,18 @@ class Relic {
         let relicName = relic.name.split(' ');
         this.era = relicName[0];
         this.name = relicName[1];
+        this.contents = [];
+    }
+
+    associateDrop(componentObject, dropDetails) {
+        this.contents.push({
+            name: componentObject.name,
+            selected: false,
+            intact: dropDetails.intact,
+            exceptional: dropDetails.exceptional,
+            flawless: dropDetails.flawless,
+            radiant: dropDetails.radiant,
+        });
     }
 }
 
