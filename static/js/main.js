@@ -1,7 +1,7 @@
 class ItemSelector {
     constructor(item) {
         this.itemName = item.name;
-        this.components = item.components;
+        this.components = this.buildComponents(item.components);
         this.vaulted = item.vaulted;
         this.element = itemSelectionTemplate.content.cloneNode(true);
         this.element.querySelector('.itemName').innerText = this.itemName;
@@ -16,6 +16,14 @@ class ItemSelector {
             });;
         });
         itemSelect.appendChild(this.element);
+    }
+
+    buildComponents(componentArray) {
+        let array = [];
+        componentArray.forEach(component => {
+            array.push(new Component(component, this.itemName, relics));
+        })
+        return array;
     }
 }
 
