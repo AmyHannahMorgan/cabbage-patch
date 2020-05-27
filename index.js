@@ -184,6 +184,19 @@ function consolidateDrops(dropsArray) {
                 return name.test(relic.location);
             }));
         });
-        return newArray;
+        return newArray.map(relics => {
+            return relics.reduce((obj, relic, index) => {
+                let name = relic.location.split(' ');
+
+                if(index === 0) {
+                    obj.era = name[0];
+                    obj.name = name[1];
+                }
+
+                obj[name[3].toLowerCase()] = relic.chance;
+
+                return obj;
+            }, {});
+        })
     })
 }
