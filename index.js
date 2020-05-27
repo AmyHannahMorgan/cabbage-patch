@@ -196,7 +196,7 @@ function consolidateDrops(dropsArray) {
                     obj.name = name[1];
                 }
 
-                obj[name[3].toLowerCase()] = relic.chance;
+                obj[name[2].toLowerCase()] = relic.chance;
 
                 return obj;
             }, {});
