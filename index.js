@@ -198,5 +198,9 @@ function consolidateDrops(dropsArray) {
                 return obj;
             }, {});
         })
-    })
+    });
+
+    return eras.reduce((acc, obj) => {
+        return acc.concat(obj);
+    }, []);
 }
