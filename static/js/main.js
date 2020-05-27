@@ -12,7 +12,7 @@ class ItemSelector {
             element.querySelector('label').innerText = component.name;
             element.querySelector('input').name = component.name;
             this.element.querySelector('.itemOptions').appendChild(element).querySelector('input').addEventListener('click', e => {
-                console.log(`${this.itemName} ${component.name}`);
+                component.update();
             });;
         });
         itemSelect.appendChild(this.element);
@@ -31,6 +31,7 @@ class Component {
     constructor(componentObject, parentItemName, relicArray) {
         this.fullName = `${parentItemName} ${componentObject.name}`;
         this.name = componentObject.name;
+        this.status = false;
         this.relics = this.associateRelics(relicArray, componentObject.drops);
         this.ducats = componentObject.ducats;
     }
@@ -39,7 +40,7 @@ class Component {
         let array = [];
         componentDrops.forEach(drop => {
             relicArray.forEach(relic => {
-                if(drop.era === relic.era) {
+                if(drop.era === relic.era && drop.name === relic.name) {
                     relic.associateDrop(this, drop);
                     array.push(relic);
                 }
@@ -47,6 +48,13 @@ class Component {
         })
 
         return array;
+    }
+
+    update() {
+        this.status = !this.status;
+        this.relics.forEach(relic => {
+            relic.update(this.fullName, this.status);
+        });
     }
 }
 
@@ -67,6 +75,15 @@ class Relic {
             flawless: dropDetails.flawless,
             radiant: dropDetails.radiant,
         });
+    }
+
+    update(itemName, itemStatus) {
+        this.contents.forEach(item => {
+            if(item.name === itemName) {
+                item.selected = itemStatus;
+            }
+        });
+        console.log(this.contents);
     }
 }
 
