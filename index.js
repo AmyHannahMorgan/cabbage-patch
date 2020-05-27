@@ -135,7 +135,7 @@ function reduceComponents(componentsArray) {
         let obj = {};
         obj.name = component.name;
         obj.ducats = component.ducats;
-        obj.drops = component.drops;
+        obj.drops = consolidateDrops(component.drops);
 
         newArray.push(obj);
     });
@@ -158,7 +158,10 @@ function consolidateDrops(dropsArray) {
         relicArray.forEach(relic => {
             let regexString = relic.location.split(' ')[position];
 
-            if(!checkDuplicate(checks, regexString)) regexs.push(new RegExp(`\\b${regexString}\\b`, 'i'));
+            if(!checkDuplicate(checks, regexString)) {
+                regexs.push(new RegExp(`\\b${regexString}\\b`, 'i'));
+                checks.push(regexString);
+            };
         });
 
         return regexs
