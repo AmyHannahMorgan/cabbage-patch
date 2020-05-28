@@ -83,6 +83,71 @@ header {
     width: 2em;
     height: 2em;
 }
+
+.relicButton {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+
+    border: none;
+    padding: 6px;
+    background: transparent;
+}
+
+.relicDisplay {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 50fr 50fr;
+    
+    width: 100%;
+}
+
+.relicDisplay > .relicName {
+    grid-column: 1 / span 1;
+
+    text-align: left;
+}
+
+.relicDisplay > .vaultedStatus {
+    grid-column: 2 / span 1;
+
+    text-align: right;
+    font-style: italic;
+    color: red;
+}
+
+.relicDisplay > .relicItemList {
+    grid-column: 1 / span 2;
+
+    margin: 3px 0;
+}
+
+.relicDisplay > .relicItemList > .item {
+    display: none;
+    justify-content: space-between;
+}
+
+.relicDisplay > .relicItemList > .item > * {
+    margin: 0;
+}
+
+.relicDisplay > .relicItemList > .item.selected {
+    display: flex;
+}
+
+.relicButton:focus > .relicDisplay > .relicItemList > .item {
+    display: flex;
+}
+
+.relicDisplay > .relicItemList > .item > .itemName {
+    text-align: left;
+    font-size: 1.33em;
+}
+
+.relicDisplay > .relicItemList > .item > .itemProbability {
+    text-align: right;
+    font-size: 1.33em;
+}
 /* IDs */
 
 /* media */
