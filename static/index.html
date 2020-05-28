@@ -16,7 +16,7 @@
 
         </div>
         <div id="relicInfo" class="tab">
-
+            
         </div>
     </main>
     <footer>
@@ -36,6 +36,23 @@
     <template id="itemWrapperTemplate">
         <div class="itemWrapper">
             <label for="${item-name}">{{item-name}}</label><input type="checkbox" name="${item-name}" class="itemCheckbox">
+        </div>
+    </template>
+    <template id="relicWrapperTemplate">
+        <button class="relicButton">
+            <div class="relicDisplay">
+                <h2 class="relicName">Lith A69</h2>
+                <h3 class="vaultedStatus">Vaulted</h3>
+                <div class="relicItemList">
+
+                </div>
+            </div>
+        </button>
+    </template>
+    <template id="relicItemTemplate">
+        <div class="item">
+            <p class="itemName">grakata</p>
+            <p class="itemProbability">25% - 11%</p>
         </div>
     </template>
     <script src="/js/main.js"></script>
