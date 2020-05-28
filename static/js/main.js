@@ -144,6 +144,8 @@ for(let i = 0; i < tabSelectors.length; i++) {
 const itemSelect = document.querySelector('#itemSelect');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
 const itemWrapperTemplate = document.querySelector('#itemWrapperTemplate');
+const relicDisplayTemplate = document.querySelector('#relicWrapperTemplate');
+const relicItemTemplate = document.querySelector('#relicItemTemplate');
 let itemselectors = [];
 let relics = [];
 
