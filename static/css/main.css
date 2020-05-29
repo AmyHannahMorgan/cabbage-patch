@@ -104,16 +104,21 @@ header {
 
 .relicDisplay > .relicName {
     grid-column: 1 / span 1;
-
+    
     text-align: left;
 }
 
 .relicDisplay > .vaultedStatus {
+    display: hidden;
     grid-column: 2 / span 1;
 
     text-align: right;
     font-style: italic;
     color: red;
+}
+
+.relicDisplay.vaulted > .vaultedStatus {
+    display: block;
 }
 
 .relicDisplay > .relicItemList {
