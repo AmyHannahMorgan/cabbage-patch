@@ -85,7 +85,7 @@ header {
 }
 
 .relicButton {
-    display: block;
+    display: none;
     box-sizing: border-box;
     width: 100%;
 
@@ -94,16 +94,16 @@ header {
     background: transparent;
 }
 
+.relicButton.selected {
+    display: block;
+}
+
 .relicDisplay {
-    display: none;
+    display: grid;
     grid-template-rows: auto auto;
     grid-template-columns: 50fr 50fr;
     
     width: 100%;
-}
-
-.relicDisplay.selected {
-    display: grid;
 }
 
 .relicDisplay > .relicName {
