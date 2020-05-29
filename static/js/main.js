@@ -82,7 +82,7 @@ class Relic {
         this.element = relicContainerElement.appendChild(relicTemplate.cloneNode(true));
         this.itemElementHolder = this.element.querySelector('.relicItemList');
         this.element.querySelector('.relicName').innerText = `${this.era} ${this.name}`;
-        if(this.vaulted) this.element.classList.querySelector('.relicDisplay').add('vaulted');
+        if(this.vaulted) this.element.querySelector('.relicDisplay').classList.add('vaulted');
 
         this.itemTemplate = itemTemplate;
     }
@@ -111,12 +111,15 @@ class Relic {
                 item.selected = itemStatus;
             }
 
-            if(item.selected) selectedFlag = true;
+            if(item.selected) selectedFlag = true
         });
 
-        if(selectedFlag) this.element.querySelector('.relicDisplay').classList.add('.selected')
-        else this.element.querySelector('.relicDisplay').classList.remove('.selected');
-        
+        console.log(selectedFlag);
+
+        if(selectedFlag) this.element.classList.add('selected')
+        else this.element.classList.remove('selected');
+        console.log(this.element);
+
         console.log(this.contents);
     }
 }
