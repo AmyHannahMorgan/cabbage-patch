@@ -34,6 +34,7 @@ class Component {
         this.status = false;
         this.relics = this.associateRelics(relicArray, componentObject.drops);
         this.ducats = componentObject.ducats;
+        this.elements = [];
     }
 
     associateRelics(relicArray, componentDrops) {
@@ -41,7 +42,7 @@ class Component {
         componentDrops.forEach(drop => {
             relicArray.forEach(relic => {
                 if(drop.era === relic.era && drop.name === relic.name) {
-                    relic.associateDrop(this, drop);
+                    this.elements.push(relic.associateDrop(this, drop));
                     array.push(relic);
                 }
             })
@@ -52,6 +53,18 @@ class Component {
 
     update() {
         this.status = !this.status;
+
+        if(this.status) {
+            this.elements.forEach(element => {
+                element.classList.add('selected');
+            });
+        }
+        else {
+            this.elements.forEach(element => {
+                element.classList.remove('selected');
+            })
+        }
+
         this.relics.forEach(relic => {
             relic.update(this.fullName, this.status);
         });
@@ -59,11 +72,17 @@ class Component {
 }
 
 class Relic {
-    constructor(relic) {
+    constructor(relic, relicTemplate, itemTemplate, relicContainerElement) {
         let relicName = relic.name.split(' ');
         this.era = relicName[0];
         this.name = relicName[1];
         this.contents = [];
+        
+        this.element = relicContainerElement.appendChild(relicTemplate.cloneNode(true));
+        this.itemElementHolder = this.element.querySelector('.relicItemTemplate');
+        this.element.querySelector('.relicName').innerText = `${this.era} ${this.name}`;
+
+        this.itemTemplate = itemTemplate;
     }
 
     associateDrop(componentObject, dropDetails) {
@@ -75,6 +94,12 @@ class Relic {
             flawless: dropDetails.flawless,
             radiant: dropDetails.radiant,
         });
+
+        let element = this.itemElementHolder.appendChild(this.itemTemplate.cloneNode(true));
+        element.querySelector('.itemName').innerText = `${componentObject.fullName}`;
+        element.querySelector('.itemProbability').innerText = `${dropDetails.intact} - ${dropDetails.radiant}`;
+
+        return element
     }
 
     update(itemName, itemStatus) {
