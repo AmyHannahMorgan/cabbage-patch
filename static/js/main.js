@@ -32,17 +32,17 @@ class Component {
         this.fullName = `${parentItemName} ${componentObject.name}`;
         this.name = componentObject.name;
         this.status = false;
-        this.relics = this.associateRelics(relicArray, componentObject.drops);
-        this.ducats = componentObject.ducats;
         this.elements = [];
+        this.relics = this.associateRelics(relicArray, this.elements, componentObject.drops);
+        this.ducats = componentObject.ducats;
     }
 
-    associateRelics(relicArray, componentDrops) {
+    associateRelics(relicArray, elementArray, componentDrops) {
         let array = [];
         componentDrops.forEach(drop => {
             relicArray.forEach(relic => {
                 if(drop.era === relic.era && drop.name === relic.name) {
-                    this.elements.push(relic.associateDrop(this, drop));
+                    elementArray.push(relic.associateDrop(this, drop));
                     array.push(relic);
                 }
             })
@@ -79,7 +79,7 @@ class Relic {
         this.contents = [];
         
         this.element = relicContainerElement.appendChild(relicTemplate.cloneNode(true));
-        this.itemElementHolder = this.element.querySelector('.relicItemTemplate');
+        this.itemElementHolder = this.element.querySelector('.relicItemList');
         this.element.querySelector('.relicName').innerText = `${this.era} ${this.name}`;
 
         this.itemTemplate = itemTemplate;
@@ -97,7 +97,7 @@ class Relic {
 
         let element = this.itemElementHolder.appendChild(this.itemTemplate.cloneNode(true));
         element.querySelector('.itemName').innerText = `${componentObject.fullName}`;
-        element.querySelector('.itemProbability').innerText = `${dropDetails.intact} - ${dropDetails.radiant}`;
+        element.querySelector('.itemProbability').innerText = `${Math.round(dropDetails.intact * 100)}% - ${Math.round(dropDetails.radiant * 100)}%`;
 
         return element
     }
