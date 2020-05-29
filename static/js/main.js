@@ -105,11 +105,18 @@ class Relic {
     }
 
     update(itemName, itemStatus) {
+        let selectedFlag = false;
         this.contents.forEach(item => {
             if(item.name === itemName) {
                 item.selected = itemStatus;
             }
+
+            if(item.selected) selectedFlag = true;
         });
+
+        if(selectedFlag) this.element.querySelector('.relicDisplay').classList.add('.selected')
+        else this.element.querySelector('.relicDisplay').classList.remove('.selected');
+        
         console.log(this.contents);
     }
 }
