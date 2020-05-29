@@ -76,11 +76,13 @@ class Relic {
         let relicName = relic.name.split(' ');
         this.era = relicName[0];
         this.name = relicName[1];
+        this.vaulted = relic.hasOwnProperty('drops') ? false : true;
         this.contents = [];
         
         this.element = relicContainerElement.appendChild(relicTemplate.cloneNode(true));
         this.itemElementHolder = this.element.querySelector('.relicItemList');
         this.element.querySelector('.relicName').innerText = `${this.era} ${this.name}`;
+        if(this.vaulted) this.element.classList.querySelector('.relicDisplay').add('vaulted');
 
         this.itemTemplate = itemTemplate;
     }
