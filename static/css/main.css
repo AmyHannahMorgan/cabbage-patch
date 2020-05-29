@@ -95,11 +95,15 @@ header {
 }
 
 .relicDisplay {
-    display: grid;
+    display: none;
     grid-template-rows: auto auto;
     grid-template-columns: 50fr 50fr;
     
     width: 100%;
+}
+
+.relicDisplay.selected {
+    display: grid;
 }
 
 .relicDisplay > .relicName {
