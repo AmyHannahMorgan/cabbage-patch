@@ -113,7 +113,7 @@ header {
 }
 
 .relicDisplay > .vaultedStatus {
-    display: hidden;
+    display: none;
     grid-column: 2 / span 1;
 
     text-align: right;
