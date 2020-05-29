@@ -193,6 +193,6 @@ function bulidItemSelectors(array) {
 
 function buildRelics(relicArray, outputArray) {
     relicArray.forEach(relic => {
-        outputArray.push(new Relic(relic));
+        outputArray.push(new Relic(relic, relicDisplayTemplate.content.firstElementChild, relicItemTemplate.content.firstElementChild, document.querySelector('#relicInfo')));
     });
 }
