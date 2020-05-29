@@ -3,9 +3,12 @@ class ItemSelector {
         this.itemName = item.name;
         this.components = this.buildComponents(item.components);
         this.vaulted = item.vaulted;
-        this.element = itemSelectionTemplate.content.cloneNode(true);
+        
+        this.element = itemSelectionTemplate.content.firstElementChild.cloneNode(true);
         this.element.querySelector('.itemName').innerText = this.itemName;
         this.element.querySelector('.itemImage').querySelector('img').src = `https://cdn.warframestat.us/img/${item.imageName}`
+        if(this.vaulted) this.element.querySelector('.vaultedStatus').innerText = 'Vaulted';
+        
         this.components.forEach(component => {
             let element = itemWrapperTemplate.content.cloneNode(true).firstElementChild;
             element.querySelector('label').htmlFor = component.name;
