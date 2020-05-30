@@ -71,9 +71,7 @@ header.shadow {
     grid-template-rows: auto auto auto;
     grid-template-columns: 33fr 66fr;
 
-    max-width: 375px;
-
-    margin: 15px 6px;
+    margin: 3px;
 
     border: solid thin var(--highlight-color-1);
 }
@@ -222,16 +220,30 @@ header.shadow {
 }
 
 /* media */
-@media only screen and (min-width: 750px) {
+@media only screen and (min-width: 450px) {
     #itemSelect, #relicInfo {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
         align-items: initial;
     }
+
+    .itemSelection {
+        max-width: 350px;
+    }
+}
+
+@media only screen and (min-width: 925px) {
+    .itemSelection {
+        max-width: 300px;
+    }
 }
 
 @media only screen and (hover: hover) {
+    .itemSelection {
+        grid-template-columns: 50fr 50fr;
+    }
+
     .itemSelection > .itemOptions > .itemWrapper > .itemCheckbox {
         width: initial;
         height: initial;
