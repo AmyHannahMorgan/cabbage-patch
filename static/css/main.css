@@ -239,6 +239,26 @@ header.shadow {
     display: flex;
 }
 
+#itemFilterOptions {
+    display: grid;
+    grid-template-columns: 100fr;
+    grid-template-rows: auto auto auto auto;
+
+    width: 100%;
+}
+
+#itemSearchWrapper {
+    display: flex;
+    justify-content: center;
+
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+}
+
+#itemSearchWrapper > input {
+    height: 2em;
+}
+
 /* media */
 @media only screen and (min-width: 450px) {
     #itemHolder, #relicInfo {
