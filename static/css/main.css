@@ -230,3 +230,15 @@ header.shadow {
         align-items: initial;
     }
 }
+
+@media only screen and (hover: hover) {
+    .itemSelection > .itemOptions > .itemWrapper > .itemCheckbox {
+        width: initial;
+        height: initial;
+    }
+
+    .itemSelection > .itemOptions {
+        font-size: 1em;
+    }
+
+}
