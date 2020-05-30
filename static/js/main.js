@@ -181,6 +181,13 @@ for(let i = 0; i < tabSelectors.length; i++) {
     tabHandlers.push(new TabHandler(tabSelectors[i].querySelectorAll('.tabSelect'), tabs));
 }
 
+document.addEventListener('scroll', (e) => {
+    if(window.scrollY > 0) {
+        document.querySelector('header').classList.add('shadow');
+    }
+    else document.querySelector('header').classList.remove('shadow');
+})
+
 const itemSelect = document.querySelector('#itemSelect');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
 const itemWrapperTemplate = document.querySelector('#itemWrapperTemplate');

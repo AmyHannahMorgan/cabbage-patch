@@ -1,13 +1,41 @@
 /* tags */
 body {
+    --text-color: rgb(20, 41, 29);
+    --highlight-color-1: rgb(178, 125, 5);
+    --highlight-color-2: rgb(153, 162, 160);
+    --bg-color-1: rgb(202, 206, 211);
+    --bg-color-2: rgb(226, 230, 230);
+
     margin: 0;
+    font-family:'Open Sans', sans-serif;
+    color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Proza Libre', sans-serif;
+    color: var(--highlight-color-1);
 }
 
 header {
     display: flex;
     flex-direction: row;
 
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    background-color: white;
+
     max-width: 100%;
+
+    box-shadow: 0px 0px 0px transparent;
+
+    transition: box-shadow 0.125s ease;
+}
+
+header.shadow {
+    box-shadow: 0px 5px 20px black;
 }
 
 /* classes */
@@ -16,13 +44,13 @@ header {
     margin: 0;
     text-align: center;
 
-    border-style: solid none solid solid;
-    border-color: black;
+    border-style: none none solid solid;
+    border-color: var(--highlight-color-2);
     border-width: medium;
 }
 
 .tabSelect:first-child {
-    border-style: solid none;
+    border-left: none;
 }
 
 .tabSelect.active {
@@ -30,19 +58,22 @@ header {
 }
 
 .tab {
-    display: none;
+    display: none; 
 }
 
 .tab.active {
-    display: block;
+    display: flex;
 }
 
 .itemSelection {
     display: grid;
+    flex-grow: 1;
     grid-template-rows: auto auto auto;
     grid-template-columns: 33fr 66fr;
 
-    margin: 6px;
+    margin: 3px;
+
+    border: solid thin var(--highlight-color-1);
 }
 
 .itemSelection > .itemName, .itemSelection > .vaultedStatus {
@@ -50,6 +81,10 @@ header {
     text-align: center;
 
     grid-column: 1 / span 2;
+}
+
+.itemSelection > .vaultedStatus {
+    color: red;
 }
 
 .itemSelection > .itemImage {
@@ -89,8 +124,10 @@ header {
     box-sizing: border-box;
     width: 100%;
 
+    max-width: 375px;
+
     border: none;
-    padding: 6px;
+    padding: 7.5px 6px;
     background: transparent;
 }
 
@@ -104,6 +141,12 @@ header {
     grid-template-columns: 50fr 50fr;
     
     width: 100%;
+
+    border: solid thin var(--highlight-color-1);
+}
+
+.relicDisplay > * {
+    margin: 3px 6px;
 }
 
 .relicDisplay > .relicName {
@@ -127,12 +170,11 @@ header {
 
 .relicDisplay > .relicItemList {
     grid-column: 1 / span 2;
-
-    margin: 3px 0;
 }
 
 .relicDisplay > .relicItemList > .item {
     display: none;
+    position: relative;
     justify-content: space-between;
 }
 
@@ -142,6 +184,20 @@ header {
 
 .relicDisplay > .relicItemList > .item.selected {
     display: flex;
+}
+
+.relicDisplay > .relicItemList > .item.selected::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+
+    opacity: 0.5;
+
+    background: linear-gradient(to left, var(--highlight-color-1), transparent)
 }
 
 .relicButton:focus > .relicDisplay > .relicItemList > .item {
@@ -158,5 +214,43 @@ header {
     font-size: 1.33em;
 }
 /* IDs */
+#itemSelect, #relicInfo {
+    flex-direction: column;
+    align-items: center;
+}
 
 /* media */
+@media only screen and (min-width: 450px) {
+    #itemSelect, #relicInfo {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: initial;
+    }
+
+    .itemSelection {
+        max-width: 350px;
+    }
+}
+
+@media only screen and (min-width: 925px) {
+    .itemSelection {
+        max-width: 300px;
+    }
+}
+
+@media only screen and (hover: hover) {
+    .itemSelection {
+        grid-template-columns: 50fr 50fr;
+    }
+
+    .itemSelection > .itemOptions > .itemWrapper > .itemCheckbox {
+        width: initial;
+        height: initial;
+    }
+
+    .itemSelection > .itemOptions {
+        font-size: 1em;
+    }
+
+}
