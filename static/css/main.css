@@ -268,12 +268,16 @@ header.shadow {
 }
 
 #itemTypeFilters {
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     justify-content: center;
 
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
+}
+
+#itemTypeFilters.show {
+    display: flex;
 }
 
 #itemTypeFilters > .selectionWrapper {
