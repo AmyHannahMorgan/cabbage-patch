@@ -13,7 +13,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Proza Libre', sans-serif;
-    color: var(--highlight-color);
+    color: var(--highlight-color-1);
 }
 
 header {
@@ -55,7 +55,9 @@ header {
     grid-template-rows: auto auto auto;
     grid-template-columns: 33fr 66fr;
 
-    margin: 6px;
+    margin: 15px 6px;
+
+    border: solid thin var(--highlight-color-1);
 }
 
 .itemSelection > .itemName, .itemSelection > .vaultedStatus {
@@ -63,6 +65,10 @@ header {
     text-align: center;
 
     grid-column: 1 / span 2;
+}
+
+.itemSelection > .vaultedStatus {
+    color: red;
 }
 
 .itemSelection > .itemImage {
