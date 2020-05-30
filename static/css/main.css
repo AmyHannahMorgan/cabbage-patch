@@ -259,6 +259,14 @@ header.shadow {
     height: 2em;
 }
 
+#expandFiltersWrapper {
+    display: flex;
+    justify-content: center;
+
+    grid-row: 4 / span 1;
+    grid-column: 1 / span 1;
+}
+
 /* media */
 @media only screen and (min-width: 450px) {
     #itemHolder, #relicInfo {
