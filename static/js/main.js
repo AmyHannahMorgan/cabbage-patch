@@ -222,12 +222,18 @@ fetch('/api/all/').then(response => response.json())
 });
 
 const ITEM_SEARCH = document.querySelector('#itemSearch');
+const EXPAND_FILTERS_BUTTON = document.querySelector('#expandFiltersButton');
+const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
 
 ITEM_SEARCH.addEventListener('input', (e) => {
     itemselectors.forEach(itemSelector => {
         itemSelector.filter(ITEM_SEARCH.value); 
     })
 })
+
+EXPAND_FILTERS_BUTTON.addEventListener('click', () => {
+    ITEM_TYPE_FILTERS.classList.toggle('show');
+});
 
 function bulidItemSelectors(array) {
     array.forEach(item => {
