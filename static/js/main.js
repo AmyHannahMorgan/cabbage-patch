@@ -225,7 +225,6 @@ const ITEM_SEARCH = document.querySelector('#itemSearch');
 
 ITEM_SEARCH.addEventListener('input', (e) => {
     itemselectors.forEach(itemSelector => {
-        console.log(ITEM_SEARCH.value);
         itemSelector.filter(ITEM_SEARCH.value); 
     })
 })
