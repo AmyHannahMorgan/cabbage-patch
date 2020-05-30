@@ -123,7 +123,7 @@ function reduceItems(itemArray) {
 }
 
 function filterComponents(componentsArray) {
-    let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link| prime|blade|gauntlet|handle|ornament|chain|pouch|stars/i;
+    let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link|blade|gauntlet|handle|ornament|chain|pouch|stars/i;
     return componentsArray.filter(component => {
         return regex.test(component.name);
     })
