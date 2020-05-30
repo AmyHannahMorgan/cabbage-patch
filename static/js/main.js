@@ -191,7 +191,7 @@ document.addEventListener('scroll', (e) => {
     else document.querySelector('header').classList.remove('shadow');
 })
 
-const itemSelect = document.querySelector('#itemSelect');
+const itemSelect = document.querySelector('#itemHolder');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
 const itemWrapperTemplate = document.querySelector('#itemWrapperTemplate');
 const relicDisplayTemplate = document.querySelector('#relicWrapperTemplate');
