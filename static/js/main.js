@@ -31,6 +31,17 @@ class ItemSelector {
         })
         return array;
     }
+
+    filter(string) {
+        if(string.length > 0) {
+            let regexp = new RegExp(string, 'i');
+            if(!regexp.test(this.itemName)) {
+                this.element.classList.add('filtered');
+            }
+            else this.element.classList.remove('filtered');
+        }
+        else this.element.classList.remove('filtered');
+    }
 }
 
 class Component {
@@ -189,7 +200,7 @@ document.addEventListener('scroll', (e) => {
         document.querySelector('header').classList.add('shadow');
     }
     else document.querySelector('header').classList.remove('shadow');
-})
+});
 
 const itemSelect = document.querySelector('#itemHolder');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
@@ -209,6 +220,15 @@ fetch('/api/all/').then(response => response.json())
     bulidItemSelectors(json.secondary);
     bulidItemSelectors(json.melee);
 });
+
+const ITEM_SEARCH = document.querySelector('#itemSearch');
+
+ITEM_SEARCH.addEventListener('input', (e) => {
+    itemselectors.forEach(itemSelector => {
+        console.log(ITEM_SEARCH.value);
+        itemSelector.filter(ITEM_SEARCH.value); 
+    })
+})
 
 function bulidItemSelectors(array) {
     array.forEach(item => {
