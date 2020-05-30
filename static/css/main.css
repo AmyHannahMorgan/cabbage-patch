@@ -226,14 +226,18 @@ header.shadow {
     font-size: 1.33em;
 }
 /* IDs */
-#itemSelect, #relicInfo {
+#itemHolder, #relicInfo {
     flex-direction: column;
     align-items: center;
 }
 
+#itemHolder {
+    display: flex;
+}
+
 /* media */
 @media only screen and (min-width: 450px) {
-    #itemSelect, #relicInfo {
+    #itemHolder, #relicInfo {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
