@@ -267,6 +267,26 @@ header.shadow {
     grid-column: 1 / span 1;
 }
 
+#itemTypeFilters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
+}
+
+#itemTypeFilters > .selectionWrapper {
+    display: flex;
+    align-items: center;
+    font-size: 1.33em;
+}
+
+#itemTypeFilters > .selectionWrapper > input {
+    width: 2em;
+    height: 2em;
+}
+
 /* media */
 @media only screen and (min-width: 450px) {
     #itemHolder, #relicInfo {
