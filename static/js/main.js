@@ -233,6 +233,10 @@ ITEM_SEARCH.addEventListener('input', (e) => {
 
 EXPAND_FILTERS_BUTTON.addEventListener('click', () => {
     ITEM_TYPE_FILTERS.classList.toggle('show');
+
+    let toggleText = EXPAND_FILTERS_BUTTON.innerText;
+    EXPAND_FILTERS_BUTTON.innerText = EXPAND_FILTERS_BUTTON.getAttribute('toggle-text');
+    EXPAND_FILTERS_BUTTON.setAttribute('toggle-text', toggleText);
 });
 
 function bulidItemSelectors(array) {
