@@ -1,11 +1,19 @@
 /* tags */
 body {
+    --text-color: rgb(20, 41, 29);
+    --highlight-color-1: rgb(178, 125, 5);
+    --highlight-color-2: rgb(153, 162, 160);
+    --bg-color-1: rgb(202, 206, 211);
+    --bg-color-2: rgb(226, 230, 230);
+
     margin: 0;
-    font-family:'Open Sans', sans-serif;;
+    font-family:'Open Sans', sans-serif;
+    color: var(--text-color);
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Proza Libre', sans-serif;
+    color: var(--highlight-color);
 }
 
 header {
