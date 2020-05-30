@@ -7,7 +7,10 @@ class ItemSelector {
         this.element = itemSelectionTemplate.content.firstElementChild.cloneNode(true);
         this.element.querySelector('.itemName').innerText = this.itemName;
         this.element.querySelector('.itemImage').querySelector('img').src = `https://cdn.warframestat.us/img/${item.imageName}`
-        if(this.vaulted) this.element.querySelector('.vaultedStatus').innerText = 'Vaulted';
+        if(this.vaulted) {
+            this.element.querySelector('.vaultedStatus').innerText = 'Vaulted';
+            this.element.classList.add('vaulted');
+        }
         
         this.components.forEach(component => {
             let element = itemWrapperTemplate.content.cloneNode(true).firstElementChild;
