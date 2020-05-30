@@ -9,6 +9,8 @@ body {
     margin: 0;
     font-family:'Open Sans', sans-serif;
     color: var(--text-color);
+
+    background: linear-gradient(to bottom, var(--bg-color-1), var(--bg-color-2));
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -47,6 +49,7 @@ header.shadow {
     border-style: none none solid solid;
     border-color: var(--highlight-color-2);
     border-width: medium;
+    background-color: var(--bg-color-1);
 }
 
 .tabSelect:first-child {
@@ -74,6 +77,8 @@ header.shadow {
     margin: 3px;
 
     border: solid thin var(--highlight-color-1);
+
+    background: linear-gradient(to bottom, var(--bg-color-1), var(--bg-color-2));
 }
 
 .itemSelection > .itemName, .itemSelection > .vaultedStatus {
@@ -143,6 +148,8 @@ header.shadow {
     width: 100%;
 
     border: solid thin var(--highlight-color-1);
+
+    background: linear-gradient(to bottom, var(--bg-color-1), var(--bg-color-2));
 }
 
 .relicDisplay > * {
