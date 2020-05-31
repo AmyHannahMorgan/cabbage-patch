@@ -250,7 +250,7 @@ EXPAND_FILTERS_BUTTON.addEventListener('click', () => {
 for(let i = 0; i < ITEM_TYPE_FILTERS.children.length; i++) {
     ITEM_TYPE_FILTERS.children[i].querySelector('input').addEventListener('click', (e) => {
         itemselectors.forEach(itemSelector => {
-            itemSelector.filterType(e.target.name, e.target.checked);
+            itemSelector.filterType(e.target.name, !(e.target.checked));
         })
     })
 }
