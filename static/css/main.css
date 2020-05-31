@@ -69,7 +69,7 @@ main {
 }
 
 .tab.active {
-    display: block;
+    display: flex;
 }
 
 .itemSelection {
@@ -234,7 +234,7 @@ main {
     font-size: 1.33em;
 }
 /* IDs */
-#itemHolder, #relicInfo {
+#itemHolder, #relicInfo, #itemSelect {
     flex-direction: column;
     align-items: center;
 }
