@@ -156,7 +156,6 @@ function reduceRewards(rewardsObject) {
                     mode: rewardsObject[system][node].gameMode,
                     rewards: filterRewards(rewardsObject[system][node].rewards)
                 }
-                console.log(obj);
                 returnArray.push(obj);
             }
         })
