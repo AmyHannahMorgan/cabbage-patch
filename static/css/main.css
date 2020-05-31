@@ -313,6 +313,26 @@ main {
     .itemSelection {
         max-width: 300px;
     }
+
+    #itemFilterOptions {
+        grid-template-columns: auto auto;
+        grid-template-rows: auto;
+    }
+
+    #itemSearchWrapper {
+        grid-column: 2 / span 1;
+        grid-row: 1 / span 1;
+    }
+
+    #itemTypeFilters {
+        display: flex;
+        grid-column: 1 / span 1;
+        grid-row: 1 / span 1;
+    }
+
+    #expandFiltersWrapper {
+        display: none;
+    }
 }
 
 @media only screen and (hover: hover) {
@@ -327,6 +347,19 @@ main {
 
     .itemSelection > .itemOptions {
         font-size: 1em;
+    }
+
+    #itemSearchWrapper > input {
+        height: auto;
+    }
+
+    #itemTypeFilters > .selectionWrapper {
+        font-size: 1em;
+    }
+
+    #itemTypeFilters > .selectionWrapper > input {
+        width: 1em;
+        height: 1em;
     }
 
 }
