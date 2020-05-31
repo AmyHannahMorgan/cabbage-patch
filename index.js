@@ -156,7 +156,7 @@ function reduceRewards(rewardsObject) {
                     mode: rewardsObject[system][node].gameMode,
                     rewards: filterRewards(rewardsObject[system][node].rewards)
                 }
-
+                console.log(obj);
                 returnArray.push(obj);
             }
         })
@@ -165,23 +165,21 @@ function reduceRewards(rewardsObject) {
 }
 
 function filterRewards(rewardParam) {
-    switch(typeof rewardParam) {
-        case 'Object':
-            let returnObject = {};
-            Object.keys(rewardParam).forEach(rotation => {
-                returnObject[rotation] = rewardParam[rotation].filter(reward => {
-                    let regex = /\brelic\b/i;
-                    return regex.test(reward.itemName);
-                })
-            });
-            return returnObject;
-            break;
-        case 'Array':
-            return rewardParam.filter(reward => {
+    if(Array.isArray(rewardParam)) {
+        return rewardParam.filter(reward => {
+            let regex = /\brelic\b/i;
+            return regex.test(reward.itemName);
+        })
+    }
+    else {
+        let returnObject = {};
+        Object.keys(rewardParam).forEach(rotation => {
+            returnObject[rotation] = rewardParam[rotation].filter(reward => {
                 let regex = /\brelic\b/i;
                 return regex.test(reward.itemName);
             })
-            break;
+        });
+        return returnObject;
     }
 }
 
