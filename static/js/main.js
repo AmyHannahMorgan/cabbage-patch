@@ -3,6 +3,7 @@ class ItemSelector {
         this.itemName = item.name;
         this.components = this.buildComponents(item.components);
         this.vaulted = item.vaulted;
+        this.type = item.type;
         
         this.element = itemSelectionTemplate.content.firstElementChild.cloneNode(true);
         this.element.querySelector('.itemName').innerText = this.itemName;
@@ -41,6 +42,13 @@ class ItemSelector {
             else this.element.classList.remove('filtered');
         }
         else this.element.classList.remove('filtered');
+    }
+
+    filterType(itemType, filter) {
+        if(itemType === this.type) {
+            if(filter) this.element.classList.add('filtered')
+            else this.element.classList.remove('filtered')
+        }
     }
 }
 
@@ -238,6 +246,14 @@ EXPAND_FILTERS_BUTTON.addEventListener('click', () => {
     EXPAND_FILTERS_BUTTON.innerText = EXPAND_FILTERS_BUTTON.getAttribute('toggle-text');
     EXPAND_FILTERS_BUTTON.setAttribute('toggle-text', toggleText);
 });
+
+for(let i = 0; i < ITEM_TYPE_FILTERS.children.length; i++) {
+    ITEM_TYPE_FILTERS.children[i].querySelector('input').addEventListener('click', (e) => {
+        itemselectors.forEach(itemSelector => {
+            itemSelector.filterType(e.target.name, e.target.checked);
+        })
+    })
+}
 
 function bulidItemSelectors(array) {
     array.forEach(item => {
