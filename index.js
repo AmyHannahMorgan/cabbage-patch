@@ -22,7 +22,7 @@ axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/deve
     apiData.secondary = reduceItems(filterPrimes(secondaries.data));
     apiData.melee = reduceItems(filterPrimes(melee.data));
     apiData.relics = splitRelics(filterRelics(relics.data));
-    apiDatat.drops = missionRewards;
+    apiDatat.drops = reduceRewards(missionRewards.missionRewards);
 }))
 .then(() => {
     dataCheck.emit('dataLoaded');
@@ -143,6 +143,45 @@ function reduceComponents(componentsArray) {
         newArray.push(obj);
     });
     return newArray;
+}
+
+function reduceRewards(rewardsObject) {
+    let returnArray = [];
+    Object.keys(rewardsObject).forEach(system => {
+        Object.keys(rewardsObject[system]).forEach(node => {
+            if(!rewardsObject[system][node].isEvent) {
+                let obj = {
+                    system: system,
+                    node: node,
+                    mode: rewardsObject[system][node].gameMode,
+                    rewards: filterRewards(rewardsObject[system][node].rewards)
+                }
+
+                returnArray.push(obj);
+            }
+        })
+    })
+}
+
+function filterRewards(rewardParam) {
+    switch(typeof rewardParam) {
+        case 'Object':
+            let returnObject = {};
+            Object.keys(rewardParam).forEach(rotation => {
+                returnObject[rotation] = rewardParam[rotation].filter(reward => {
+                    let regex = /\brelic\b/i;
+                    return regex.test(reward.itemName);
+                })
+            });
+            return returnObject;
+            break;
+        case 'Array':
+            return rewardParam.filter(reward => {
+                let regex = /\brelic\b/i;
+                return regex.test(reward.itemName);
+            })
+            break;
+    }
 }
 
 function consolidateDrops(dropsArray) {
