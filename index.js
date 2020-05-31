@@ -22,7 +22,7 @@ axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/deve
     apiData.secondary = reduceItems(filterPrimes(secondaries.data));
     apiData.melee = reduceItems(filterPrimes(melee.data));
     apiData.relics = splitRelics(filterRelics(relics.data));
-    apiDatat.drops = reduceRewards(missionRewards.missionRewards);
+    apiData.drops = reduceRewards(missionRewards.data.missionRewards);
 }))
 .then(() => {
     dataCheck.emit('dataLoaded');
@@ -161,6 +161,7 @@ function reduceRewards(rewardsObject) {
             }
         })
     })
+    return returnArray;
 }
 
 function filterRewards(rewardParam) {
