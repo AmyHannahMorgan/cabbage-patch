@@ -65,7 +65,7 @@ header.shadow {
 }
 
 .tab.active {
-    display: flex;
+    display: block;
 }
 
 .itemSelection {
@@ -73,12 +73,21 @@ header.shadow {
     flex-grow: 1;
     grid-template-rows: auto auto auto;
     grid-template-columns: 33fr 66fr;
+    order: 1;
 
     margin: 3px;
 
     border: solid thin var(--highlight-color-1);
 
     background: linear-gradient(to bottom, var(--bg-color-1), var(--bg-color-2));
+}
+
+.itemSelection.vaulted {
+    order: 2;
+}
+
+.itemSelection.filtered {
+    display: none;
 }
 
 .itemSelection > .itemName, .itemSelection > .vaultedStatus {
@@ -221,14 +230,70 @@ header.shadow {
     font-size: 1.33em;
 }
 /* IDs */
-#itemSelect, #relicInfo {
+#itemHolder, #relicInfo {
     flex-direction: column;
     align-items: center;
 }
 
+#itemHolder {
+    display: flex;
+}
+
+#itemFilterOptions {
+    display: grid;
+    grid-template-columns: 100fr;
+    grid-template-rows: auto auto auto;
+
+    width: 100%;
+}
+
+#itemSearchWrapper {
+    display: flex;
+    justify-content: center;
+
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+}
+
+#itemSearchWrapper > input {
+    height: 2em;
+}
+
+#expandFiltersWrapper {
+    display: flex;
+    justify-content: center;
+
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 1;
+}
+
+#itemTypeFilters {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
+}
+
+#itemTypeFilters.show {
+    display: flex;
+}
+
+#itemTypeFilters > .selectionWrapper {
+    display: flex;
+    align-items: center;
+    font-size: 1.33em;
+}
+
+#itemTypeFilters > .selectionWrapper > input {
+    width: 2em;
+    height: 2em;
+}
+
 /* media */
 @media only screen and (min-width: 450px) {
-    #itemSelect, #relicInfo {
+    #itemHolder, #relicInfo {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;

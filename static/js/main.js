@@ -3,11 +3,15 @@ class ItemSelector {
         this.itemName = item.name;
         this.components = this.buildComponents(item.components);
         this.vaulted = item.vaulted;
+        this.type = item.type;
         
         this.element = itemSelectionTemplate.content.firstElementChild.cloneNode(true);
         this.element.querySelector('.itemName').innerText = this.itemName;
         this.element.querySelector('.itemImage').querySelector('img').src = `https://cdn.warframestat.us/img/${item.imageName}`
-        if(this.vaulted) this.element.querySelector('.vaultedStatus').innerText = 'Vaulted';
+        if(this.vaulted) {
+            this.element.querySelector('.vaultedStatus').innerText = 'Vaulted';
+            this.element.classList.add('vaulted');
+        }
         
         this.components.forEach(component => {
             let element = itemWrapperTemplate.content.cloneNode(true).firstElementChild;
@@ -27,6 +31,24 @@ class ItemSelector {
             array.push(new Component(component, this.itemName, relics));
         })
         return array;
+    }
+
+    filter(string) {
+        if(string.length > 0) {
+            let regexp = new RegExp(string, 'i');
+            if(!regexp.test(this.itemName)) {
+                this.element.classList.add('filtered');
+            }
+            else this.element.classList.remove('filtered');
+        }
+        else this.element.classList.remove('filtered');
+    }
+
+    filterType(itemType, filter) {
+        if(itemType === this.type) {
+            if(filter) this.element.classList.add('filtered')
+            else this.element.classList.remove('filtered')
+        }
     }
 }
 
@@ -186,9 +208,9 @@ document.addEventListener('scroll', (e) => {
         document.querySelector('header').classList.add('shadow');
     }
     else document.querySelector('header').classList.remove('shadow');
-})
+});
 
-const itemSelect = document.querySelector('#itemSelect');
+const itemSelect = document.querySelector('#itemHolder');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
 const itemWrapperTemplate = document.querySelector('#itemWrapperTemplate');
 const relicDisplayTemplate = document.querySelector('#relicWrapperTemplate');
@@ -206,6 +228,32 @@ fetch('/api/all/').then(response => response.json())
     bulidItemSelectors(json.secondary);
     bulidItemSelectors(json.melee);
 });
+
+const ITEM_SEARCH = document.querySelector('#itemSearch');
+const EXPAND_FILTERS_BUTTON = document.querySelector('#expandFiltersButton');
+const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
+
+ITEM_SEARCH.addEventListener('input', (e) => {
+    itemselectors.forEach(itemSelector => {
+        itemSelector.filter(ITEM_SEARCH.value); 
+    })
+})
+
+EXPAND_FILTERS_BUTTON.addEventListener('click', () => {
+    ITEM_TYPE_FILTERS.classList.toggle('show');
+
+    let toggleText = EXPAND_FILTERS_BUTTON.innerText;
+    EXPAND_FILTERS_BUTTON.innerText = EXPAND_FILTERS_BUTTON.getAttribute('toggle-text');
+    EXPAND_FILTERS_BUTTON.setAttribute('toggle-text', toggleText);
+});
+
+for(let i = 0; i < ITEM_TYPE_FILTERS.children.length; i++) {
+    ITEM_TYPE_FILTERS.children[i].querySelector('input').addEventListener('click', (e) => {
+        itemselectors.forEach(itemSelector => {
+            itemSelector.filterType(e.target.name, !(e.target.checked));
+        })
+    })
+}
 
 function bulidItemSelectors(array) {
     array.forEach(item => {

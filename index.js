@@ -115,6 +115,7 @@ function reduceItems(itemArray) {
         obj.components = reduceComponents(filterComponents(item.components));
         obj.imageName = item.imageName;
         obj.vaulted = item.hasOwnProperty('vaulted') ? item.vaulted : false;
+        obj.type = item.category.toLowerCase();
 
         newArray.push(obj);
     });
