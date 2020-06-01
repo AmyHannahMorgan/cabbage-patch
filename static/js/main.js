@@ -156,6 +156,7 @@ class DropLocation {
         this.fullName = `${this.system} - ${this.node}`;
 
         this.element = dropContainerElement.appendChild(dropElementTemplate.cloneNode(true));
+        this.element.querySelector('.dropTitle').innerText = this.fullName;
     }
 }
 
