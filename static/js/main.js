@@ -67,7 +67,7 @@ class Component {
         componentDrops.forEach(drop => {
             relicArray.forEach(relic => {
                 if(drop.era === relic.era && drop.name === relic.name) {
-                    elementArray.push(relic.associateDrop(this, drop));
+                    elementArray.push(relic.associateItem(this, drop));
                     array.push(relic);
                 }
             })
@@ -112,7 +112,7 @@ class Relic {
         this.itemTemplate = itemTemplate;
     }
 
-    associateDrop(componentObject, dropDetails) {
+    associateItem(componentObject, dropDetails) {
         this.contents.push({
             name: componentObject.fullName,
             selected: false,
