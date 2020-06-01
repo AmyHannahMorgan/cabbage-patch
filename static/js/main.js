@@ -149,6 +149,16 @@ class Relic {
     }
 }
 
+class DropLocation {
+    constructor(dropObject, dropContainerElement, dropElementTemplate, dropItemTemplate, dropRotationTemplate) {
+        this.system = dropObject.system;
+        this.node = dropObject.node;
+        this.fullName = `${this.system} - ${this.node}`;
+
+        this.element = dropContainerElement.appendChild(dropElementTemplate.cloneNode(true));
+    }
+}
+
 class TabHandler {
     constructor(selectArray, tabArray) {
         this.tabSelectors = [];
