@@ -223,8 +223,13 @@ document.addEventListener('scroll', (e) => {
 const itemSelect = document.querySelector('#itemHolder');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
 const itemWrapperTemplate = document.querySelector('#itemWrapperTemplate');
+const RELIC_HOLDER = document.querySelector('#relicHolder');
 const relicDisplayTemplate = document.querySelector('#relicWrapperTemplate');
 const relicItemTemplate = document.querySelector('#relicItemTemplate');
+const DROP_HOLDER = document.querySelector('#dropHolder');
+const DROP_DISPLAY_TEMPLATE = document.querySelector('#dropDisplayTemplate');
+const DROP_ROTATION_TEMPLATE = document.querySelector('#dropRotationTemplate').content.firstElementChild;
+const DROP_ITEM_TEMPLATE = document.querySelector('#dropItemTemplate').content.firstElementChild;
 let itemselectors = [];
 let relics = [];
 
@@ -273,6 +278,6 @@ function bulidItemSelectors(array) {
 
 function buildRelics(relicArray, outputArray) {
     relicArray.forEach(relic => {
-        outputArray.push(new Relic(relic, relicDisplayTemplate.content.firstElementChild, relicItemTemplate.content.firstElementChild, document.querySelector('#relicInfo')));
+        outputArray.push(new Relic(relic, relicDisplayTemplate.content.firstElementChild, relicItemTemplate.content.firstElementChild, RELIC_HOLDER));
     });
 }
