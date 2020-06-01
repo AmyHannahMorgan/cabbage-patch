@@ -232,10 +232,12 @@ const DROP_ROTATION_TEMPLATE = document.querySelector('#dropRotationTemplate').c
 const DROP_ITEM_TEMPLATE = document.querySelector('#dropItemTemplate').content.firstElementChild;
 let itemselectors = [];
 let relics = [];
+let dropLocations = [];
 
 fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
+    buildDrops(json.drops, dropLocations, DROP_HOLDER, DROP_DISPLAY_TEMPLATE, DROP_ITEM_TEMPLATE, DROP_ROTATION_TEMPLATE);
     buildRelics(json.relics.available, relics);
     buildRelics(json.relics.vaulted, relics);
     bulidItemSelectors(json.warframes);
@@ -279,5 +281,11 @@ function bulidItemSelectors(array) {
 function buildRelics(relicArray, outputArray) {
     relicArray.forEach(relic => {
         outputArray.push(new Relic(relic, relicDisplayTemplate.content.firstElementChild, relicItemTemplate.content.firstElementChild, RELIC_HOLDER));
+    });
+}
+
+function buildDrops(dropArray, outputArray, outputElement, dropDisplayTemplate, dropItemTemplate, dropRotationTemplate) {
+    dropArray.forEach(drop => {
+        outputArray.push(new DropLocation(drop, outputElement, dropDisplayTemplate, dropItemTemplate, dropRotationTemplate));
     });
 }
