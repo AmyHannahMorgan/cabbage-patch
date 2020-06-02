@@ -155,7 +155,7 @@ main {
 
 .relicDisplay, .dropDisplay.selected, .dropRotation.selected {
     display: grid;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto 100fr;
     grid-template-columns: 50fr 50fr;
     
     width: 100%;
@@ -167,7 +167,7 @@ main {
     background: linear-gradient(to bottom, var(--bg-color-1), var(--bg-color-2));
 }
 
-.relicDisplay > *, .dropDisplay > * {
+.relicDisplay > *, .dropDisplay > *, .dropRotation > * {
     margin: 3px 6px;
 }
 
@@ -193,7 +193,7 @@ main {
     display: block;
 }
 
-.relicDisplay > .relicItemList, .dropDisplay > .itemList {
+.relicDisplay > .relicItemList, .dropDisplay > .itemList, .dropRotation > .itemList {
     grid-column: 1 / span 2;
 }
 
@@ -242,6 +242,7 @@ main {
 
 .dropDisplay {
     display: none;
+    margin: 3px;
     max-width: 375px;
 }
 
