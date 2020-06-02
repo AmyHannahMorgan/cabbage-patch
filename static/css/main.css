@@ -153,33 +153,38 @@ main {
     display: block;
 }
 
-.relicDisplay {
+.relicDisplay, .dropDisplay.selected, .dropRotation.selected {
     display: grid;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto 100fr;
     grid-template-columns: 50fr 50fr;
     
     width: 100%;
+}
 
+.relicDisplay, .dropDisplay {
     border: solid thin var(--highlight-color-1);
 
     background: linear-gradient(to bottom, var(--bg-color-1), var(--bg-color-2));
 }
 
-.relicDisplay > * {
+.relicDisplay > *, .dropDisplay > *, .dropRotation > * {
     margin: 3px 6px;
 }
 
-.relicDisplay > .relicName {
+.relicDisplay > .relicName, .dropDisplay > .dropTitle, .dropRotation > .rotationName {
     grid-column: 1 / span 1;
     
     text-align: left;
 }
 
-.relicDisplay > .vaultedStatus {
-    display: none;
+.relicDisplay > .vaultedStatus, .dropDisplay > .combinedDropChance, .dropRotation > .rotationDropChance {
     grid-column: 2 / span 1;
 
     text-align: right;
+}
+
+.relicDisplay > .vaultedStatus {
+    display: none;
     font-style: italic;
     color: red;
 }
@@ -188,23 +193,33 @@ main {
     display: block;
 }
 
-.relicDisplay > .relicItemList {
+.relicDisplay > .relicItemList, .dropDisplay > .itemList, .dropRotation > .itemList {
     grid-column: 1 / span 2;
 }
 
-.relicDisplay > .relicItemList > .item {
+.item {
     display: none;
     position: relative;
     z-index: 0;
     justify-content: space-between;
 }
 
-.relicDisplay > .relicItemList > .item > * {
+.item > * {
     margin: 0;
 }
 
-.relicDisplay > .relicItemList > .item.selected {
+.item.selected {
     display: flex;
+}
+
+.item > .itemName {
+    text-align: left;
+    font-size: 1.33em;
+}
+
+.item > .itemProbability {
+    text-align: right;
+    font-size: 1.33em;
 }
 
 .relicDisplay > .relicItemList > .item.selected::before {
@@ -225,22 +240,22 @@ main {
     display: flex;
 }
 
-.relicDisplay > .relicItemList > .item > .itemName {
-    text-align: left;
-    font-size: 1.33em;
+.dropDisplay {
+    display: none;
+    margin: 3px;
+    max-width: 375px;
 }
 
-.relicDisplay > .relicItemList > .item > .itemProbability {
-    text-align: right;
-    font-size: 1.33em;
+.dropRotation {
+    display: none;
 }
 /* IDs */
-#itemHolder, #relicInfo, #itemSelect {
+#itemHolder, #relicInfo, #itemSelect, #relicHolder, #dropHolder {
     flex-direction: column;
     align-items: center;
 }
 
-#itemHolder {
+#itemHolder, #relicHolder, #dropHolder {
     display: flex;
 }
 
@@ -298,7 +313,7 @@ main {
 
 /* media */
 @media only screen and (min-width: 450px) {
-    #itemHolder, #relicInfo {
+    #itemHolder, #relicHolder, #dropHolder {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
@@ -337,6 +352,14 @@ main {
 }
 
 @media only screen and (hover: hover) {
+    .item > .itemName {
+        font-size: 1em;
+    }
+    
+    .item > .itemProbability {
+        font-size: 1em;
+    }
+
     .itemSelection {
         grid-template-columns: 50fr 50fr;
     }

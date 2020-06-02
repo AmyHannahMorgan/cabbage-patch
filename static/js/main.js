@@ -67,7 +67,7 @@ class Component {
         componentDrops.forEach(drop => {
             relicArray.forEach(relic => {
                 if(drop.era === relic.era && drop.name === relic.name) {
-                    elementArray.push(relic.associateDrop(this, drop));
+                    elementArray.push(relic.associateItem(this, drop));
                     array.push(relic);
                 }
             })
@@ -97,12 +97,19 @@ class Component {
 }
 
 class Relic {
-    constructor(relic, relicTemplate, itemTemplate, relicContainerElement) {
+    constructor(relic, relicTemplate, itemTemplate, relicContainerElement, dropArray) {
         let relicName = relic.name.split(' ');
         this.era = relicName[0];
         this.name = relicName[1];
+        this.fullName = `${this.era} ${this.name}`
+        this.chance = relic.chance;
         this.vaulted = relic.hasOwnProperty('drops') ? false : true;
+        this.selected = false;
         this.contents = [];
+        if(!this.vaulted) {
+            this.elementArray = [];
+            this.drops = this.associateDrop(relic.drops, dropArray);
+        }
         
         this.element = relicContainerElement.appendChild(relicTemplate.cloneNode(true));
         this.itemElementHolder = this.element.querySelector('.relicItemList');
@@ -112,7 +119,7 @@ class Relic {
         this.itemTemplate = itemTemplate;
     }
 
-    associateDrop(componentObject, dropDetails) {
+    associateItem(componentObject, dropDetails) {
         this.contents.push({
             name: componentObject.fullName,
             selected: false,
@@ -129,6 +136,21 @@ class Relic {
         return element
     }
 
+    associateDrop(selfDropArray, dropArray) {
+        console.log(selfDropArray)
+        console.log(dropArray);
+        let array = [];
+        selfDropArray.forEach(drop => {
+            dropArray.forEach(location => {
+                if(drop.location === location.fullName) {
+                    this.elementArray.push(location.associateItem(this, drop))
+                    array.push(location);
+                }
+            });
+        });
+        return array;
+    }
+
     update(itemName, itemStatus) {
         let selectedFlag = false;
         this.contents.forEach(item => {
@@ -139,13 +161,139 @@ class Relic {
             if(item.selected) selectedFlag = true
         });
 
-        console.log(selectedFlag);
+        if(!this.selected && selectedFlag) {
+            this.element.classList.add('selected');
+            this.selected = true;
+        }
+        else if(this.selected && !selectedFlag) {
+            this.element.classList.remove('selected');
+            this.selected = false;
+        }
 
-        if(selectedFlag) this.element.classList.add('selected')
-        else this.element.classList.remove('selected');
-        console.log(this.element);
+        if(!this.vaulted) this.drops.forEach((location, index) => {
+            location.update(new RegExp(`\\b${this.fullName}\\b`, 'i'), this.elementArray[index], this.selected);
+        });
+    }
+}
 
-        console.log(this.contents);
+class DropLocation {
+    constructor(dropObject, dropContainerElement, dropElementTemplate, dropItemTemplate, dropRotationTemplate) {
+        this.system = dropObject.system;
+        this.node = dropObject.node;
+        this.fullName = `${this.system} - ${this.node}`;
+        this.mode = dropObject.mode;
+        this.selected = false;
+        this.items = dropObject.rewards;
+
+        this.element = dropContainerElement.appendChild(dropElementTemplate.cloneNode(true));
+        this.itemTemplate = dropItemTemplate;
+        this.element.querySelector('.dropTitle').innerText = this.fullName;
+        this.itemHolder = this.buidItemHolder(dropRotationTemplate);
+    }
+
+    associateItem(itemObject, dropObject) {
+        if(Array.isArray(this.items)) {
+            let element = this.itemHolder.appendChild(this.itemTemplate.cloneNode(true));
+            element.querySelector('.itemName').innerText = itemObject.fullName;
+            element.querySelector('.itemProbability').innerText = `${Math.round(dropObject.chance * 100)}%`;
+            return element;
+        }
+        else {
+            let element = this.itemHolder[dropObject.rotation].querySelector('.itemList').appendChild(this.itemTemplate.cloneNode(true));
+            element.querySelector('.itemName').innerText = itemObject.fullName;
+            element.querySelector('.itemProbability').innerText = `${Math.round(dropObject.chance * 100)}%`;
+            return element;
+        }
+    }
+
+    buidItemHolder(dropRotationTemplate) {
+        if(Array.isArray(this.items)) {
+            return this.element.querySelector('.itemList');
+        }
+        else {
+            let elementObject = {};
+            Object.keys(this.items).forEach(rotation => {
+                let element = this.element.querySelector('.itemList').appendChild(dropRotationTemplate.cloneNode(true));
+                element.setAttribute('rotation', rotation);
+                element.querySelector('.rotationName').innerText = `Rotation ${rotation}`;
+                elementObject[rotation] = element;
+            });
+            return elementObject;
+        }
+    }
+
+    update(dropName, dropElement, dropSelected) {
+        if(Array.isArray(this.items)) {
+            let flag = false;
+            this.items.forEach(item => {
+                console.log(item)
+                if(dropName.test(item.itemName)) item.selected = dropSelected;
+
+                if(item.selected) flag = true; 
+            });
+
+            console.log(flag);
+            let totalDropChance = Math.round(this.calculateTotalChance(this.items))
+            this.element.querySelector('.combinedDropChance').innerText = `${totalDropChance}%`
+            this.element.style.order = `${100 - totalDropChance}`;
+            if(!this.selected && flag) this.element.classList.add('selected');
+            else if(this.selected && !flag) this.element.classList.remove('selected');
+        }
+        else {
+            let rotationFlag = false;
+            Object.keys(this.items).forEach(rotation => {
+                let flag = false;
+                this.items[rotation].forEach(item => {
+                    if(dropName.test(item.itemName)) item.selected = dropSelected;
+
+                    if(item.selected) flag = true; 
+                });
+
+                if(flag) {
+                    this.itemHolder[rotation].classList.add('selected');
+                    this.itemHolder[rotation].querySelector('.rotationDropChance').innerText = `${Math.round(this.calculateTotalChance(this.items[rotation]))}%`
+                    rotationFlag = true;
+                }
+                else this.itemHolder[rotation].classList.remove('selected');
+            });
+
+            console.log({rotationFlag});
+
+            let totalDropChance = Math.round(this.calculateAverageChance(this.items))
+            this.element.querySelector('.combinedDropChance').innerText = `Avg: ~${Math.round(this.calculateAverageChance(this.items))}%`
+            this.element.style.order = `${100 - totalDropChance}`;
+            
+            if(!this.selected && rotationFlag) {
+                this.element.classList.add('selected');
+                this.selected = true
+            }
+            else if(this.selected && !rotationFlag) {
+                this.element.classList.remove('selected');
+                this.selected = false;
+            }
+        }
+
+        if(dropSelected) dropElement.classList.add('selected')
+        else dropElement.classList.remove('selected')
+    }
+
+    calculateTotalChance(itemArray) {
+        let total = 0;
+        itemArray.forEach(item => {
+            if(item.selected) {
+                total += item.chance;
+            }
+        });
+        return total;
+    }
+
+    calculateAverageChance(itemObject) {
+        let rotations = Object.keys(itemObject);
+        let total = rotations.reduce((acc, rotation) => {
+            return acc + this.calculateTotalChance(itemObject[rotation]);
+        }, 0);
+
+        return total / rotations.length;
     }
 }
 
@@ -213,14 +361,21 @@ document.addEventListener('scroll', (e) => {
 const itemSelect = document.querySelector('#itemHolder');
 const itemSelectionTemplate = document.querySelector('#itemSelectionTemplate');
 const itemWrapperTemplate = document.querySelector('#itemWrapperTemplate');
+const RELIC_HOLDER = document.querySelector('#relicHolder');
 const relicDisplayTemplate = document.querySelector('#relicWrapperTemplate');
 const relicItemTemplate = document.querySelector('#relicItemTemplate');
+const DROP_HOLDER = document.querySelector('#dropHolder');
+const DROP_DISPLAY_TEMPLATE = document.querySelector('#dropDisplayTemplate').content.firstElementChild;
+const DROP_ROTATION_TEMPLATE = document.querySelector('#dropRotationTemplate').content.firstElementChild;
+const DROP_ITEM_TEMPLATE = document.querySelector('#dropItemTemplate').content.firstElementChild;
 let itemselectors = [];
 let relics = [];
+let dropLocations = [];
 
 fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
+    buildDrops(json.drops, dropLocations, DROP_HOLDER, DROP_DISPLAY_TEMPLATE, DROP_ITEM_TEMPLATE, DROP_ROTATION_TEMPLATE);
     buildRelics(json.relics.available, relics);
     buildRelics(json.relics.vaulted, relics);
     bulidItemSelectors(json.warframes);
@@ -263,6 +418,12 @@ function bulidItemSelectors(array) {
 
 function buildRelics(relicArray, outputArray) {
     relicArray.forEach(relic => {
-        outputArray.push(new Relic(relic, relicDisplayTemplate.content.firstElementChild, relicItemTemplate.content.firstElementChild, document.querySelector('#relicInfo')));
+        outputArray.push(new Relic(relic, relicDisplayTemplate.content.firstElementChild, relicItemTemplate.content.firstElementChild, RELIC_HOLDER, dropLocations));
+    });
+}
+
+function buildDrops(dropArray, outputArray, outputElement, dropDisplayTemplate, dropItemTemplate, dropRotationTemplate) {
+    dropArray.forEach(drop => {
+        outputArray.push(new DropLocation(drop, outputElement, dropDisplayTemplate, dropItemTemplate, dropRotationTemplate));
     });
 }
