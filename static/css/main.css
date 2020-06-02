@@ -352,6 +352,14 @@ main {
 }
 
 @media only screen and (hover: hover) {
+    .item > .itemName {
+        font-size: 1em;
+    }
+    
+    .item > .itemProbability {
+        font-size: 1em;
+    }
+
     .itemSelection {
         grid-template-columns: 50fr 50fr;
     }
