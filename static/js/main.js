@@ -233,7 +233,7 @@ class DropLocation {
             });
 
             console.log(flag);
-
+            this.element.querySelector('.combinedDropChance').innerText = `${Math.round(this.calculateTotalChance(this.items))}%`
             if(!this.selected && flag) this.element.classList.add('selected');
             else if(this.selected && !flag) this.element.classList.remove('selected');
         }
@@ -249,6 +249,7 @@ class DropLocation {
 
                 if(flag) {
                     this.itemHolder[rotation].classList.add('selected');
+                    this.itemHolder[rotation].querySelector('.rotationDropChance').innerText = `${Math.round(this.calculateTotalChance(this.items[rotation]))}%`
                     rotationFlag = true;
                 }
                 else this.itemHolder[rotation].classList.remove('selected');
@@ -262,6 +263,16 @@ class DropLocation {
 
         if(dropSelected) dropElement.classList.add('selected')
         else dropElement.classList.remove('selected')
+    }
+
+    calculateTotalChance(itemArray) {
+        let total = 0;
+        itemArray.forEach(item => {
+            if(item.selected) {
+                total += item.chance;
+            }
+        });
+        return total;
     }
 }
 
