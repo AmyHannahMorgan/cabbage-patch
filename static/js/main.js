@@ -97,12 +97,16 @@ class Component {
 }
 
 class Relic {
-    constructor(relic, relicTemplate, itemTemplate, relicContainerElement) {
+    constructor(relic, relicTemplate, itemTemplate, relicContainerElement, dropArray) {
         let relicName = relic.name.split(' ');
         this.era = relicName[0];
         this.name = relicName[1];
         this.vaulted = relic.hasOwnProperty('drops') ? false : true;
         this.contents = [];
+        if(!this.vaulted) {
+            this.elementArray = [];
+            this.drops = associateDrop(relic.drops, dropArray);
+        }
         
         this.element = relicContainerElement.appendChild(relicTemplate.cloneNode(true));
         this.itemElementHolder = this.element.querySelector('.relicItemList');
@@ -127,6 +131,19 @@ class Relic {
         element.querySelector('.itemProbability').innerText = `${Math.round(dropDetails.intact * 100)}% - ${Math.round(dropDetails.radiant * 100)}%`;
 
         return element
+    }
+
+    associateDrop(selfDropArray, dropArray) {
+        let array = [];
+        selfDropArray.forEach(drop => {
+            dropArray.forEach(location => {
+                if(drop.location === location.fullName) {
+                    location.associateItem(this)
+                    array.push(location);
+                }
+            });
+        });
+        return array;
     }
 
     update(itemName, itemStatus) {
@@ -154,9 +171,15 @@ class DropLocation {
         this.system = dropObject.system;
         this.node = dropObject.node;
         this.fullName = `${this.system} - ${this.node}`;
+        this.mode = dropObject.mode;
+        this.items = dropObject.rewards;
 
         this.element = dropContainerElement.appendChild(dropElementTemplate.cloneNode(true));
         this.element.querySelector('.dropTitle').innerText = this.fullName;
+    }
+
+    asssociateItem(itemObject) {
+        return true;
     }
 }
 
