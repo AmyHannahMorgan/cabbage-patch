@@ -175,11 +175,29 @@ class DropLocation {
         this.items = dropObject.rewards;
 
         this.element = dropContainerElement.appendChild(dropElementTemplate.cloneNode(true));
+        this.itemTemplate = dropItemTemplate;
         this.element.querySelector('.dropTitle').innerText = this.fullName;
+        this.itemHolder = this.buidItemHolder(dropRotationTemplate);
     }
 
     asssociateItem(itemObject) {
         return true;
+    }
+
+    buidItemHolder(dropRotationTemplate) {
+        if(Array.isArray(this.items)) {
+            return this.element.querySelector('.itemList');
+        }
+        else {
+            let elementArray = [];
+            Object.keys(this.items).forEach(rotation => {
+                let element = this.element.querySelector('.itemList').appendChild(dropRotationTemplate.cloneNode(true));
+                element.setAttribute('rotation', rotation);
+                element.querySelector('.rotationName').innerText = `Rotation ${rotation}`;
+                elementArray.push(element);
+            });
+            return elementArray;
+        }
     }
 }
 
