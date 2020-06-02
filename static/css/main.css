@@ -192,19 +192,29 @@ main {
     grid-column: 1 / span 2;
 }
 
-.relicDisplay > .relicItemList > .item {
+.item {
     display: none;
     position: relative;
     z-index: 0;
     justify-content: space-between;
 }
 
-.relicDisplay > .relicItemList > .item > * {
+.item > * {
     margin: 0;
 }
 
-.relicDisplay > .relicItemList > .item.selected {
+.item.selected {
     display: flex;
+}
+
+.item > .itemName {
+    text-align: left;
+    font-size: 1.33em;
+}
+
+.item > .itemProbability {
+    text-align: right;
+    font-size: 1.33em;
 }
 
 .relicDisplay > .relicItemList > .item.selected::before {
@@ -223,16 +233,6 @@ main {
 
 .relicButton:focus > .relicDisplay > .relicItemList > .item {
     display: flex;
-}
-
-.relicDisplay > .relicItemList > .item > .itemName {
-    text-align: left;
-    font-size: 1.33em;
-}
-
-.relicDisplay > .relicItemList > .item > .itemProbability {
-    text-align: right;
-    font-size: 1.33em;
 }
 /* IDs */
 #itemHolder, #relicInfo, #itemSelect, #relicHolder, #dropHolder {
