@@ -105,7 +105,7 @@ class Relic {
         this.contents = [];
         if(!this.vaulted) {
             this.elementArray = [];
-            this.drops = associateDrop(relic.drops, dropArray);
+            this.drops = this.associateDrop(relic.drops, dropArray);
         }
         
         this.element = relicContainerElement.appendChild(relicTemplate.cloneNode(true));
@@ -134,6 +134,8 @@ class Relic {
     }
 
     associateDrop(selfDropArray, dropArray) {
+        console.log(selfDropArray)
+        console.log(dropArray);
         let array = [];
         selfDropArray.forEach(drop => {
             dropArray.forEach(location => {
@@ -322,7 +324,7 @@ function bulidItemSelectors(array) {
 
 function buildRelics(relicArray, outputArray) {
     relicArray.forEach(relic => {
-        outputArray.push(new Relic(relic, relicDisplayTemplate.content.firstElementChild, relicItemTemplate.content.firstElementChild, RELIC_HOLDER));
+        outputArray.push(new Relic(relic, relicDisplayTemplate.content.firstElementChild, relicItemTemplate.content.firstElementChild, RELIC_HOLDER, dropLocations));
     });
 }
 
