@@ -201,14 +201,14 @@ class DropLocation {
             return this.element.querySelector('.itemList');
         }
         else {
-            let elementArray = [];
+            let elementObject = {};
             Object.keys(this.items).forEach(rotation => {
                 let element = this.element.querySelector('.itemList').appendChild(dropRotationTemplate.cloneNode(true));
                 element.setAttribute('rotation', rotation);
                 element.querySelector('.rotationName').innerText = `Rotation ${rotation}`;
-                elementArray.push(element);
+                elementObject[rotation] = element;
             });
-            return elementArray;
+            return elementObject;
         }
     }
 }
