@@ -182,7 +182,7 @@ class DropLocation {
         this.itemHolder = this.buidItemHolder(dropRotationTemplate);
     }
 
-    asssociateItem(itemObject) {
+    associateItem(itemObject) {
         return true;
     }
 
