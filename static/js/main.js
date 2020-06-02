@@ -104,6 +104,7 @@ class Relic {
         this.fullName = `${this.era} ${this.name}`
         this.chance = relic.chance;
         this.vaulted = relic.hasOwnProperty('drops') ? false : true;
+        this.selected = false;
         this.contents = [];
         if(!this.vaulted) {
             this.elementArray = [];
@@ -142,7 +143,7 @@ class Relic {
         selfDropArray.forEach(drop => {
             dropArray.forEach(location => {
                 if(drop.location === location.fullName) {
-                    location.associateItem(this, drop)
+                    this.elementArray.push(location.associateItem(this, drop))
                     array.push(location);
                 }
             });
@@ -160,13 +161,18 @@ class Relic {
             if(item.selected) selectedFlag = true
         });
 
-        console.log(selectedFlag);
+        if(!this.selected && selectedFlag) {
+            this.element.classList.add('selected');
+            this.selected = true;
+        }
+        else if(this.selected && !selectedFlag) {
+            this.element.classList.remove('selected');
+            this.selected = false;
+        }
 
-        if(selectedFlag) this.element.classList.add('selected')
-        else this.element.classList.remove('selected');
-        console.log(this.element);
-
-        console.log(this.contents);
+        if(!this.vaulted) this.drops.forEach((location, index) => {
+            location.update(new RegExp(`\\b${this.fullName}\\b`, 'i'), this.elementArray[index], this.selected);
+        });
     }
 }
 
@@ -176,6 +182,7 @@ class DropLocation {
         this.node = dropObject.node;
         this.fullName = `${this.system} - ${this.node}`;
         this.mode = dropObject.mode;
+        this.selected = false;
         this.items = dropObject.rewards;
 
         this.element = dropContainerElement.appendChild(dropElementTemplate.cloneNode(true));
@@ -213,6 +220,48 @@ class DropLocation {
             });
             return elementObject;
         }
+    }
+
+    update(dropName, dropElement, dropSelected) {
+        if(Array.isArray(this.items)) {
+            let flag = false;
+            this.items.forEach(item => {
+                console.log(item)
+                if(dropName.test(item.itemName)) item.selected = dropSelected;
+
+                if(item.selected) flag = true; 
+            });
+
+            console.log(flag);
+
+            if(!this.selected && flag) this.element.classList.add('selected');
+            else if(this.selected && !flag) this.element.classList.remove('selected');
+        }
+        else {
+            let rotationFlag = false;
+            Object.keys(this.items).forEach(rotation => {
+                let flag = false;
+                this.items[rotation].forEach(item => {
+                    if(dropName.test(item.itemName)) item.selected = dropSelected;
+
+                    if(item.selected) flag = true; 
+                });
+
+                if(flag) {
+                    this.itemHolder[rotation].classList.add('selected');
+                    rotationFlag = true;
+                }
+                else this.itemHolder[rotation].classList.remove('selected');
+            });
+
+            console.log({rotationFlag});
+            
+            if(!this.selected && rotationFlag) this.element.classList.add('selected');
+            else if(this.selected && !rotationFlag) this.element.classList.remove('selected');
+        }
+
+        if(dropSelected) dropElement.classList.add('selected')
+        else dropElement.classList.remove('selected')
     }
 }
 
