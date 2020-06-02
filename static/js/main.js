@@ -233,7 +233,9 @@ class DropLocation {
             });
 
             console.log(flag);
-            this.element.querySelector('.combinedDropChance').innerText = `${Math.round(this.calculateTotalChance(this.items))}%`
+            let totalDropChance = Math.round(this.calculateTotalChance(this.items))
+            this.element.querySelector('.combinedDropChance').innerText = `${totalDropChance}%`
+            this.element.style.order = `${100 - totalDropChance}`;
             if(!this.selected && flag) this.element.classList.add('selected');
             else if(this.selected && !flag) this.element.classList.remove('selected');
         }
@@ -257,7 +259,9 @@ class DropLocation {
 
             console.log({rotationFlag});
 
+            let totalDropChance = Math.round(this.calculateAverageChance(this.items))
             this.element.querySelector('.combinedDropChance').innerText = `Avg: ~${Math.round(this.calculateAverageChance(this.items))}%`
+            this.element.style.order = `${100 - totalDropChance}`;
             
             if(!this.selected && rotationFlag) {
                 this.element.classList.add('selected');
