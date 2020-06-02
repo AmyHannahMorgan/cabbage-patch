@@ -153,33 +153,38 @@ main {
     display: block;
 }
 
-.relicDisplay {
+.relicDisplay, .dropDisplay.selected, .dropRotation.selected {
     display: grid;
     grid-template-rows: auto auto;
     grid-template-columns: 50fr 50fr;
     
     width: 100%;
+}
 
+.relicDisplay, .dropDisplay {
     border: solid thin var(--highlight-color-1);
 
     background: linear-gradient(to bottom, var(--bg-color-1), var(--bg-color-2));
 }
 
-.relicDisplay > * {
+.relicDisplay > *, .dropDisplay > * {
     margin: 3px 6px;
 }
 
-.relicDisplay > .relicName {
+.relicDisplay > .relicName, .dropDisplay > .dropTitle, .dropRotation > .rotationName {
     grid-column: 1 / span 1;
     
     text-align: left;
 }
 
-.relicDisplay > .vaultedStatus {
-    display: none;
+.relicDisplay > .vaultedStatus, .dropDisplay > .combinedDropChance, .dropRotation > .rotationDropChance {
     grid-column: 2 / span 1;
 
     text-align: right;
+}
+
+.relicDisplay > .vaultedStatus {
+    display: none;
     font-style: italic;
     color: red;
 }
@@ -188,7 +193,7 @@ main {
     display: block;
 }
 
-.relicDisplay > .relicItemList {
+.relicDisplay > .relicItemList, .dropDisplay > .itemList {
     grid-column: 1 / span 2;
 }
 
@@ -233,6 +238,15 @@ main {
 
 .relicButton:focus > .relicDisplay > .relicItemList > .item {
     display: flex;
+}
+
+.dropDisplay {
+    display: none;
+    max-width: 375px;
+}
+
+.dropRotation {
+    display: none;
 }
 /* IDs */
 #itemHolder, #relicInfo, #itemSelect, #relicHolder, #dropHolder {
