@@ -101,6 +101,8 @@ class Relic {
         let relicName = relic.name.split(' ');
         this.era = relicName[0];
         this.name = relicName[1];
+        this.fullName = `${this.era} ${this.name}`
+        this.chance = relic.chance;
         this.vaulted = relic.hasOwnProperty('drops') ? false : true;
         this.contents = [];
         if(!this.vaulted) {
@@ -140,7 +142,7 @@ class Relic {
         selfDropArray.forEach(drop => {
             dropArray.forEach(location => {
                 if(drop.location === location.fullName) {
-                    location.associateItem(this)
+                    location.associateItem(this, drop)
                     array.push(location);
                 }
             });
@@ -182,8 +184,16 @@ class DropLocation {
         this.itemHolder = this.buidItemHolder(dropRotationTemplate);
     }
 
-    associateItem(itemObject) {
-        return true;
+    associateItem(itemObject, dropObject) {
+        if(Array.isArray(this.items)) {
+            let element = this.itemHolder.appendChild(this.itemTemplate.cloneNode(true));
+            this.element.querySelector('.itemName').innerText = itemObject.fullName;
+            this.element.querySelector('.itemDropChance').innerText = `${Math.round(dropObject.chance * 100)}%`;
+            return element;
+        }
+        else {
+            
+        }
     }
 
     buidItemHolder(dropRotationTemplate) {
