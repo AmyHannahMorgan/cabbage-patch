@@ -256,9 +256,17 @@ class DropLocation {
             });
 
             console.log({rotationFlag});
+
+            this.element.querySelector('.combinedDropChance').innerText = `Avg: ~${Math.round(this.calculateAverageChance(this.items))}%`
             
-            if(!this.selected && rotationFlag) this.element.classList.add('selected');
-            else if(this.selected && !rotationFlag) this.element.classList.remove('selected');
+            if(!this.selected && rotationFlag) {
+                this.element.classList.add('selected');
+                this.selected = true
+            }
+            else if(this.selected && !rotationFlag) {
+                this.element.classList.remove('selected');
+                this.selected = false;
+            }
         }
 
         if(dropSelected) dropElement.classList.add('selected')
@@ -273,6 +281,15 @@ class DropLocation {
             }
         });
         return total;
+    }
+
+    calculateAverageChance(itemObject) {
+        let rotations = Object.keys(itemObject);
+        let total = rotations.reduce((acc, rotation) => {
+            return acc + this.calculateTotalChance(itemObject[rotation]);
+        }, 0);
+
+        return total / rotations.length;
     }
 }
 
