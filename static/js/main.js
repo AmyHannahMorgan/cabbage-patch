@@ -187,12 +187,15 @@ class DropLocation {
     associateItem(itemObject, dropObject) {
         if(Array.isArray(this.items)) {
             let element = this.itemHolder.appendChild(this.itemTemplate.cloneNode(true));
-            this.element.querySelector('.itemName').innerText = itemObject.fullName;
-            this.element.querySelector('.itemDropChance').innerText = `${Math.round(dropObject.chance * 100)}%`;
+            element.querySelector('.itemName').innerText = itemObject.fullName;
+            element.querySelector('.itemDropChance').innerText = `${Math.round(dropObject.chance * 100)}%`;
             return element;
         }
         else {
-            
+            let element = this.itemHolder[dropObject.rotation].querySelector('.itemList').appendChild(this.itemTemplate.cloneNode(true));
+            element.querySelector('.itemName').innerText = itemObject.fullName;
+            element.querySelector('.itemDropChance').innerText = `${Math.round(dropObject.chance * 100)}%`;
+            return element;
         }
     }
 
