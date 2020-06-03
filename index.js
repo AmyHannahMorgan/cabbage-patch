@@ -14,13 +14,15 @@ axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/deve
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Secondary.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Melee.json'),
-    axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Relics.json')])
-.then(axios.spread((warframes, primaries, secondaries, melee, relics) => {
+    axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Relics.json'),
+    axios.get('https://raw.githubusercontent.com/WFCD/warframe-drop-data/gh-pages/data/missionRewards.json')])
+.then(axios.spread((warframes, primaries, secondaries, melee, relics, missionRewards) => {
     apiData.warframes = reduceItems(filterPrimes(warframes.data));
     apiData.primary = reduceItems(filterPrimes(primaries.data));
     apiData.secondary = reduceItems(filterPrimes(secondaries.data));
     apiData.melee = reduceItems(filterPrimes(melee.data));
     apiData.relics = splitRelics(filterRelics(relics.data));
+    apiData.drops = reduceRewards(missionRewards.data.missionRewards);
 }))
 .then(() => {
     dataCheck.emit('dataLoaded');
@@ -115,6 +117,7 @@ function reduceItems(itemArray) {
         obj.components = reduceComponents(filterComponents(item.components));
         obj.imageName = item.imageName;
         obj.vaulted = item.hasOwnProperty('vaulted') ? item.vaulted : false;
+        obj.type = item.category.toLowerCase();
 
         newArray.push(obj);
     });
@@ -123,7 +126,7 @@ function reduceItems(itemArray) {
 }
 
 function filterComponents(componentsArray) {
-    let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link| prime|blade|gauntlet|handle|ornament|chain|pouch|stars/i;
+    let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link|blade|gauntlet|handle|ornament|chain|pouch|stars/i;
     return componentsArray.filter(component => {
         return regex.test(component.name);
     })
@@ -135,11 +138,48 @@ function reduceComponents(componentsArray) {
         let obj = {};
         obj.name = component.name;
         obj.ducats = component.ducats;
-        obj.drops = component.drops;
+        obj.drops = consolidateDrops(component.drops);
 
         newArray.push(obj);
     });
     return newArray;
+}
+
+function reduceRewards(rewardsObject) {
+    let returnArray = [];
+    Object.keys(rewardsObject).forEach(system => {
+        Object.keys(rewardsObject[system]).forEach(node => {
+            if(!rewardsObject[system][node].isEvent) {
+                let obj = {
+                    system: system,
+                    node: node,
+                    mode: rewardsObject[system][node].gameMode,
+                    rewards: filterRewards(rewardsObject[system][node].rewards)
+                }
+                returnArray.push(obj);
+            }
+        })
+    })
+    return returnArray;
+}
+
+function filterRewards(rewardParam) {
+    if(Array.isArray(rewardParam)) {
+        return rewardParam.filter(reward => {
+            let regex = /\brelic\b/i;
+            return regex.test(reward.itemName);
+        })
+    }
+    else {
+        let returnObject = {};
+        Object.keys(rewardParam).forEach(rotation => {
+            returnObject[rotation] = rewardParam[rotation].filter(reward => {
+                let regex = /\brelic\b/i;
+                return regex.test(reward.itemName);
+            })
+        });
+        return returnObject;
+    }
 }
 
 function consolidateDrops(dropsArray) {
@@ -158,7 +198,10 @@ function consolidateDrops(dropsArray) {
         relicArray.forEach(relic => {
             let regexString = relic.location.split(' ')[position];
 
-            if(!checkDuplicate(checks, regexString)) regexs.push(new RegExp(`\\b${regexString}\\b`, 'i'));
+            if(!checkDuplicate(checks, regexString)) {
+                regexs.push(new RegExp(`\\b${regexString}\\b`, 'i'));
+                checks.push(regexString);
+            };
         });
 
         return regexs
@@ -177,15 +220,30 @@ function consolidateDrops(dropsArray) {
         nameRegexs.push(generateRegexsRelics(era, 1));
     });
 
-    eras = eras.map(era => {
+    eras = eras.map((era, index) => {
         let newArray = []
-        nameRegexs.forEach(name => {
+        nameRegexs[index].forEach(name => {
             newArray.push(era.filter(relic => {
                 return name.test(relic.location);
             }));
         });
-        return newArray;
-    })
+        return newArray.map(relics => {
+            return relics.reduce((obj, relic, index) => {
+                let name = relic.location.split(' ');
 
-    //TODO: use reduce method to produce single object from separated relics
+                if(index === 0) {
+                    obj.era = name[0];
+                    obj.name = name[1];
+                }
+
+                obj[name[2].toLowerCase()] = relic.chance;
+
+                return obj;
+            }, {});
+        })
+    });
+
+    return eras.reduce((acc, obj) => {
+        return acc.concat(obj);
+    }, []);
 }
