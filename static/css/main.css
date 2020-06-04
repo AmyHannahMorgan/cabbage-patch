@@ -44,6 +44,16 @@ main {
     min-height: 100vh;
 }
 
+button {
+    background-color: var(--bg-color-1);
+    border: thin solid var(--highlight-color-2);
+    border-bottom: thick solid var(--highlight-color-2);
+}
+
+button:hover {
+    border-color: var(--highlight-color-1);
+}
+
 /* classes */
 .tabSelect {
     flex: 1;
