@@ -22,3 +22,10 @@ class Collapser {
         }
     }
 }
+
+const COLLAPSER_ELEMENTS = document.querySelector('[collapsible]');
+const COLLAPSER_OBJECTS = [];
+
+for(let i = 0; i < COLLAPSER_ELEMENTS.length; i++) {
+    COLLAPSER_OBJECTS.push(new Collapser(COLLAPSER_ELEMENTS[i]));
+}
