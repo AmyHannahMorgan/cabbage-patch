@@ -23,7 +23,7 @@ class Collapser {
     }
 }
 
-const COLLAPSER_ELEMENTS = document.querySelector('[collapsible]');
+const COLLAPSER_ELEMENTS = document.querySelectorAll('[collapsible]');
 const COLLAPSER_OBJECTS = [];
 
 for(let i = 0; i < COLLAPSER_ELEMENTS.length; i++) {
