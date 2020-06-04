@@ -137,8 +137,6 @@ class Relic {
     }
 
     associateDrop(selfDropArray, dropArray) {
-        console.log(selfDropArray)
-        console.log(dropArray);
         let array = [];
         selfDropArray.forEach(drop => {
             dropArray.forEach(location => {
@@ -226,13 +224,11 @@ class DropLocation {
         if(Array.isArray(this.items)) {
             let flag = false;
             this.items.forEach(item => {
-                console.log(item)
                 if(dropName.test(item.itemName)) item.selected = dropSelected;
 
                 if(item.selected) flag = true; 
             });
 
-            console.log(flag);
             let totalDropChance = Math.round(this.calculateTotalChance(this.items))
             this.element.querySelector('.combinedDropChance').innerText = `${totalDropChance}%`
             this.element.style.order = `${100 - totalDropChance}`;
@@ -256,8 +252,6 @@ class DropLocation {
                 }
                 else this.itemHolder[rotation].classList.remove('selected');
             });
-
-            console.log({rotationFlag});
 
             let totalDropChance = Math.round(this.calculateAverageChance(this.items))
             this.element.querySelector('.combinedDropChance').innerText = `Avg: ~${Math.round(this.calculateAverageChance(this.items))}%`
