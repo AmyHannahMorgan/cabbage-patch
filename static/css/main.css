@@ -311,6 +311,12 @@ main {
     height: 2em;
 }
 
+#dropCollapser {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* collapsible elements */
 *[collapsible-content] {
     overflow: hidden;
