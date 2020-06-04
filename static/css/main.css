@@ -311,6 +311,27 @@ main {
     height: 2em;
 }
 
+/* collapsible elements */
+*[collapsible] {
+    display: grid;
+    grid-template-columns: 100fr;
+    grid-template-rows: auto auto;
+}
+
+button[collapsible-activator] {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+}
+
+*[collapsible-content] {
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
+    overflow: hidden;
+    height: 0px;
+
+    transition: height 0.25s ease;
+}
+
 /* media */
 @media only screen and (min-width: 450px) {
     #itemHolder, #relicHolder, #dropHolder {
