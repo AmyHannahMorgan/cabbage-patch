@@ -10,4 +10,15 @@ class Collapser {
             this.collapse();
         });
     }
+
+    collapse() {
+        if(this.collapsed) {
+            this.content.style.height = `${this.content.scrollHeight}px`;
+            this.collapsed = false;
+        }
+        else {
+            this.content.style.height = '';
+            this.collapsed = true;
+        }
+    }
 }
