@@ -41,6 +41,26 @@ self.addEventListener('fetch', e => {
     if(imageRegexp.test(e.request.url)) {
         e.respondWith(
             fetch(e.request)
+            .then(res => {
+                const resClone = res.clone();
+                caches.open('image-cache')
+                .then(cache => {
+                    cache.match(e.request)
+                    .then(match => {
+                        if(match === undefined) {
+                            cache.put(e.request, resClone);
+                        }
+                    })
+                })  
+                return res
+            })
+            .catch(error => {
+                console.log('no connection, loading from cache');
+                return caches.open('image-cache')
+                .then(cache => {
+                    return cache.match(e.request);
+                })
+            })
         )
     }
     else if(apiRegexp.test(e.request.url)) {
