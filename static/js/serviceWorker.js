@@ -32,3 +32,41 @@ self.addEventListener('activate', e => {
         })
     )
 });
+
+//fetch event
+self.addEventListener('fetch', e => {
+    let imageRegexp = /.jpg|.png|.jpeg|.gif|.svg|.bmp/i
+    let apiRegexp = /\/api\//i
+
+    if(imageRegexp.test(e.request.url)) {
+        e.respondWith(
+            fetch(e.request)
+            .then(res => {
+                console.log(res.headers);
+                caches.open('image-cache')
+                .then(cache => {
+                    cache.match(e.request).then(match => {
+                        if(match === undefined) {
+                            cache.add(e.request);
+                        }
+                    });
+                });
+
+                return res;
+            })
+            .catch(err => {
+
+            })
+        )
+    }
+    else if(apiRegexp.test(e.request.url)) {
+        e.respondWith(
+            fetch(e.request)
+        )
+    }
+    else {
+        e.respondWith(
+            fetch(e.request)
+        )
+    }
+})
