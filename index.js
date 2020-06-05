@@ -9,7 +9,7 @@ let apiData = {
 
 };
 let dataFlag = false
-
+let dataBuildStartTime = Date.now();
 axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Secondary.json'),
@@ -17,6 +17,7 @@ axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/deve
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Relics.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-drop-data/gh-pages/data/missionRewards.json')])
 .then(axios.spread((warframes, primaries, secondaries, melee, relics, missionRewards) => {
+    console.log(`Loading all api dependanceies took ${Date.now() - dataBuildStartTime}ms`);
     apiData.warframes = reduceItems(filterPrimes(warframes.data));
     apiData.primary = reduceItems(filterPrimes(primaries.data));
     apiData.secondary = reduceItems(filterPrimes(secondaries.data));
@@ -27,6 +28,8 @@ axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/deve
 .then(() => {
     dataCheck.emit('dataLoaded');
     dataFlag = true;
+    let dataBuildEndTime = Date.now()
+    console.log(`api data build, from first request to finished data object, took ${dataBuildEndTime - dataBuildStartTime}ms`);
 });
 
 app.use(express.static(`${__dirname}/static`));
@@ -99,19 +102,27 @@ function splitRelics(array) {
         vaulted: []
     };
 
-    array.forEach(relic => {
-        if(relic.hasOwnProperty('drops')) {
-            obj.available.push(relic);
+    for(let i = 0; i < array.length; i++) {
+        if(array[i].hasOwnProperty('drops')) {
+            obj.available.push(array[i]);
         }
-        else obj.vaulted.push(relic);
-    });
+        else obj.vaulted.push(array[i]);
+    }
+
+    // array.forEach(relic => {
+    //     if(relic.hasOwnProperty('drops')) {
+    //         obj.available.push(relic);
+    //     }
+    //     else obj.vaulted.push(relic);
+    // });
 
     return obj;
 }
 
 function reduceItems(itemArray) {
     let newArray =[]
-    itemArray.forEach(item => {
+    for(let i = 0; i < itemArray.length; i++) {
+        let item = itemArray[i];
         let obj = {};
         obj.name = item.name;
         obj.components = reduceComponents(filterComponents(item.components));
@@ -120,7 +131,17 @@ function reduceItems(itemArray) {
         obj.type = item.category.toLowerCase();
 
         newArray.push(obj);
-    });
+    }
+    // itemArray.forEach(item => {
+    //     let obj = {};
+    //     obj.name = item.name;
+    //     obj.components = reduceComponents(filterComponents(item.components));
+    //     obj.imageName = item.imageName;
+    //     obj.vaulted = item.hasOwnProperty('vaulted') ? item.vaulted : false;
+    //     obj.type = item.category.toLowerCase();
+
+    //     newArray.push(obj);
+    // });
 
     return newArray;
 }
@@ -134,21 +155,32 @@ function filterComponents(componentsArray) {
 
 function reduceComponents(componentsArray) {
     let newArray = [];
-    componentsArray.forEach(component => {
+    for(let i = 0; i < componentsArray.length; i++) {
         let obj = {};
+        let component = componentsArray[i];
         obj.name = component.name;
         obj.ducats = component.ducats;
         obj.drops = consolidateDrops(component.drops);
 
         newArray.push(obj);
-    });
+    }
+    // componentsArray.forEach(component => {
+    //     let obj = {};
+    //     obj.name = component.name;
+    //     obj.ducats = component.ducats;
+    //     obj.drops = consolidateDrops(component.drops);
+
+    //     newArray.push(obj);
+    // });
     return newArray;
 }
 
 function reduceRewards(rewardsObject) {
     let returnArray = [];
-    Object.keys(rewardsObject).forEach(system => {
-        Object.keys(rewardsObject[system]).forEach(node => {
+    for(let x = 0; x < Object.keys(rewardsObject).length; x++) {
+        let system = Object.keys(rewardsObject)[x];
+        for(let y = 0; y < Object.keys(rewardsObject[system]).length; y++) {
+            let node = Object.keys(rewardsObject[system])[y];
             if(!rewardsObject[system][node].isEvent) {
                 let obj = {
                     system: system,
@@ -158,8 +190,21 @@ function reduceRewards(rewardsObject) {
                 }
                 returnArray.push(obj);
             }
-        })
-    })
+        }
+    }
+    // Object.keys(rewardsObject).forEach(system => {
+    //     Object.keys(rewardsObject[system]).forEach(node => {
+    //         if(!rewardsObject[system][node].isEvent) {
+    //             let obj = {
+    //                 system: system,
+    //                 node: node,
+    //                 mode: rewardsObject[system][node].gameMode,
+    //                 rewards: filterRewards(rewardsObject[system][node].rewards)
+    //             }
+    //             returnArray.push(obj);
+    //         }
+    //     })
+    // })
     return returnArray;
 }
 
@@ -172,12 +217,19 @@ function filterRewards(rewardParam) {
     }
     else {
         let returnObject = {};
-        Object.keys(rewardParam).forEach(rotation => {
+        for(let i = 0; i < Object.keys(rewardParam).length; i++) {
+            let rotation = Object.keys(rewardParam)[i];
             returnObject[rotation] = rewardParam[rotation].filter(reward => {
                 let regex = /\brelic\b/i;
                 return regex.test(reward.itemName);
             })
-        });
+        }
+        // Object.keys(rewardParam).forEach(rotation => {
+        //     returnObject[rotation] = rewardParam[rotation].filter(reward => {
+        //         let regex = /\brelic\b/i;
+        //         return regex.test(reward.itemName);
+        //     })
+        // });
         return returnObject;
     }
 }
