@@ -22,7 +22,6 @@ class ItemSelector {
                 component.update();
             });;
         });
-        itemSelect.appendChild(this.element);
     }
 
     buildComponents(componentArray) {
@@ -49,6 +48,10 @@ class ItemSelector {
             if(filter) this.element.classList.add('filtered')
             else this.element.classList.remove('filtered')
         }
+    }
+
+    append() {
+        this.element = itemSelect.appendChild(this.element);
     }
 }
 
