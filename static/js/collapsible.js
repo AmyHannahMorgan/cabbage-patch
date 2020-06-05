@@ -14,10 +14,12 @@ class Collapser {
     collapse() {
         if(this.collapsed) {
             this.content.style.height = `${this.content.scrollHeight}px`;
+            this.activator.querySelector('.collapsedIndicator').innerText = '-'
             this.collapsed = false;
         }
         else {
             this.content.style.height = '';
+            this.activator.querySelector('.collapsedIndicator').innerText = '+';
             this.collapsed = true;
         }
     }
