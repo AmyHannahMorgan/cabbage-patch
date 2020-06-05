@@ -7,3 +7,28 @@ self.addEventListener('install', e => {
        caches.open('api-cache')
     );
 });
+
+//activate event
+self.addEventListener('activate', e => {
+    console.log('Service worker: Activated');
+    e.waitUntil(
+        caches.open('site-cache')
+        .then(cache => {
+            cache.keys().then(keys => {
+                keys.forEach(key => cache.delete(key));
+            })
+        }),
+        caches.open('image-cache')
+        .then(cache => {
+            cache.keys().then(keys => {
+                keys.forEach(key => cache.delete(key));
+            })
+        }),
+        caches.open('api-cache')
+        .then(cache => {
+            cache.keys().then(keys => {
+                keys.forEach(key => cache.delete(key));
+            })
+        })
+    )
+});
