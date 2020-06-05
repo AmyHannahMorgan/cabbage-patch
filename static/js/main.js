@@ -337,6 +337,12 @@ class TabSelect {
     }
 }
 
+if(navigator.serviceWorker) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/js/serviceWorker.js');
+    })
+}
+
 const tabSelectors = document.querySelectorAll('.tabSelectHolder');
 const tabs = document.querySelectorAll('.tab');
 let tabHandlers = [];
