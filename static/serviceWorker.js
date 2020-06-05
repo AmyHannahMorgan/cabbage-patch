@@ -76,7 +76,7 @@ self.addEventListener('fetch', e => {
                 return res;
             })
             .catch(error => {
-                caches.open('api-cache')
+                return caches.open('api-cache')
                 .then(cache => {
                     return cache.match(e.request);
                 })
@@ -96,7 +96,7 @@ self.addEventListener('fetch', e => {
                 return res;
             })
             .catch(error => {
-                caches.open('site-cache')
+                return caches.open('site-cache')
                 .then(cache => {
                     return cache.match(e.request);
                 })
