@@ -21,20 +21,20 @@
                 </div>
                 <div class="filterWrapper" id="itemTypeFilters">
                     <div class="selectionWrapper">
-                        <label for="warframes">Frames</label>
                         <input type="checkbox" name="warframes" id="" checked>
+                        <label for="warframes">Frames</label>
                     </div>
                     <div class="selectionWrapper">
-                        <label for="primary">Primaries</label>
                         <input type="checkbox" name="primary" id="" checked>
+                        <label for="primary">Primaries</label>
                     </div>
                     <div class="selectionWrapper">
-                        <label for="secondary">Seconderies</label>
                         <input type="checkbox" name="secondary" id="" checked>
+                        <label for="secondary">Seconderies</label>
                     </div>
                     <div class="selectionWrapper">
-                        <label for="melee">Melee</label>
                         <input type="checkbox" name="melee" id="" checked>
+                        <label for="melee">Melee</label>
                     </div>
                 </div>
                 <div class="filterWrapper" id="expandFiltersWrapper">
@@ -73,7 +73,7 @@
     </template>
     <template id="itemWrapperTemplate">
         <div class="itemWrapper">
-            <label for="${item-name}">{{item-name}}</label><input type="checkbox" name="${item-name}" class="itemCheckbox">
+            <input type="checkbox" name="${item-name}" class="itemCheckbox"><label for="${item-name}">{{item-name}}</label>
         </div>
     </template>
     <template id="relicWrapperTemplate">
