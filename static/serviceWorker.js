@@ -66,6 +66,21 @@ self.addEventListener('fetch', e => {
     else if(apiRegexp.test(e.request.url)) {
         e.respondWith(
             fetch(e.request)
+            .then(res => {
+                const resClone = res.clone();
+                caches.open('api-cache')
+                .then(cache => {
+                    cache.put(e.request, resClone);
+                });
+
+                return res;
+            })
+            .catch(error => {
+                caches.open('api-cache')
+                .then(cache => {
+                    return cache.match(e.request);
+                })
+            })
         )
     }
     else {
