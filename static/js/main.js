@@ -413,7 +413,21 @@ for(let i = 0; i < ITEM_TYPE_FILTERS.children.length; i++) {
 function bulidItemSelectors(array) {
     array.forEach(item => {
         itemselectors.push(new ItemSelector(item));
-    })
+    });
+
+    itemselectors.sort((a, b) => {
+        if(a.vaulted && !b.vaulted) {
+            return 1;
+        }
+
+        if(!a.vaulted && b.vaulted) {
+            return -1;
+        }
+
+        return 0;
+    });
+
+    console.log(itemselectors);
 }
 
 function buildRelics(relicArray, outputArray) {
