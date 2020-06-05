@@ -328,6 +328,15 @@ button:hover {
 }
 
 /* collapsible elements */
+button[collapsible-activator] {
+    display: flex;
+    align-items: center;
+}
+
+button[collapsible-activator] > * {
+    margin: 0 3px;
+}
+
 *[collapsible-content] {
     overflow: hidden;
     height: 0px;
