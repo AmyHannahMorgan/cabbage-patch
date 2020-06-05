@@ -41,22 +41,6 @@ self.addEventListener('fetch', e => {
     if(imageRegexp.test(e.request.url)) {
         e.respondWith(
             fetch(e.request)
-            .then(res => {
-                console.log(res.headers);
-                caches.open('image-cache')
-                .then(cache => {
-                    cache.match(e.request).then(match => {
-                        if(match === undefined) {
-                            cache.add(e.request);
-                        }
-                    });
-                });
-
-                return res;
-            })
-            .catch(err => {
-
-            })
         )
     }
     else if(apiRegexp.test(e.request.url)) {
