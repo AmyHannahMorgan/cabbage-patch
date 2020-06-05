@@ -71,6 +71,21 @@ self.addEventListener('fetch', e => {
     else {
         e.respondWith(
             fetch(e.request)
+            .then(res => {
+                const resClone = res.clone();
+                caches.open('site-cache')
+                .then(cache => {
+                    cache.put(e.request, resClone);
+                });
+
+                return res;
+            })
+            .catch(error => {
+                caches.open('site-cache')
+                .then(cache => {
+                    return cache.match(e.request);
+                })
+            })
         )
     }
 })
