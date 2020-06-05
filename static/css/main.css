@@ -369,13 +369,13 @@ button[collapsible-activator] > * {
     }
 
     #itemSearchWrapper {
-        grid-column: 2 / span 1;
+        grid-column: 1 / span 1;
         grid-row: 1 / span 1;
     }
 
     #itemTypeFilters {
         display: flex;
-        grid-column: 1 / span 1;
+        grid-column: 2 / span 1;
         grid-row: 1 / span 1;
     }
 
