@@ -385,6 +385,8 @@ fetch('/api/all/').then(response => response.json())
     bulidItemSelectors(json.primary);
     bulidItemSelectors(json.secondary);
     bulidItemSelectors(json.melee);
+
+    itemselectors.forEach(itemSelector => itemSelector.append())
 });
 
 const ITEM_SEARCH = document.querySelector('#itemSearch');
