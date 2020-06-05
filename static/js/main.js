@@ -339,7 +339,7 @@ class TabSelect {
 
 if(navigator.serviceWorker) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/js/serviceWorker.js');
+        navigator.serviceWorker.register('../serviceWorker.js');
     })
 }
 
