@@ -15,9 +15,9 @@ class ItemSelector {
         
         this.components.forEach(component => {
             let element = itemWrapperTemplate.content.cloneNode(true).firstElementChild;
-            element.querySelector('label').htmlFor = component.name;
+            element.querySelector('label').htmlFor = component.fullName.replace(' ','');
             element.querySelector('label').innerText = component.name;
-            element.querySelector('input').name = component.name;
+            element.querySelector('input').id = component.fullName.replace(' ','');
             this.element.querySelector('.itemOptions').appendChild(element).querySelector('input').addEventListener('click', e => {
                 component.update();
             });;
