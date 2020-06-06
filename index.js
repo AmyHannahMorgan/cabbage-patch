@@ -1,3 +1,4 @@
+const fs = require('fs').promises;
 const express = require('express');
 const eventEmitter = require('events');
 const axios = require('axios').default;
@@ -10,26 +11,47 @@ let apiData = {
 };
 let dataFlag = false
 let dataBuildStartTime = Date.now();
-axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json'),
-    axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
-    axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Secondary.json'),
-    axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Melee.json'),
-    axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Relics.json'),
-    axios.get('https://raw.githubusercontent.com/WFCD/warframe-drop-data/gh-pages/data/missionRewards.json')])
-.then(axios.spread((warframes, primaries, secondaries, melee, relics, missionRewards) => {
-    console.log(`Loading all api dependanceies took ${Date.now() - dataBuildStartTime}ms`);
-    apiData.warframes = reduceItems(filterPrimes(warframes.data));
-    apiData.primary = reduceItems(filterPrimes(primaries.data));
-    apiData.secondary = reduceItems(filterPrimes(secondaries.data));
-    apiData.melee = reduceItems(filterPrimes(melee.data));
-    apiData.relics = splitRelics(filterRelics(relics.data));
-    apiData.drops = reduceRewards(missionRewards.data.missionRewards);
-}))
-.then(() => {
-    dataCheck.emit('dataLoaded');
-    dataFlag = true;
-    let dataBuildEndTime = Date.now()
-    console.log(`api data build, from first request to finished data object, took ${dataBuildEndTime - dataBuildStartTime}ms`);
+fs.open('./apiData.json', 'r+').then(file => {
+    file.readFile({ encoding: 'utf8' }).then(fileString => {
+        apiData = JSON.parse(fileString);
+        if(Date.now() - apiData.fetchTime >= 43200000) {
+            getApiData().then(apiDataObject => {
+                apiData = apiDataObject;
+                file.write(JSON.stringify(apiDataObject)).then(() => {
+                    file.close()
+                    setTimeout(updateData, 43200000);
+                })
+            })
+        }
+        else {
+            dataCheck.emit('dataLoaded');
+            dataFlag = true;
+            let dataBuildEndTime = Date.now()
+            console.log(`loading api data from file took ${dataBuildEndTime - dataBuildStartTime}ms`);
+            setTimeout(updateData, 43200000 - (Date.now() - apiData.fetchTime));
+        }
+    })
+})
+.catch(err => {
+    console.log('no apiData file found, creating it');
+    fs.open('./apiData.json', 'w+').then(file => {
+        console.log('file created, fetching API data from sources')
+        getApiData().then(apiDataObject => {
+            console.log('API data retrieved and processed, making it available to clients')
+            apiData = apiDataObject;
+            console.log('writing API data to file');
+            file.write(JSON.stringify(apiData)).then(() => {
+                file.close();
+            })
+            .then(() => {
+                dataCheck.emit('dataLoaded');
+                dataFlag = true;
+                let dataBuildEndTime = Date.now()
+                console.log(`api data build, from first request to finished data object, took ${dataBuildEndTime - dataBuildStartTime}ms`);
+                setTimeout(updateData, 43200000);
+            });
+        })
+    })
 });
 
 app.use(express.static(`${__dirname}/static`));
@@ -81,6 +103,45 @@ app.get('/api/all', (req, res) => {
 
 app.listen(port);
 console.log(`listening on port ${port}`);
+
+function getApiData() {
+    return new Promise((res, rej) => {
+        let obj = {}
+        axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json'),
+            axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
+            axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Secondary.json'),
+            axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Melee.json'),
+            axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Relics.json'),
+            axios.get('https://raw.githubusercontent.com/WFCD/warframe-drop-data/gh-pages/data/missionRewards.json')])
+        .then(axios.spread((warframes, primaries, secondaries, melee, relics, missionRewards) => {
+            console.log(`Loading all api dependanceies took ${Date.now() - dataBuildStartTime}ms`);
+            obj.warframes = reduceItems(filterPrimes(warframes.data));
+            obj.primary = reduceItems(filterPrimes(primaries.data));
+            obj.secondary = reduceItems(filterPrimes(secondaries.data));
+            obj.melee = reduceItems(filterPrimes(melee.data));
+            obj.relics = splitRelics(filterRelics(relics.data));
+            obj.drops = reduceRewards(missionRewards.data.missionRewards);
+            obj.fetchTime = Date.now();
+            res(obj);
+        }))
+        .catch(err => rej(err));
+    })
+}
+
+function updateData() {
+    fs.open('./apiData.json', 'w')
+    .then(file => {
+        getApiData()
+        .then(apiDataObject => {
+            apiData = apiDataObject;
+            file.write(JSON.stringify(apiDataObject))
+            .then(() => {
+                file.close()
+                setTimeout(updateData, 43200000);
+            })
+        })
+    })
+}
 
 function filterPrimes(array) {
     let regex = /(?<!excalibur) prime/i;
