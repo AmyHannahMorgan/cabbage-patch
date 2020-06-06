@@ -19,6 +19,7 @@ fs.open('./apiData.json', 'r+').then(file => {
                 apiData = apiDataObject;
                 file.write(JSON.stringify(apiDataObject)).then(() => {
                     file.close()
+                    setTimeout(updateData, 43200000);
                 })
             })
         }
@@ -27,6 +28,7 @@ fs.open('./apiData.json', 'r+').then(file => {
             dataFlag = true;
             let dataBuildEndTime = Date.now()
             console.log(`loading api data from file took ${dataBuildEndTime - dataBuildStartTime}ms`);
+            setTimeout(updateData, 43200000 - (Date.now() - apiData.fetchTime));
         }
     })
 })
@@ -46,6 +48,7 @@ fs.open('./apiData.json', 'r+').then(file => {
                 dataFlag = true;
                 let dataBuildEndTime = Date.now()
                 console.log(`api data build, from first request to finished data object, took ${dataBuildEndTime - dataBuildStartTime}ms`);
+                setTimeout(updateData, 43200000);
             });
         })
     })
