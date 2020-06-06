@@ -10,6 +10,9 @@
     <link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
+    <div class="fullscreenModal loading">
+        <h1>Loading...</h1>
+    </div>
     <header class="tabSelectHolder">
         <button class="tabSelect" tabID="itemSelect"><h3>Item Select</h3></button>
         <button class="tabSelect" tabID="relicInfo"><h3>Relic Info</h3></button>
@@ -62,10 +65,6 @@
         <!-- TODO: add footer with social information and PWA install button, maybe theme selection based on warframe UI themes -->
     </footer>
     <!-- TODO: add loading modal for both web and PWA use -->
-    <div class="fullscreenModal loading">
-        <div class="loadingSpinner"></div>
-        <h1>Loading...</h1>
-    </div>
     <template id="itemSelectionTemplate">
         <div class="itemSelection">
             <h2 class="itemName"></h2>
