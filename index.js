@@ -14,7 +14,20 @@ let dataBuildStartTime = Date.now();
 fs.open('./apiData.json', 'r+').then(file => {
     file.readFile({ encoding: 'utf8' }).then(fileString => {
         apiData = JSON.parse(fileString);
-        file.close();
+        if(Date.now() - apiData.fetchTime >= 43200000) {
+            getApiData().then(apiDataObject => {
+                apiData = apiDataObject;
+                file.write(JSON.stringify(apiDataObject)).then(() => {
+                    file.close()
+                })
+            })
+        }
+        else {
+            dataCheck.emit('dataLoaded');
+            dataFlag = true;
+            let dataBuildEndTime = Date.now()
+            console.log(`loading api data from file took ${dataBuildEndTime - dataBuildStartTime}ms`);
+        }
     })
 })
 .catch(err => {
@@ -22,19 +35,20 @@ fs.open('./apiData.json', 'r+').then(file => {
     fs.open('./apiData.json', 'w+').then(file => {
         console.log('file created, fetching API data from sources')
         getApiData().then(apiDataObject => {
+            console.log('API data retrieved and processed, making it available to clients')
             apiData = apiDataObject;
             console.log('writing API data to file');
             file.write(JSON.stringify(apiData)).then(() => {
                 file.close();
             })
+            .then(() => {
+                dataCheck.emit('dataLoaded');
+                dataFlag = true;
+                let dataBuildEndTime = Date.now()
+                console.log(`api data build, from first request to finished data object, took ${dataBuildEndTime - dataBuildStartTime}ms`);
+            });
         })
     })
-})
-.then(() => {
-    dataCheck.emit('dataLoaded');
-    dataFlag = true;
-    let dataBuildEndTime = Date.now()
-    console.log(`api data build, from first request to finished data object, took ${dataBuildEndTime - dataBuildStartTime}ms`);
 });
 
 app.use(express.static(`${__dirname}/static`));
