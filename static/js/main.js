@@ -387,6 +387,7 @@ fetch('/api/all/').then(response => response.json())
     bulidItemSelectors(json.melee);
 
     itemselectors.forEach(itemSelector => itemSelector.append())
+    document.querySelector('.fullscreenModal.loading').style.display = 'none';
 });
 
 const ITEM_SEARCH = document.querySelector('#itemSearch');
