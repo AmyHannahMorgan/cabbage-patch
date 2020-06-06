@@ -125,6 +125,21 @@ function getApiData() {
     })
 }
 
+function updateData() {
+    fs.open('./apiData.json', 'w')
+    .then(file => {
+        getApiData()
+        .then(apiDataObject => {
+            apiData = apiDataObject;
+            file.write(JSON.stringify(apiDataObject))
+            .then(() => {
+                file.close()
+                setTimeout(updateData, 43200000);
+            })
+        })
+    })
+}
+
 function filterPrimes(array) {
     let regex = /(?<!excalibur) prime/i;
     return array.filter(item => {
