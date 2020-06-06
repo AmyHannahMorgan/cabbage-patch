@@ -3,5 +3,15 @@
     "short_name": "Cabbage Patch",
     "start_url": ".",
     "display": "fullscreen",
-    "description": "Prime item farming helper for Warframe"
+    "description": "Prime item farming helper for Warframe",
+    "icons": [{
+        "src": "/assets/site assets/pwa-icons/cabbage-patch-icon-192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    },
+    {
+        "src": "/assets/site assets/pwa-icons/cabbage-patch-icon-512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }]
 }
