@@ -1,3 +1,4 @@
+const fs = require('fs').promises;
 const express = require('express');
 const eventEmitter = require('events');
 const axios = require('axios').default;
@@ -10,6 +11,17 @@ let apiData = {
 };
 let dataFlag = false
 let dataBuildStartTime = Date.now();
+fs.open('./apiData.json', 'r+').then(file => {
+    file.readFile({ encoding: 'utf8' }).then(fileString => {
+        apiData = JSON.parse(fileString);
+    })
+})
+.catch(err => {
+    console.log('no apiData file found, creating it');
+    fs.open('./apiData.json', 'w+').then(file => {
+        file.write('test');
+    })
+})
 axios.all([axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Warframes.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
     axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Secondary.json'),
