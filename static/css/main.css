@@ -46,6 +46,35 @@ main {
     min-height: 100vh;
 }
 
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    padding: 16px 0;
+
+    background: var(--bg-color-2);
+    border-top: solid medium var(--highlight-color-1);
+}
+
+footer > #socialMediaIcons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 32px;
+}
+
+footer > #socialMediaIcons img {
+    object-fit: contain;
+    width: 32px;
+    height: 32px;
+    margin: 0 6px;
+}
+
 button {
     background-color: var(--bg-color-1);
     border: thin solid var(--highlight-color-2);
@@ -442,4 +471,10 @@ button[collapsible-activator] > * {
         height: 1em;
     }
 
+}
+
+@media only screen and (display-type: fullscreen) {
+    footer {
+        display: none;
+    }
 }
