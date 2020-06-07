@@ -473,7 +473,7 @@ button[collapsible-activator] > * {
 
 }
 
-@media only screen and (display-type: fullscreen) {
+@media only screen and (display-mode: fullscreen) {
     footer {
         display: none;
     }
