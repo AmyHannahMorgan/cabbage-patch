@@ -49,3 +49,7 @@ or directly with node
 
 ## License
 This project is licensed under the GNU General Public License v3.0 - see [LICENSE.md](/LICENSE.md) for more information.
+
+## Acknowledgements
+- Cabbage Patch was inspired by the [Warframe Reliquary](https://wf.xuerian.net/)
+- Cabbage Patch heavily uses APIs created by the [Warframe Community Developers](https://github.com/WFCD)
