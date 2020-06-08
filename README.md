@@ -19,10 +19,10 @@ Below is a list of Cabbage Patch's features and planned features.
 # Getting Started
 Should you wish to host this site yourself, whether for development or personal use, follow the instructions below
 
-## Prerequisites
+### Prerequisites
 - Node.JS version 10.13.0 or later
 
-## Installing
+### Installing
 clone this repo
 
 ```git clone https://github.com/AmyHannahMorgan/cabbage-patch.git```
@@ -38,3 +38,11 @@ and lastly run the server through either npm
 or directly with node
 
 ```node index.js```
+
+## Built with
+- Node.JS
+- Express
+- Axios
+- [warframe-drop-data](https://github.com/WFCD/warframe-drop-data)
+- [warframe-items](https://github.com/WFCD/warframe-items)
+- Hosted on [Glitch](https://cabbagepatch.glitch.me/)
