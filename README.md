@@ -19,10 +19,10 @@ Below is a list of Cabbage Patch's features and planned features.
 # Getting Started
 Should you wish to host this site yourself, whether for development or personal use, follow the instructions below.
 
-### Prerequisites
+## Prerequisites
 - Node.JS version 10.13.0 or later
 
-### Installing
+## Installing
 clone this repo
 
 ```git clone https://github.com/AmyHannahMorgan/cabbage-patch.git```
@@ -39,7 +39,7 @@ or directly with node
 
 ```node index.js```
 
-## Built with
+# Built with
 - Node.JS
 - Express
 - Axios
@@ -47,9 +47,9 @@ or directly with node
 - [warframe-items](https://github.com/WFCD/warframe-items)
 - Hosted on [Glitch](https://cabbagepatch.glitch.me/)
 
-## License
+# License
 This project is licensed under the GNU General Public License v3.0 - see [LICENSE.md](/LICENSE.md) for more information.
 
-## Acknowledgements
+# Acknowledgements
 - Cabbage Patch was inspired by the [Warframe Reliquary](https://wf.xuerian.net/)
 - Cabbage Patch heavily uses APIs created by the [Warframe Community Developers](https://github.com/WFCD)
