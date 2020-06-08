@@ -17,7 +17,7 @@ fs.open('./apiData.json', 'r+').then(file => {
         if(Date.now() - apiData.fetchTime >= 43200000) {
             getApiData().then(apiDataObject => {
                 apiData = apiDataObject;
-                file.write(JSON.stringify(apiDataObject)).then(() => {
+                file.writeFile(JSON.stringify(apiDataObject), {encoding: 'utf8'}).then(() => {
                     file.close()
                     setTimeout(updateData, 43200000);
                 })
@@ -40,7 +40,7 @@ fs.open('./apiData.json', 'r+').then(file => {
             console.log('API data retrieved and processed, making it available to clients')
             apiData = apiDataObject;
             console.log('writing API data to file');
-            file.write(JSON.stringify(apiData)).then(() => {
+            file.writeFile(JSON.stringify(apiData, {encoding:'utf8'})).then(() => {
                 file.close();
             })
             .then(() => {
