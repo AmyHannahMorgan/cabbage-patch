@@ -48,7 +48,7 @@ or directly with node
 - Hosted on [Glitch](https://cabbagepatch.glitch.me/)
 
 # License
-This project is licensed under the GNU General Public License v3.0 - see [LICENSE.md](/LICENSE.md) for more information.
+This project is licensed under the GNU General Public License v3.0 - see [LICENSE](/LICENSE) for more information.
 
 # Acknowledgements
 - Cabbage Patch was inspired by the [Warframe Reliquary](https://wf.xuerian.net/)
