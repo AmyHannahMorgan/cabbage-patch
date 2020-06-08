@@ -17,7 +17,7 @@ Below is a list of Cabbage Patch's features and planned features.
 - [ ] Roughly calculate the amount of platinum a player could expect to make should they sell the undesired items they acrew while opening the ammount of relics calculated above.
 
 # Getting Started
-Should you wish to host this site yourself, whether for development or personal use, follow the instructions below
+Should you wish to host this site yourself, whether for development or personal use, follow the instructions below.
 
 ### Prerequisites
 - Node.JS version 10.13.0 or later
@@ -46,3 +46,6 @@ or directly with node
 - [warframe-drop-data](https://github.com/WFCD/warframe-drop-data)
 - [warframe-items](https://github.com/WFCD/warframe-items)
 - Hosted on [Glitch](https://cabbagepatch.glitch.me/)
+
+## License
+This project is licensed under the GNU General Public License v3.0 - see [LICENSE.md](/LICENSE.md) for more information.
