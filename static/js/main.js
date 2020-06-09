@@ -437,7 +437,9 @@ modeFilterArray.forEach(mode => {
     element.querySelector('input').name = mode;
     element.querySelector('input').id = `${mode}Filter`;
     element.querySelector('input').addEventListener('click', e => {
-        //put dropLocation filter method call here
+        dropLocations.forEach(location => {
+            location.filterType(e.target.name, !(e.target.checked));
+        })
     })
     element.querySelector('label').htmlFor = `${mode}Filter`;
 })
