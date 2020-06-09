@@ -405,6 +405,7 @@ fetch('/api/all/').then(response => response.json())
             })
         })
         element.querySelector('label').htmlFor = `${mode}Filter`;
+        element.querySelector('label').innerText = mode;
     })
     buildRelics(json.relics.available, relics);
     buildRelics(json.relics.vaulted, relics);
