@@ -393,12 +393,14 @@ fetch('/api/all/').then(response => response.json())
 const ITEM_SEARCH = document.querySelector('#itemSearch');
 const EXPAND_FILTERS_BUTTON = document.querySelector('#expandFiltersButton');
 const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
+const DROP_MODE_FILTERS = document.querySelector('#dropMissionFilters');
+const CHECKBOX_FILTER_TEMPLATE = document.querySelector('#filterSelectionTemplate').content.firstElementChild;
 
 ITEM_SEARCH.addEventListener('input', (e) => {
     itemselectors.forEach(itemSelector => {
         itemSelector.filter(ITEM_SEARCH.value); 
     })
-})
+});
 
 EXPAND_FILTERS_BUTTON.addEventListener('click', () => {
     ITEM_TYPE_FILTERS.classList.toggle('show');
@@ -415,6 +417,23 @@ for(let i = 0; i < ITEM_TYPE_FILTERS.children.length; i++) {
         })
     })
 }
+
+let modeFilterArray = []
+dropLocations.forEach(location => {
+    if(modeFilterArray.indexOf(location.mode) === -1) {
+        modeFilterArray.push(location.mode);
+    }
+});
+
+modeFilterArray.forEach(mode => {
+    let element = DROP_MODE_FILTERS.appendChild(CHECKBOX_FILTER_TEMPLATE.cloneNode(true));
+    element.querySelector('input').name = mode;
+    element.querySelector('input').id = `${mode}Filter`;
+    element.querySelector('input').addEventListener('click', e => {
+        //put dropLocation filter method call here
+    })
+    element.querySelector('label').htmlFor = `${mode}Filter`;
+})
 
 function bulidItemSelectors(array) {
     array.forEach(item => {
