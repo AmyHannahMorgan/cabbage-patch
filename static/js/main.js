@@ -378,6 +378,8 @@ const DROP_HOLDER = document.querySelector('#dropHolder');
 const DROP_DISPLAY_TEMPLATE = document.querySelector('#dropDisplayTemplate').content.firstElementChild;
 const DROP_ROTATION_TEMPLATE = document.querySelector('#dropRotationTemplate').content.firstElementChild;
 const DROP_ITEM_TEMPLATE = document.querySelector('#dropItemTemplate').content.firstElementChild;
+const DROP_MODE_FILTERS = document.querySelector('#dropMissionFilters');
+const CHECKBOX_FILTER_TEMPLATE = document.querySelector('#filterSelectionTemplate').content.firstElementChild;
 let itemselectors = [];
 let relics = [];
 let dropLocations = [];
@@ -386,6 +388,24 @@ fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
     buildDrops(json.drops, dropLocations, DROP_HOLDER, DROP_DISPLAY_TEMPLATE, DROP_ITEM_TEMPLATE, DROP_ROTATION_TEMPLATE);
+    let modeFilterArray = []
+    dropLocations.forEach(location => {
+        if(modeFilterArray.indexOf(location.mode) === -1) {
+            modeFilterArray.push(location.mode);
+        }
+    });
+
+    modeFilterArray.forEach(mode => {
+        let element = DROP_MODE_FILTERS.appendChild(CHECKBOX_FILTER_TEMPLATE.cloneNode(true));
+        element.querySelector('input').name = mode;
+        element.querySelector('input').id = `${mode}Filter`;
+        element.querySelector('input').addEventListener('click', e => {
+            dropLocations.forEach(location => {
+                location.filterType(e.target.name, !(e.target.checked));
+            })
+        })
+        element.querySelector('label').htmlFor = `${mode}Filter`;
+    })
     buildRelics(json.relics.available, relics);
     buildRelics(json.relics.vaulted, relics);
     bulidItemSelectors(json.warframes);
@@ -400,8 +420,6 @@ fetch('/api/all/').then(response => response.json())
 const ITEM_SEARCH = document.querySelector('#itemSearch');
 const EXPAND_FILTERS_BUTTON = document.querySelector('#expandFiltersButton');
 const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
-const DROP_MODE_FILTERS = document.querySelector('#dropMissionFilters');
-const CHECKBOX_FILTER_TEMPLATE = document.querySelector('#filterSelectionTemplate').content.firstElementChild;
 
 ITEM_SEARCH.addEventListener('input', (e) => {
     itemselectors.forEach(itemSelector => {
@@ -424,25 +442,6 @@ for(let i = 0; i < ITEM_TYPE_FILTERS.children.length; i++) {
         })
     })
 }
-
-let modeFilterArray = []
-dropLocations.forEach(location => {
-    if(modeFilterArray.indexOf(location.mode) === -1) {
-        modeFilterArray.push(location.mode);
-    }
-});
-
-modeFilterArray.forEach(mode => {
-    let element = DROP_MODE_FILTERS.appendChild(CHECKBOX_FILTER_TEMPLATE.cloneNode(true));
-    element.querySelector('input').name = mode;
-    element.querySelector('input').id = `${mode}Filter`;
-    element.querySelector('input').addEventListener('click', e => {
-        dropLocations.forEach(location => {
-            location.filterType(e.target.name, !(e.target.checked));
-        })
-    })
-    element.querySelector('label').htmlFor = `${mode}Filter`;
-})
 
 function bulidItemSelectors(array) {
     array.forEach(item => {
