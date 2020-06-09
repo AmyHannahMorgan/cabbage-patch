@@ -292,6 +292,13 @@ class DropLocation {
 
         return total / rotations.length;
     }
+
+    filterType(mode, filter) {
+        if(mode === this.type) {
+            if(filter) this.element.classList.add('filtered')
+            else this.element.classList.remove('filtered')
+        }
+    }
 }
 
 class TabHandler {
