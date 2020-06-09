@@ -57,6 +57,11 @@
             </div>
             <div id="dropCollapser" collapsible collapsible-transition>
                 <button collapsible-activator><h3>Drop Locations</h3> <h3 class="collapsedIndicator">+</h3></button>
+                <div id="dropFilterOptions">
+                    <div class="filterWrapper" id="dropMissionFilters">
+                        
+                    </div>
+                </div>
                 <div id="dropHolder" collapsible-content>
 
                 </div>
@@ -126,6 +131,12 @@
             <p class="itemName">Grakata</p>
             <p class="itemProbability">69%</p>
         </div>
+    </template>
+    <template id="filterSelectionTemplate">
+        <form class="selectionWrapper">
+            <input type="checkbox" name="{{itemType}}" id="{{itemType}}Filter" checked>
+            <label for="{{itemType}}Filter">{{itemType}}</label>
+        </form>
     </template>
     <script src="/js/main.js"></script>
     <script src="/js/collapsible.js"></script>
