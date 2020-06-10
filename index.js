@@ -14,22 +14,18 @@ let dataBuildStartTime = Date.now();
 fs.open('./apiData.json', 'r+').then(file => {
     file.readFile({ encoding: 'utf8' }).then(fileString => {
         apiData = JSON.parse(fileString);
-        if(Date.now() - apiData.fetchTime >= 43200000) {
-            getApiData().then(apiDataObject => {
-                apiData = apiDataObject;
-                file.writeFile(JSON.stringify(apiDataObject), {encoding: 'utf8'}).then(() => {
-                    file.close()
-                    setTimeout(updateData, 43200000);
-                })
-            })
-        }
-        else {
-            dataCheck.emit('dataLoaded');
-            dataFlag = true;
-            let dataBuildEndTime = Date.now()
-            console.log(`loading api data from file took ${dataBuildEndTime - dataBuildStartTime}ms`);
-            setTimeout(updateData, 43200000 - (Date.now() - apiData.fetchTime));
-        }
+        file.close().then(() => {
+            if(Date.now() - apiData.fetchTime >= 43200000) {
+                updateData();
+            }
+            else {
+                dataCheck.emit('dataLoaded');
+                dataFlag = true;
+                let dataBuildEndTime = Date.now()
+                console.log(`loading api data from file took ${dataBuildEndTime - dataBuildStartTime}ms`);
+                setTimeout(updateData, 43200000 - (Date.now() - apiData.fetchTime));
+            }
+        })
     })
 })
 .catch(err => {
@@ -129,7 +125,7 @@ function getApiData() {
 }
 
 function updateData() {
-    fs.open('./apiData.json', 'w')
+    fs.open('./apiData.json', 'w+')
     .then(file => {
         getApiData()
         .then(apiDataObject => {
