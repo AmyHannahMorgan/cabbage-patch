@@ -143,8 +143,8 @@ input[type="search"] {
     order: 2;
 }
 
-.itemSelection.filtered {
-    display: none;
+.itemSelection.filtered, .dropDisplay.filtered {
+    display: none !important;
 }
 
 .itemSelection > .itemName, .itemSelection > .vaultedStatus {
@@ -212,7 +212,6 @@ input[type="search"] {
     grid-template-columns: 50fr 50fr;
     
     width: 100%;
-    height: 100%;
 }
 
 .relicDisplay, .dropDisplay {
@@ -322,6 +321,10 @@ input[type="search"] {
 }
 
 .filterWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
     margin: 3px 0px;
 }
 /* IDs */
