@@ -134,7 +134,7 @@ function updateData() {
         getApiData()
         .then(apiDataObject => {
             apiData = apiDataObject;
-            file.write(JSON.stringify(apiDataObject))
+            file.writeFile(JSON.stringify(apiDataObject))
             .then(() => {
                 file.close()
                 setTimeout(updateData, 43200000);
