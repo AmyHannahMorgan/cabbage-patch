@@ -294,7 +294,7 @@ class DropLocation {
     }
 
     filterType(mode, filter) {
-        if(mode === this.type) {
+        if(mode === this.mode) {
             if(filter) this.element.classList.add('filtered')
             else this.element.classList.remove('filtered')
         }
