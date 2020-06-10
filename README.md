@@ -9,7 +9,7 @@ Below is a list of Cabbage Patch's features and planned features.
 - [x] Allow for the filtering of prime items based on name and/or type (warframe, primary, meele, etc.)
 - [x] Make site available offline through the use of a caching service worker.
 - [x] Make site available as a PWA.
-- [ ] Allow for drop locations to be filtered by mission type (capture, defense, sabotage, etc.)
+- [x] Allow for drop locations to be filtered by mission type (capture, defense, sabotage, etc.)
 - [ ] Add additonal prime items that were left out when the project was started (sentinels and forma)
 - [ ] Add some system to allow players to save and share their item wishlists
 - [ ] Calculate the expected number of relics a player would need to open to obtain the items they want as well as the ammount of void traces they would need to refine said relics.
