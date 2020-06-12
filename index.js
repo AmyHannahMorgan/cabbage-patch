@@ -178,13 +178,6 @@ function splitRelics(array) {
         else obj.vaulted.push(array[i]);
     }
 
-    // array.forEach(relic => {
-    //     if(relic.hasOwnProperty('drops')) {
-    //         obj.available.push(relic);
-    //     }
-    //     else obj.vaulted.push(relic);
-    // });
-
     return obj;
 }
 
@@ -201,16 +194,6 @@ function reduceItems(itemArray) {
 
         newArray.push(obj);
     }
-    // itemArray.forEach(item => {
-    //     let obj = {};
-    //     obj.name = item.name;
-    //     obj.components = reduceComponents(filterComponents(item.components));
-    //     obj.imageName = item.imageName;
-    //     obj.vaulted = item.hasOwnProperty('vaulted') ? item.vaulted : false;
-    //     obj.type = item.category.toLowerCase();
-
-    //     newArray.push(obj);
-    // });
 
     return newArray;
 }
@@ -233,14 +216,7 @@ function reduceComponents(componentsArray) {
 
         newArray.push(obj);
     }
-    // componentsArray.forEach(component => {
-    //     let obj = {};
-    //     obj.name = component.name;
-    //     obj.ducats = component.ducats;
-    //     obj.drops = consolidateDrops(component.drops);
 
-    //     newArray.push(obj);
-    // });
     return newArray;
 }
 
@@ -261,19 +237,7 @@ function reduceRewards(rewardsObject) {
             }
         }
     }
-    // Object.keys(rewardsObject).forEach(system => {
-    //     Object.keys(rewardsObject[system]).forEach(node => {
-    //         if(!rewardsObject[system][node].isEvent) {
-    //             let obj = {
-    //                 system: system,
-    //                 node: node,
-    //                 mode: rewardsObject[system][node].gameMode,
-    //                 rewards: filterRewards(rewardsObject[system][node].rewards)
-    //             }
-    //             returnArray.push(obj);
-    //         }
-    //     })
-    // })
+
     return returnArray;
 }
 
@@ -293,12 +257,7 @@ function filterRewards(rewardParam) {
                 return regex.test(reward.itemName);
             })
         }
-        // Object.keys(rewardParam).forEach(rotation => {
-        //     returnObject[rotation] = rewardParam[rotation].filter(reward => {
-        //         let regex = /\brelic\b/i;
-        //         return regex.test(reward.itemName);
-        //     })
-        // });
+
         return returnObject;
     }
 }
