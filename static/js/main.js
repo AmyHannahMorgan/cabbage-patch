@@ -413,6 +413,7 @@ fetch('/api/all/').then(response => response.json())
     bulidItemSelectors(json.primary);
     bulidItemSelectors(json.secondary);
     bulidItemSelectors(json.melee);
+    bulidItemSelectors(json.sentinels);
 
     itemselectors.forEach(itemSelector => itemSelector.append())
     document.querySelector('.fullscreenModal.loading').style.display = 'none';

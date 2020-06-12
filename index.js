@@ -1,3 +1,4 @@
+//TODO: create own web scraper to fetch prime drop data due to certain missing or poorly formatted items in APIs
 const fs = require('fs').promises;
 const express = require('express');
 const eventEmitter = require('events');
@@ -88,6 +89,15 @@ app.get('/api/melee', (req, res) => {
     }
 });
 
+app.get('/api/sentinel', (req, res) => {
+    if(dataFlag) res.send(apiData.sentinels)
+    else {
+        dataCheck.addListener('dataLoaded', () => {
+            res.send(apiData.sentinels)
+        })
+    }
+});
+
 app.get('/api/all', (req, res) => {
     if(dataFlag) res.send(apiData)
     else {
@@ -107,14 +117,16 @@ function getApiData() {
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Secondary.json'),
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Melee.json'),
+            axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Sentinels.json'),
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Relics.json'),
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-drop-data/gh-pages/data/missionRewards.json')])
-        .then(axios.spread((warframes, primaries, secondaries, melee, relics, missionRewards) => {
+        .then(axios.spread((warframes, primaries, secondaries, melee, sentinels, relics, missionRewards) => {
             console.log(`Loading all api dependanceies took ${Date.now() - dataBuildStartTime}ms`);
             obj.warframes = reduceItems(filterPrimes(warframes.data));
             obj.primary = reduceItems(filterPrimes(primaries.data));
             obj.secondary = reduceItems(filterPrimes(secondaries.data));
             obj.melee = reduceItems(filterPrimes(melee.data));
+            obj.sentinels = reduceItems(filterPrimes(sentinels.data));
             obj.relics = splitRelics(filterRelics(relics.data));
             obj.drops = reduceRewards(missionRewards.data.missionRewards);
             obj.fetchTime = Date.now();
@@ -204,7 +216,7 @@ function reduceItems(itemArray) {
 }
 
 function filterComponents(componentsArray) {
-    let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link|blade|gauntlet|handle|ornament|chain|pouch|stars/i;
+    let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link|blade|gauntlet|handle|ornament|chain|pouch|stars|carapace|cerebrum|head|guard|hilt|disc|boot/i;
     return componentsArray.filter(component => {
         return regex.test(component.name);
     })
