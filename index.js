@@ -52,6 +52,14 @@ fs.open('./apiData.json', 'r+').then(file => {
 });
 
 app.use(express.static(`${__dirname}/static`));
+app.use('/api', (req, res, next) => {
+    if(dataFlag) next();
+    else {
+        dataCheck.addEventListener('dataLoaded', () => {
+            next();
+        }, {once: true});
+    }
+})
 
 app.get('/api/:category', (req, res) => {
     if(req.params.category === 'all') res.send(apiData);
