@@ -53,58 +53,10 @@ fs.open('./apiData.json', 'r+').then(file => {
 
 app.use(express.static(`${__dirname}/static`));
 
-app.get('/api/warframes', (req, res) => {
-    if(dataFlag) res.send(apiData.warframes)
-    else {
-        dataCheck.addListener('dataLoaded', () => {
-            res.send(apiData.warframes)
-        })
-    }
-});
-
-app.get('/api/primary', (req, res) => {
-    if(dataFlag) res.send(apiData.primary)
-    else {
-        dataCheck.addListener('dataLoaded', () => {
-            res.send(apiData.primary)
-        })
-    }
-});
-
-app.get('/api/secondary', (req, res) => {
-    if(dataFlag) res.send(apiData.secondary)
-    else {
-        dataCheck.addListener('dataLoaded', () => {
-            res.send(apiData.secondary)
-        })
-    }
-});
-
-app.get('/api/melee', (req, res) => {
-    if(dataFlag) res.send(apiData.melee)
-    else {
-        dataCheck.addListener('dataLoaded', () => {
-            res.send(apiData.melee)
-        })
-    }
-});
-
-app.get('/api/sentinel', (req, res) => {
-    if(dataFlag) res.send(apiData.sentinels)
-    else {
-        dataCheck.addListener('dataLoaded', () => {
-            res.send(apiData.sentinels)
-        })
-    }
-});
-
-app.get('/api/all', (req, res) => {
-    if(dataFlag) res.send(apiData)
-    else {
-        dataCheck.addListener('dataLoaded', () => {
-            res.send(apiData)
-        })
-    }
+app.get('/api/:category', (req, res) => {
+    if(req.params.category === 'all') res.send(apiData);
+    else if(apiData.hasOwnProperty(req.params.category)) res.send(apiData[req.params.category])
+    else res.status(404).send('No such category exists');
 })
 
 app.listen(port);
