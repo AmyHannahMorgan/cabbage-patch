@@ -379,6 +379,7 @@ const DROP_DISPLAY_TEMPLATE = document.querySelector('#dropDisplayTemplate').con
 const DROP_ROTATION_TEMPLATE = document.querySelector('#dropRotationTemplate').content.firstElementChild;
 const DROP_ITEM_TEMPLATE = document.querySelector('#dropItemTemplate').content.firstElementChild;
 const DROP_MODE_FILTERS = document.querySelector('#dropMissionFilters');
+const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
 const CHECKBOX_FILTER_TEMPLATE = document.querySelector('#filterSelectionTemplate').content.firstElementChild;
 let itemselectors = [];
 let relics = [];
@@ -397,6 +398,7 @@ fetch('/api/all/').then(response => response.json())
     bulidItemSelectors(json.secondary);
     bulidItemSelectors(json.melee);
     bulidItemSelectors(json.sentinels);
+    buildFilterElements(findUniqueValues(itemselectors, 'type'), itemselectors, ITEM_TYPE_FILTERS, CHECKBOX_FILTER_TEMPLATE)
 
     itemselectors.forEach(itemSelector => itemSelector.append())
     document.querySelector('.fullscreenModal.loading').style.display = 'none';
@@ -404,7 +406,6 @@ fetch('/api/all/').then(response => response.json())
 
 const ITEM_SEARCH = document.querySelector('#itemSearch');
 const EXPAND_FILTERS_BUTTON = document.querySelector('#expandFiltersButton');
-const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
 
 ITEM_SEARCH.addEventListener('input', (e) => {
     itemselectors.forEach(itemSelector => {
@@ -419,14 +420,6 @@ EXPAND_FILTERS_BUTTON.addEventListener('click', () => {
     EXPAND_FILTERS_BUTTON.innerText = EXPAND_FILTERS_BUTTON.getAttribute('toggle-text');
     EXPAND_FILTERS_BUTTON.setAttribute('toggle-text', toggleText);
 });
-
-for(let i = 0; i < ITEM_TYPE_FILTERS.children.length; i++) {
-    ITEM_TYPE_FILTERS.children[i].querySelector('input').addEventListener('click', (e) => {
-        itemselectors.forEach(itemSelector => {
-            itemSelector.filterType(e.target.name, !(e.target.checked));
-        })
-    })
-}
 
 function bulidItemSelectors(array) {
     array.forEach(item => {
