@@ -388,14 +388,8 @@ fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
     buildDrops(json.drops, dropLocations, DROP_HOLDER, DROP_DISPLAY_TEMPLATE, DROP_ITEM_TEMPLATE, DROP_ROTATION_TEMPLATE);
-    let modeFilterArray = []
-    dropLocations.forEach(location => {
-        if(modeFilterArray.indexOf(location.mode) === -1) {
-            modeFilterArray.push(location.mode);
-        }
-    });
-
-    modeFilterArray.forEach(mode => {
+    
+    findUniqueValues(dropLocations, 'mode').forEach(mode => {
         let element = DROP_MODE_FILTERS.appendChild(CHECKBOX_FILTER_TEMPLATE.cloneNode(true));
         element.querySelector('input').name = mode;
         element.querySelector('input').id = `${mode}Filter`;
@@ -407,6 +401,7 @@ fetch('/api/all/').then(response => response.json())
         element.querySelector('label').htmlFor = `${mode}Filter`;
         element.querySelector('label').innerText = mode;
     })
+    
     buildRelics(json.relics.available, relics);
     buildRelics(json.relics.vaulted, relics);
     bulidItemSelectors(json.warframes);
@@ -475,4 +470,13 @@ function buildDrops(dropArray, outputArray, outputElement, dropDisplayTemplate, 
     dropArray.forEach(drop => {
         outputArray.push(new DropLocation(drop, outputElement, dropDisplayTemplate, dropItemTemplate, dropRotationTemplate));
     });
+}
+
+function findUniqueValues(array, propertyName) {
+    let uniques = [];
+    array.forEach(item => {
+        if(uniques.indexOf(item[propertyName]) === -1) uniques.push(item[propertyName])
+    });
+
+    return uniques
 }
