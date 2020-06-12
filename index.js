@@ -89,6 +89,15 @@ app.get('/api/melee', (req, res) => {
     }
 });
 
+app.get('/api/sentinel', (req, res) => {
+    if(dataFlag) res.send(apiData.sentinels)
+    else {
+        dataCheck.addListener('dataLoaded', () => {
+            res.send(apiData.sentinels)
+        })
+    }
+});
+
 app.get('/api/all', (req, res) => {
     if(dataFlag) res.send(apiData)
     else {
