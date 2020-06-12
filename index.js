@@ -206,7 +206,7 @@ function reduceItems(itemArray) {
 }
 
 function filterComponents(componentsArray) {
-    let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link|blade|gauntlet|handle|ornament|chain|pouch|stars|carapace|cerebrum/i;
+    let regex = /blueprint|chassis|neuroptics|systems|barrel|stock|receiver|grip|string|lower limb|upper limb|link|blade|gauntlet|handle|ornament|chain|pouch|stars|carapace|cerebrum|head|guard|hilt|disc|boot/i;
     return componentsArray.filter(component => {
         return regex.test(component.name);
     })
