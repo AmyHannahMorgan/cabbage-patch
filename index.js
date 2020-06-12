@@ -107,14 +107,16 @@ function getApiData() {
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Primary.json'),
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Secondary.json'),
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Melee.json'),
+            axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Sentinels.json'),
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Relics.json'),
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-drop-data/gh-pages/data/missionRewards.json')])
-        .then(axios.spread((warframes, primaries, secondaries, melee, relics, missionRewards) => {
+        .then(axios.spread((warframes, primaries, secondaries, melee, sentinels, relics, missionRewards) => {
             console.log(`Loading all api dependanceies took ${Date.now() - dataBuildStartTime}ms`);
             obj.warframes = reduceItems(filterPrimes(warframes.data));
             obj.primary = reduceItems(filterPrimes(primaries.data));
             obj.secondary = reduceItems(filterPrimes(secondaries.data));
             obj.melee = reduceItems(filterPrimes(melee.data));
+            obj.sentinels = reduceItems(filterPrimes(sentinels.data));
             obj.relics = splitRelics(filterRelics(relics.data));
             obj.drops = reduceRewards(missionRewards.data.missionRewards);
             obj.fetchTime = Date.now();
