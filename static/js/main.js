@@ -388,20 +388,8 @@ fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
     buildDrops(json.drops, dropLocations, DROP_HOLDER, DROP_DISPLAY_TEMPLATE, DROP_ITEM_TEMPLATE, DROP_ROTATION_TEMPLATE);
-    
-    findUniqueValues(dropLocations, 'mode').forEach(mode => {
-        let element = DROP_MODE_FILTERS.appendChild(CHECKBOX_FILTER_TEMPLATE.cloneNode(true));
-        element.querySelector('input').name = mode;
-        element.querySelector('input').id = `${mode}Filter`;
-        element.querySelector('input').addEventListener('click', e => {
-            dropLocations.forEach(location => {
-                location.filterType(e.target.name, !(e.target.checked));
-            })
-        })
-        element.querySelector('label').htmlFor = `${mode}Filter`;
-        element.querySelector('label').innerText = mode;
-    })
-    
+    buildFilterElements(findUniqueValues(dropLocations, 'mode'), dropLocations, DROP_MODE_FILTERS, CHECKBOX_FILTER_TEMPLATE);
+
     buildRelics(json.relics.available, relics);
     buildRelics(json.relics.vaulted, relics);
     bulidItemSelectors(json.warframes);
@@ -479,4 +467,19 @@ function findUniqueValues(array, propertyName) {
     });
 
     return uniques
+}
+
+function buildFilterElements(uniqueValueArray, filterableObjectArray, outputElement, filterTemplateElement) {
+    uniqueValueArray.forEach(value => {
+        let element = outputElement.appendChild(filterTemplateElement.cloneNode(true));
+        element.querySelector('input').name = value;
+        element.querySelector('input').id = `${value}Filter`;
+        element.querySelector('input').addEventListener('click', e => {
+            filterableObjectArray.forEach(Object => {
+                Object.filterType(e.target.name, !(e.target.checked));
+            })
+        })
+        element.querySelector('label').htmlFor = `${value}Filter`;
+        element.querySelector('label').innerText = value;
+    })
 }
