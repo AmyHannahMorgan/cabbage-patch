@@ -1,6 +1,35 @@
 const fs = require('fs').promises;
 const axios = require('axios');
 
+function openApiDataFile(filePath) {
+    return new Promise((res, rej) => {
+        fs.open(filePath, 'r+').then(file => {
+            file.readFile({ encoding: 'utf8' }).then(fileString => {
+                file.close().then(() => {
+                    res(JSON.parse(fileString))
+                })
+            })
+        })
+        .catch(err => {
+            console.log('no apiData file found, creating it');
+            fs.open(filePath, 'w+').then(file => {
+                console.log('file created, fetching API data from sources')
+                getApiData().then(apiDataObject => {
+                    console.log('writing API data to file');
+                    file.writeFile(JSON.stringify(apiDataObject, {encoding:'utf8'})).then(() => {
+                        file.close().then(() => {
+                            res(apiDataObject);
+                        })
+                    })
+                })
+            })
+            .catch(err => {
+                rej(err);
+            })
+        });
+    })
+}
+
 function getApiData() {
     return new Promise((res, rej) => {
         let obj = {}
@@ -205,5 +234,5 @@ function consolidateDrops(dropsArray) {
 }
 
 module.exports = {
-
+    open: openApiDataFile
 };
