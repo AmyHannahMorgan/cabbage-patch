@@ -11,9 +11,18 @@ let apiData = {
 };
 let dataFlag = false
 dataFunctions.open('./apiData.json').then(apiDataObject => {
-    apiData = apiDataObject;
-    dataCheck.emit('dataLoaded');
-    dataFlag = true;
+    if(Date.now() - apiDataObject.fetchTime < 43200000) {
+        apiData = apiDataObject;
+        dataCheck.emit('dataLoaded');
+        dataFlag = true;
+    }
+    else {
+        dataFunctions.updateData('./apiData.json').then(apiDataObject => {
+            apiData = apiDataObject;
+            dataCheck.emit('dataLoaded');
+            dataFlag = true;
+        })
+    }
 });
 
 app.use(express.static(`${__dirname}/static`));
