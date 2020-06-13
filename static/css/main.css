@@ -327,6 +327,18 @@ input[type="search"] {
     justify-content: space-around;
     margin: 3px 0px;
 }
+
+.selectionWrapper {
+    display: flex;
+    align-items: center;
+    font-size: 1.33em;
+    margin: 0px 3px;
+}
+
+.selectionWrapper > input {
+    width: 2em;
+    height: 2em;
+}
 /* IDs */
 #itemHolder, #relicInfo, #itemSelect, #relicHolder, #dropHolder {
     flex-direction: column;
@@ -377,18 +389,6 @@ input[type="search"] {
 
 #itemTypeFilters.show {
     display: flex;
-}
-
-#itemTypeFilters > .selectionWrapper {
-    display: flex;
-    align-items: center;
-    font-size: 1.33em;
-    margin: 0 3px;
-}
-
-#itemTypeFilters > .selectionWrapper > input {
-    width: 2em;
-    height: 2em;
 }
 
 #dropCollapser {
@@ -473,11 +473,11 @@ button[collapsible-activator] > * {
         height: auto;
     }
 
-    #itemTypeFilters > .selectionWrapper {
+    .selectionWrapper {
         font-size: 1em;
     }
 
-    #itemTypeFilters > .selectionWrapper > input {
+    .selectionWrapper > input {
         width: 1em;
         height: 1em;
     }
