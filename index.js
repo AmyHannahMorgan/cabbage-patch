@@ -44,17 +44,9 @@ app.get('/api/:category', (req, res) => {
 app.listen(port);
 console.log(`listening on port ${port}`);
 
-function updateData() {
-    fs.open('./apiData.json', 'w+')
-    .then(file => {
-        getApiData()
-        .then(apiDataObject => {
-            apiData = apiDataObject;
-            file.writeFile(JSON.stringify(apiDataObject))
-            .then(() => {
-                file.close()
-                setTimeout(updateData, 43200000);
-            })
-        })
+function updateDataAtInterval() {
+    dataFunctions.update('./apiData.json').then(apiDataObject => {
+        apiData = apiDataObject;
+        setTimeout(updateDataAtInterval, 43200000);
     })
 }
