@@ -1,5 +1,26 @@
-class ItemSelector {
+class FilterableItem {
+    filter(string, propertyName) {
+        if(string.length > 0) {
+            let regexp = new RegExp(string, 'i');
+            if(!regexp.test(this[propertyName])) {
+                this.element.classList.add('filtered');
+            }
+            else this.element.classList.remove('filtered');
+        }
+        else this.element.classList.remove('filtered');
+    }
+
+    filterType(type, filter, propertyName) {
+        if(type === this[propertyName]) {
+            if(filter) this.element.classList.add('filtered')
+            else this.element.classList.remove('filtered')
+        }
+    }
+}
+
+class ItemSelector{
     constructor(item) {
+        super();
         this.itemName = item.name;
         this.components = this.buildComponents(item.components);
         this.vaulted = item.vaulted;
@@ -389,7 +410,7 @@ fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
     buildDrops(json.drops, dropLocations, DROP_HOLDER, DROP_DISPLAY_TEMPLATE, DROP_ITEM_TEMPLATE, DROP_ROTATION_TEMPLATE);
-    buildFilterElements(findUniqueValues(dropLocations, 'mode'), dropLocations, DROP_MODE_FILTERS, CHECKBOX_FILTER_TEMPLATE);
+    buildFilterElements('mode', findUniqueValues(dropLocations, 'mode'), dropLocations, DROP_MODE_FILTERS, CHECKBOX_FILTER_TEMPLATE);
 
     buildRelics(json.relics.available, relics);
     buildRelics(json.relics.vaulted, relics);
@@ -398,7 +419,7 @@ fetch('/api/all/').then(response => response.json())
     bulidItemSelectors(json.secondary);
     bulidItemSelectors(json.melee);
     bulidItemSelectors(json.sentinels);
-    buildFilterElements(findUniqueValues(itemselectors, 'type'), itemselectors, ITEM_TYPE_FILTERS, CHECKBOX_FILTER_TEMPLATE)
+    buildFilterElements('type', findUniqueValues(itemselectors, 'type'), itemselectors, ITEM_TYPE_FILTERS, CHECKBOX_FILTER_TEMPLATE)
 
     itemselectors.forEach(itemSelector => itemSelector.append())
     document.querySelector('.fullscreenModal.loading').style.display = 'none';
@@ -409,7 +430,7 @@ const EXPAND_FILTERS_BUTTON = document.querySelector('#expandFiltersButton');
 
 ITEM_SEARCH.addEventListener('input', (e) => {
     itemselectors.forEach(itemSelector => {
-        itemSelector.filter(ITEM_SEARCH.value); 
+        itemSelector.filter(ITEM_SEARCH.value, 'itemName'); 
     })
 });
 
@@ -462,14 +483,14 @@ function findUniqueValues(array, propertyName) {
     return uniques
 }
 
-function buildFilterElements(uniqueValueArray, filterableObjectArray, outputElement, filterTemplateElement) {
+function buildFilterElements(propertyName, uniqueValueArray, filterableObjectArray, outputElement, filterTemplateElement) {
     uniqueValueArray.forEach(value => {
         let element = outputElement.appendChild(filterTemplateElement.cloneNode(true));
         element.querySelector('input').name = value;
         element.querySelector('input').id = `${value}Filter`;
         element.querySelector('input').addEventListener('click', e => {
             filterableObjectArray.forEach(Object => {
-                Object.filterType(e.target.name, !(e.target.checked));
+                Object.filterType(e.target.name, !(e.target.checked), propertyName);
             })
         })
         element.querySelector('label').htmlFor = `${value}Filter`;
