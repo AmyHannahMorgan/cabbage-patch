@@ -1,3 +1,5 @@
+const fs = require('fs').promises;
+
 function getApiData() {
     return new Promise((res, rej) => {
         let obj = {}
