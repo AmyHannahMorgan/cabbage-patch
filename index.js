@@ -15,12 +15,14 @@ dataFunctions.open('./apiData.json').then(apiDataObject => {
         apiData = apiDataObject;
         dataCheck.emit('dataLoaded');
         dataFlag = true;
+        setTimeout(updateDataAtInterval, 43200000 - (Date.now() - apiData.fetchTime));
     }
     else {
         dataFunctions.updateData('./apiData.json').then(apiDataObject => {
             apiData = apiDataObject;
             dataCheck.emit('dataLoaded');
             dataFlag = true;
+            setTimeout(updateDataAtInterval, 43200000);
         })
     }
 });
