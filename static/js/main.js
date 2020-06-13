@@ -18,7 +18,7 @@ class FilterableItem {
     }
 }
 
-class ItemSelector{
+class ItemSelector extends FilterableItem{
     constructor(item) {
         super();
         this.itemName = item.name;
@@ -51,24 +51,6 @@ class ItemSelector{
             array.push(new Component(component, this.itemName, relics));
         })
         return array;
-    }
-
-    filter(string) {
-        if(string.length > 0) {
-            let regexp = new RegExp(string, 'i');
-            if(!regexp.test(this.itemName)) {
-                this.element.classList.add('filtered');
-            }
-            else this.element.classList.remove('filtered');
-        }
-        else this.element.classList.remove('filtered');
-    }
-
-    filterType(itemType, filter) {
-        if(itemType === this.type) {
-            if(filter) this.element.classList.add('filtered')
-            else this.element.classList.remove('filtered')
-        }
     }
 
     append() {
