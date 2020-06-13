@@ -180,8 +180,9 @@ class Relic {
     }
 }
 
-class DropLocation {
+class DropLocation extends FilterableItem {
     constructor(dropObject, dropContainerElement, dropElementTemplate, dropItemTemplate, dropRotationTemplate) {
+        super();
         this.system = dropObject.system;
         this.node = dropObject.node;
         this.fullName = `${this.system} - ${this.node}`;
@@ -294,13 +295,6 @@ class DropLocation {
         }, 0);
 
         return total / rotations.length;
-    }
-
-    filterType(mode, filter) {
-        if(mode === this.mode) {
-            if(filter) this.element.classList.add('filtered')
-            else this.element.classList.remove('filtered')
-        }
     }
 }
 
