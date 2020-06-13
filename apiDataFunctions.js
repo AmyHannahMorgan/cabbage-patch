@@ -30,6 +30,25 @@ function openApiDataFile(filePath) {
     })
 }
 
+function updateDataFile(filePath) {
+    return new Promise((res, rej) => {
+        fs.open(filePath, 'w+')
+        .then(file => {
+            getApiData()
+            .then(apiDataObject => {
+                file.writeFile(JSON.stringify(apiDataObject))
+                .then(() => {
+                    file.close()
+                    .then(() => {
+                        res(apiDataObject);
+                    });
+                });
+            });
+        })
+        .catch(err => rej(err));
+    });
+}
+
 function getApiData() {
     return new Promise((res, rej) => {
         let obj = {}
@@ -234,5 +253,6 @@ function consolidateDrops(dropsArray) {
 }
 
 module.exports = {
-    open: openApiDataFile
+    open: openApiDataFile,
+    update: updateDataFile
 };
