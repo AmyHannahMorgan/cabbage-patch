@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const axios = require('axios');
 
 function getApiData() {
     return new Promise((res, rej) => {
