@@ -60,7 +60,6 @@ function getApiData() {
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-items/development/data/json/Relics.json'),
             axios.get('https://raw.githubusercontent.com/WFCD/warframe-drop-data/gh-pages/data/missionRewards.json')])
         .then(axios.spread((warframes, primaries, secondaries, melee, sentinels, relics, missionRewards) => {
-            console.log(`Loading all api dependanceies took ${Date.now() - dataBuildStartTime}ms`);
             obj.warframes = reduceItems(filterPrimes(warframes.data));
             obj.primary = reduceItems(filterPrimes(primaries.data));
             obj.secondary = reduceItems(filterPrimes(secondaries.data));
@@ -114,7 +113,7 @@ function reduceItems(itemArray) {
         obj.components = reduceComponents(filterComponents(item.components));
         obj.imageName = item.imageName;
         obj.vaulted = item.hasOwnProperty('vaulted') ? item.vaulted : false;
-        obj.type = item.category.toLowerCase();
+        obj.type = item.category;
 
         newArray.push(obj);
     }
