@@ -407,13 +407,6 @@ button[collapsible-activator] > * {
     margin: 0 3px;
 }
 
-*[collapsible-content] {
-    overflow: hidden;
-    height: 0px;
-
-    transition: height 0.25s ease;
-}
-
 /* media */
 @media only screen and (min-width: 450px) {
     #itemHolder, #relicHolder, #dropHolder {
