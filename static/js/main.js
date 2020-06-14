@@ -1,5 +1,26 @@
-class ItemSelector {
+class FilterableItem {
+    filter(string, propertyName) {
+        if(string.length > 0) {
+            let regexp = new RegExp(string, 'i');
+            if(!regexp.test(this[propertyName])) {
+                this.element.classList.add('filtered');
+            }
+            else this.element.classList.remove('filtered');
+        }
+        else this.element.classList.remove('filtered');
+    }
+
+    filterType(type, filter, propertyName) {
+        if(type === this[propertyName]) {
+            if(filter) this.element.classList.add('filtered')
+            else this.element.classList.remove('filtered')
+        }
+    }
+}
+
+class ItemSelector extends FilterableItem{
     constructor(item) {
+        super();
         this.itemName = item.name;
         this.components = this.buildComponents(item.components);
         this.vaulted = item.vaulted;
@@ -30,24 +51,6 @@ class ItemSelector {
             array.push(new Component(component, this.itemName, relics));
         })
         return array;
-    }
-
-    filter(string) {
-        if(string.length > 0) {
-            let regexp = new RegExp(string, 'i');
-            if(!regexp.test(this.itemName)) {
-                this.element.classList.add('filtered');
-            }
-            else this.element.classList.remove('filtered');
-        }
-        else this.element.classList.remove('filtered');
-    }
-
-    filterType(itemType, filter) {
-        if(itemType === this.type) {
-            if(filter) this.element.classList.add('filtered')
-            else this.element.classList.remove('filtered')
-        }
     }
 
     append() {
@@ -177,8 +180,9 @@ class Relic {
     }
 }
 
-class DropLocation {
+class DropLocation extends FilterableItem {
     constructor(dropObject, dropContainerElement, dropElementTemplate, dropItemTemplate, dropRotationTemplate) {
+        super();
         this.system = dropObject.system;
         this.node = dropObject.node;
         this.fullName = `${this.system} - ${this.node}`;
@@ -292,13 +296,6 @@ class DropLocation {
 
         return total / rotations.length;
     }
-
-    filterType(mode, filter) {
-        if(mode === this.mode) {
-            if(filter) this.element.classList.add('filtered')
-            else this.element.classList.remove('filtered')
-        }
-    }
 }
 
 class TabHandler {
@@ -379,6 +376,7 @@ const DROP_DISPLAY_TEMPLATE = document.querySelector('#dropDisplayTemplate').con
 const DROP_ROTATION_TEMPLATE = document.querySelector('#dropRotationTemplate').content.firstElementChild;
 const DROP_ITEM_TEMPLATE = document.querySelector('#dropItemTemplate').content.firstElementChild;
 const DROP_MODE_FILTERS = document.querySelector('#dropMissionFilters');
+const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
 const CHECKBOX_FILTER_TEMPLATE = document.querySelector('#filterSelectionTemplate').content.firstElementChild;
 let itemselectors = [];
 let relics = [];
@@ -388,25 +386,8 @@ fetch('/api/all/').then(response => response.json())
 .then(json => {
     console.log(json);
     buildDrops(json.drops, dropLocations, DROP_HOLDER, DROP_DISPLAY_TEMPLATE, DROP_ITEM_TEMPLATE, DROP_ROTATION_TEMPLATE);
-    let modeFilterArray = []
-    dropLocations.forEach(location => {
-        if(modeFilterArray.indexOf(location.mode) === -1) {
-            modeFilterArray.push(location.mode);
-        }
-    });
+    buildFilterElements('mode', findUniqueValues(dropLocations, 'mode'), dropLocations, DROP_MODE_FILTERS, CHECKBOX_FILTER_TEMPLATE);
 
-    modeFilterArray.forEach(mode => {
-        let element = DROP_MODE_FILTERS.appendChild(CHECKBOX_FILTER_TEMPLATE.cloneNode(true));
-        element.querySelector('input').name = mode;
-        element.querySelector('input').id = `${mode}Filter`;
-        element.querySelector('input').addEventListener('click', e => {
-            dropLocations.forEach(location => {
-                location.filterType(e.target.name, !(e.target.checked));
-            })
-        })
-        element.querySelector('label').htmlFor = `${mode}Filter`;
-        element.querySelector('label').innerText = mode;
-    })
     buildRelics(json.relics.available, relics);
     buildRelics(json.relics.vaulted, relics);
     bulidItemSelectors(json.warframes);
@@ -414,6 +395,7 @@ fetch('/api/all/').then(response => response.json())
     bulidItemSelectors(json.secondary);
     bulidItemSelectors(json.melee);
     bulidItemSelectors(json.sentinels);
+    buildFilterElements('type', findUniqueValues(itemselectors, 'type'), itemselectors, ITEM_TYPE_FILTERS, CHECKBOX_FILTER_TEMPLATE)
 
     itemselectors.forEach(itemSelector => itemSelector.append())
     document.querySelector('.fullscreenModal.loading').style.display = 'none';
@@ -421,11 +403,10 @@ fetch('/api/all/').then(response => response.json())
 
 const ITEM_SEARCH = document.querySelector('#itemSearch');
 const EXPAND_FILTERS_BUTTON = document.querySelector('#expandFiltersButton');
-const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
 
 ITEM_SEARCH.addEventListener('input', (e) => {
     itemselectors.forEach(itemSelector => {
-        itemSelector.filter(ITEM_SEARCH.value); 
+        itemSelector.filter(ITEM_SEARCH.value, 'itemName'); 
     })
 });
 
@@ -436,14 +417,6 @@ EXPAND_FILTERS_BUTTON.addEventListener('click', () => {
     EXPAND_FILTERS_BUTTON.innerText = EXPAND_FILTERS_BUTTON.getAttribute('toggle-text');
     EXPAND_FILTERS_BUTTON.setAttribute('toggle-text', toggleText);
 });
-
-for(let i = 0; i < ITEM_TYPE_FILTERS.children.length; i++) {
-    ITEM_TYPE_FILTERS.children[i].querySelector('input').addEventListener('click', (e) => {
-        itemselectors.forEach(itemSelector => {
-            itemSelector.filterType(e.target.name, !(e.target.checked));
-        })
-    })
-}
 
 function bulidItemSelectors(array) {
     array.forEach(item => {
@@ -475,4 +448,28 @@ function buildDrops(dropArray, outputArray, outputElement, dropDisplayTemplate, 
     dropArray.forEach(drop => {
         outputArray.push(new DropLocation(drop, outputElement, dropDisplayTemplate, dropItemTemplate, dropRotationTemplate));
     });
+}
+
+function findUniqueValues(array, propertyName) {
+    let uniques = [];
+    array.forEach(item => {
+        if(uniques.indexOf(item[propertyName]) === -1) uniques.push(item[propertyName])
+    });
+
+    return uniques
+}
+
+function buildFilterElements(propertyName, uniqueValueArray, filterableObjectArray, outputElement, filterTemplateElement) {
+    uniqueValueArray.forEach(value => {
+        let element = outputElement.appendChild(filterTemplateElement.cloneNode(true));
+        element.querySelector('input').name = value;
+        element.querySelector('input').id = `${value}Filter`;
+        element.querySelector('input').addEventListener('click', e => {
+            filterableObjectArray.forEach(Object => {
+                Object.filterType(e.target.name, !(e.target.checked), propertyName);
+            })
+        })
+        element.querySelector('label').htmlFor = `${value}Filter`;
+        element.querySelector('label').innerText = value;
+    })
 }

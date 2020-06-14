@@ -1,8 +1,8 @@
 class Collapser {
     constructor(element) {
         this.container = element;
-        this.activator = this.container.querySelector('[collapsible-activator]');
-        this.content = this.container.querySelector('[collapsible-content]');
+        this.activator = this.container.querySelector(':scope > *[collapsible-activator]');
+        this.content = this.container.querySelector(':scope > *[collapsible-content]');
         this.content.style.display = 'none';
         
         this.collapsed = true;
@@ -14,21 +14,13 @@ class Collapser {
 
     collapse() {
         if(this.collapsed) {
-            if(this.container.hasAttribute('collapsible-transition')) {
-                this.content.style.display = '';
-            }
-            this.content.style.height = `${this.content.scrollHeight}px`;
             this.activator.querySelector('.collapsedIndicator').innerText = '-'
+            this.content.style.display = '';
             this.collapsed = false;
         }
         else {
-            this.content.style.height = '';
             this.activator.querySelector('.collapsedIndicator').innerText = '+';
-            if(this.container.hasAttribute('collapsible-transition')) {
-                this.content.addEventListener('transitionend', e => {
-                    this.content.style.display = 'none';
-                }, { once: true })
-            }
+            this.content.style.display = 'none';
             this.collapsed = true;
         }
     }

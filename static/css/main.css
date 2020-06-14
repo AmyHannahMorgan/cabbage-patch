@@ -324,8 +324,20 @@ input[type="search"] {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     margin: 3px 0px;
+}
+
+.selectionWrapper {
+    display: flex;
+    align-items: center;
+    font-size: 1.33em;
+    margin: 0px 3px;
+}
+
+.selectionWrapper > input {
+    width: 2em;
+    height: 2em;
 }
 /* IDs */
 #itemHolder, #relicInfo, #itemSelect, #relicHolder, #dropHolder {
@@ -379,18 +391,6 @@ input[type="search"] {
     display: flex;
 }
 
-#itemTypeFilters > .selectionWrapper {
-    display: flex;
-    align-items: center;
-    font-size: 1.33em;
-    margin: 0 3px;
-}
-
-#itemTypeFilters > .selectionWrapper > input {
-    width: 2em;
-    height: 2em;
-}
-
 #dropCollapser {
     display: flex;
     flex-direction: column;
@@ -405,13 +405,6 @@ button[collapsible-activator] {
 
 button[collapsible-activator] > * {
     margin: 0 3px;
-}
-
-*[collapsible-content] {
-    overflow: hidden;
-    height: 0px;
-
-    transition: height 0.25s ease;
 }
 
 /* media */
@@ -480,11 +473,11 @@ button[collapsible-activator] > * {
         height: auto;
     }
 
-    #itemTypeFilters > .selectionWrapper {
+    .selectionWrapper {
         font-size: 1em;
     }
 
-    #itemTypeFilters > .selectionWrapper > input {
+    .selectionWrapper > input {
         width: 1em;
         height: 1em;
     }
