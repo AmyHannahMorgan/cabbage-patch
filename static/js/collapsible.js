@@ -1,8 +1,8 @@
 class Collapser {
     constructor(element) {
         this.container = element;
-        this.activator = this.container.querySelector('[collapsible-activator]');
-        this.content = this.container.querySelector('[collapsible-content]');
+        this.activator = this.container.querySelector(':scope > *[collapsible-activator]');
+        this.content = this.container.querySelector(':scope > *[collapsible-content]');
         this.content.style.display = 'none';
         
         this.collapsed = true;
