@@ -120,7 +120,10 @@ class Relic {
         this.element = relicContainerElement.appendChild(relicTemplate.cloneNode(true));
         this.itemElementHolder = this.element.querySelector('.relicItemList');
         this.element.querySelector('.relicName').innerText = `${this.era} ${this.name}`;
-        if(this.vaulted) this.element.querySelector('.relicDisplay').classList.add('vaulted');
+        if(this.vaulted) {
+            this.element.querySelector('.relicDisplay').classList.add('vaulted');
+            this.element.classList.add('vaulted');
+        }
 
         this.itemTemplate = itemTemplate;
     }
@@ -403,6 +406,7 @@ fetch('/api/all/').then(response => response.json())
 
 const ITEM_SEARCH = document.querySelector('#itemSearch');
 const EXPAND_FILTERS_BUTTON = document.querySelector('#expandFiltersButton');
+const SHOW_VAULTED_RELICS_BUTTON = document.querySelector('#vaultedRelicsButton');
 
 ITEM_SEARCH.addEventListener('input', (e) => {
     itemselectors.forEach(itemSelector => {
@@ -417,6 +421,14 @@ EXPAND_FILTERS_BUTTON.addEventListener('click', () => {
     EXPAND_FILTERS_BUTTON.innerText = EXPAND_FILTERS_BUTTON.getAttribute('toggle-text');
     EXPAND_FILTERS_BUTTON.setAttribute('toggle-text', toggleText);
 });
+
+SHOW_VAULTED_RELICS_BUTTON.addEventListener('click', () => {
+    RELIC_HOLDER.classList.toggle('showVaulted');
+
+    let toggleText = SHOW_VAULTED_RELICS_BUTTON.innerText;
+    SHOW_VAULTED_RELICS_BUTTON.innerText = SHOW_VAULTED_RELICS_BUTTON.getAttribute('toggle-text');
+    SHOW_VAULTED_RELICS_BUTTON.setAttribute('toggle-text', toggleText);
+})
 
 function bulidItemSelectors(array) {
     array.forEach(item => {
