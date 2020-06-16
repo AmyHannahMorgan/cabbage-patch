@@ -206,6 +206,10 @@ input[type="search"] {
     display: flex;
 }
 
+.relicButton.vaulted {
+    display: none;
+}
+
 .relicDisplay, .dropDisplay.selected, .dropRotation.selected {
     display: grid;
     grid-template-rows: auto 100fr;
@@ -346,6 +350,10 @@ input[type="search"] {
 }
 
 #itemHolder, #relicHolder, #dropHolder {
+    display: flex;
+}
+
+#relicHolder.showVaulted > .relicButton.vaulted.selected {
     display: flex;
 }
 
