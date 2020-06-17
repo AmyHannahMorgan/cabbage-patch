@@ -82,9 +82,11 @@ button {
     background-color: var(--bg-color-1);
     border: thin solid var(--highlight-color-2);
     border-bottom: thick solid var(--highlight-color-2);
+
+    color: var(--highlight-color-1);
 }
 
-button:hover {
+button:hover, button:focus {
     border-color: var(--highlight-color-1);
 }
 
@@ -113,6 +115,10 @@ input[type="search"] {
     border-bottom: none;
 }
 
+.tabSelect:hover + .tabSelect, .tabSelect:focus + .tabSelect {
+    border-left: solid medium var(--highlight-color-1);
+}
+
 .tabSelect > * {
     margin: 0;
 }
@@ -124,6 +130,11 @@ input[type="search"] {
 
 .tab.active {
     display: flex;
+}
+
+.tab > * {
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 .itemSelection {
