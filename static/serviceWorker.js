@@ -52,42 +52,38 @@ self.addEventListener('fetch', e => {
     }
     else if(apiRegexp.test(e.request.url)) {
         e.respondWith(
-            fetch(e.request)
-            .then(res => {
-                const resClone = res.clone();
-                caches.open('api-cache')
-                .then(cache => {
-                    cache.put(e.request, resClone);
+            caches.open('api-cache').then(cache => {
+                return cache.match(e.request).then(response => {
+                    if(response) {
+                        fetch(e.request).then(fetchResponse => {
+                            cache.put(e.request, fetchResponse);
+                        })
+                        return response;
+                    }
+                    else return fetch(e.request).then(response => {
+                        cache.put(e.request, response.clone());
+                        return response;
+                    });
                 });
-
-                return res;
-            })
-            .catch(error => {
-                return caches.open('api-cache')
-                .then(cache => {
-                    return cache.match(e.request);
-                })
-            })
+              })
         )
     }
     else {
         e.respondWith(
-            fetch(e.request)
-            .then(res => {
-                const resClone = res.clone();
-                caches.open('site-cache')
-                .then(cache => {
-                    cache.put(e.request, resClone);
+            caches.open('site-cache').then(cache => {
+                return cache.match(e.request).then(response => {
+                    if(response) {
+                        fetch(e.request).then(fetchResponse => {
+                            cache.put(e.request, fetchResponse);
+                        })
+                        return response;
+                    }
+                    else return fetch(e.request).then(response => {
+                        cache.put(e.request, response.clone());
+                        return response;
+                    });
                 });
-
-                return res;
-            })
-            .catch(error => {
-                return caches.open('site-cache')
-                .then(cache => {
-                    return cache.match(e.request);
-                })
-            })
+              })
         )
     }
 })

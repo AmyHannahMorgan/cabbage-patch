@@ -15,10 +15,30 @@
         <h1>Loading...</h1>
     </div>
     <header class="tabSelectHolder">
+        <button class="tabSelect" tabID="welcome"><h3>Welcome</h3></button>
         <button class="tabSelect" tabID="itemSelect"><h3>Item Select</h3></button>
         <button class="tabSelect" tabID="relicInfo"><h3>Relic Info</h3></button>
     </header>
     <main>
+        <div id="welcome" class="tab">
+            <h1 style="text-align: center; margin-bottom: 3px;">Welcome to Cabbage Patch</h1>
+            <h3 style="text-align: center; margin: 0;">A prime item farming helper for Warframe</h3>
+
+            <h2>What is this?</h2>
+            <p>Cabbage Patch is a web app designed to allow Warframe players to more easily farm for prime parts by showing them which relics those prime parts come from and where those relics can be found and farmed. Players can select their desired prime parts for easy tracking and farming.</p>
+
+            <p>You can begin tracking and farming relics by either clicking the "Item Select" tab in the header or by clicking the get started button below.</p>
+
+            <button id="getStartedButton">Get Started</button>
+
+            <h2>Why?</h2>
+            <p>The purpose of this app was to provide an easy to use external tool to help players keep track of the prime items they are looking for. While Warframe does provide tools in game to search for relics that contain certain prime parts as well as see where those relics drop these tools are clunky and do not allow players to easily track multiple parts at a time.</p>
+
+            <p>The orignial intent of this app was to also provide additional functionality and useful information to players. This would be done by roughly calculating the number of relics players would need to open in order to obtain a given item or items, however, this functionality has not been implimented yet.</p>
+
+            <p>Additionally I thought that this would be a good project to expand my knowlege of Node.js and creating APIs, so I made it.</p>
+
+        </div>
         <div id="itemSelect" class="tab">
             <div id="itemFilterOptions">
                 <div class="filterWrapper" id="itemSearchWrapper">
@@ -37,6 +57,7 @@
             </div>
         </div>
         <div id="relicInfo" class="tab">
+            <button id="vaultedRelicsButton" toggle-text="Hide Vaulted Relics">Show Vaulted Relics</button>
             <div id="relicHolder">
 
             </div>
