@@ -358,6 +358,10 @@ const tabs = document.querySelectorAll('.tab');
 const GET_STARTED_BUTTON = document.querySelector('#getStartedButton');
 let tabHandlers = [];
 
+if(window.matchMedia('(display-mode: fullscreen)').matches) {
+    document.querySelector('.tabSelect[tabID="welcome"').parentNode.removeChild(document.querySelector('.tabSelect[tabID="welcome"'));
+}
+
 for(let i = 0; i < tabSelectors.length; i++) {
     tabHandlers.push(new TabHandler(tabSelectors[i].querySelectorAll('.tabSelect'), tabs));
 }
