@@ -100,6 +100,8 @@ class Component {
         this.relics.forEach(relic => {
             relic.update(this.fullName, this.status);
         });
+
+        window.dispatchEvent(RELICS_UPDATED_EVENT);
     }
 }
 
