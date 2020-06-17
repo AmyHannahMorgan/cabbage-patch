@@ -391,6 +391,7 @@ const DROP_ITEM_TEMPLATE = document.querySelector('#dropItemTemplate').content.f
 const DROP_MODE_FILTERS = document.querySelector('#dropMissionFilters');
 const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
 const CHECKBOX_FILTER_TEMPLATE = document.querySelector('#filterSelectionTemplate').content.firstElementChild;
+const RELICS_UPDATED_EVENT = new Event('relicsUpdated');
 let itemselectors = [];
 let relics = [];
 let dropLocations = [];
@@ -412,6 +413,10 @@ fetch('/api/all/').then(response => response.json())
 
     itemselectors.forEach(itemSelector => itemSelector.append())
     document.querySelector('.fullscreenModal.loading').style.display = 'none';
+});
+
+window.addEventListener('relicsUpdated', () => {
+
 });
 
 const ITEM_SEARCH = document.querySelector('#itemSearch');
