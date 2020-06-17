@@ -428,6 +428,10 @@ window.addEventListener('relicsUpdated', () => {
     else SHOW_RELICS_BUTTON.classList.remove('show');
 });
 
+SHOW_RELICS_BUTTON.addEventListener('click', () => {
+    document.querySelector('.tabSelect[tabID="relicInfo"]').click();
+})
+
 const ITEM_SEARCH = document.querySelector('#itemSearch');
 const EXPAND_FILTERS_BUTTON = document.querySelector('#expandFiltersButton');
 const SHOW_VAULTED_RELICS_BUTTON = document.querySelector('#vaultedRelicsButton');
