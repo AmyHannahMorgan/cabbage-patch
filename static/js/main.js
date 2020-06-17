@@ -392,6 +392,7 @@ const DROP_MODE_FILTERS = document.querySelector('#dropMissionFilters');
 const ITEM_TYPE_FILTERS = document.querySelector('#itemTypeFilters');
 const CHECKBOX_FILTER_TEMPLATE = document.querySelector('#filterSelectionTemplate').content.firstElementChild;
 const RELICS_UPDATED_EVENT = new Event('relicsUpdated');
+const SHOW_RELICS_BUTTON = document.querySelector('#showRelicsButton');
 let itemselectors = [];
 let relics = [];
 let dropLocations = [];
