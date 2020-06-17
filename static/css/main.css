@@ -417,6 +417,14 @@ input[type="search"] {
     align-items: center;
 }
 
+#dropFilterOptions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 3px 0;
+}
+
 #welcome > * {
     margin-left: 3px;
     margin-right: 3px;
