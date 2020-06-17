@@ -88,6 +88,7 @@ button {
 
 button:hover, button:focus {
     border-color: var(--highlight-color-1);
+    outline: none;
 }
 
 input[type="search"] {
