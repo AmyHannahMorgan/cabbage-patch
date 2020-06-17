@@ -433,6 +433,18 @@ input[type="search"] {
     margin-right: 3px;
 }
 
+#showRelicsButton {
+    position: fixed;
+    bottom: 20px;
+    right: -100%;
+
+    transition: right 0.25s ease;
+}
+
+#showRelicsButton.show{
+    right: 20px;
+}
+
 /* collapsible elements */
 button[collapsible-activator] {
     display: flex;
