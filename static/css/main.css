@@ -118,7 +118,8 @@ input[type="search"] {
 }
 
 .tab {
-    display: none; 
+    display: none;
+    flex-direction: column;
 }
 
 .tab.active {
@@ -405,6 +406,11 @@ input[type="search"] {
     align-items: center;
 }
 
+#welcome > * {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
 /* collapsible elements */
 button[collapsible-activator] {
     display: flex;
@@ -422,6 +428,12 @@ button[collapsible-activator] > * {
         flex-wrap: wrap;
         justify-content: center;
         align-items: initial;
+    }
+
+    #welcome {
+        max-width: 75vw;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .itemSelection {
@@ -452,6 +464,12 @@ button[collapsible-activator] > * {
 
     #expandFiltersWrapper {
         display: none;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #welcome {
+        max-width: 60vw;
     }
 }
 
@@ -494,6 +512,14 @@ button[collapsible-activator] > * {
 
 @media only screen and (display-mode: fullscreen) {
     footer {
+        display: none;
+    }
+
+    #welcome {
+        display: none;
+    }
+
+    .tabSelect[tabID='welcome'] {
         display: none;
     }
 }

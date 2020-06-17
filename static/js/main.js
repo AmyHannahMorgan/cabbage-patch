@@ -355,11 +355,20 @@ if(navigator.serviceWorker) {
 
 const tabSelectors = document.querySelectorAll('.tabSelectHolder');
 const tabs = document.querySelectorAll('.tab');
+const GET_STARTED_BUTTON = document.querySelector('#getStartedButton');
 let tabHandlers = [];
+
+if(window.matchMedia('(display-mode: fullscreen)').matches) {
+    document.querySelector('.tabSelect[tabID="welcome"').parentNode.removeChild(document.querySelector('.tabSelect[tabID="welcome"'));
+}
 
 for(let i = 0; i < tabSelectors.length; i++) {
     tabHandlers.push(new TabHandler(tabSelectors[i].querySelectorAll('.tabSelect'), tabs));
 }
+
+GET_STARTED_BUTTON.addEventListener('click', () => {
+    document.querySelector(".tabSelect[tabID='itemSelect']").click();
+})
 
 document.addEventListener('scroll', (e) => {
     if(window.scrollY > 0) {
