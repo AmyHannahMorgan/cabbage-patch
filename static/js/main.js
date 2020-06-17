@@ -1,3 +1,4 @@
+// TODO: I should probably move all these classes into a module/modules
 class FilterableItem {
     filter(string, propertyName) {
         if(string.length > 0) {
