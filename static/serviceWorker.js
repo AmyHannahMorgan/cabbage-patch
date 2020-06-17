@@ -54,10 +54,16 @@ self.addEventListener('fetch', e => {
         e.respondWith(
             caches.open('api-cache').then(cache => {
                 return cache.match(e.request).then(response => {
-                  return response || fetch(e.request).then(response => {
-                    cache.put(e.request, response.clone());
-                    return response;
-                  });
+                    if(response) {
+                        fetch(e.request).then(fetchResponse => {
+                            cache.put(e.request, fetchResponse);
+                        })
+                        return response;
+                    }
+                    else return fetch(e.request).then(response => {
+                        cache.put(e.request, response.clone());
+                        return response;
+                    });
                 });
               })
         )
@@ -66,10 +72,16 @@ self.addEventListener('fetch', e => {
         e.respondWith(
             caches.open('site-cache').then(cache => {
                 return cache.match(e.request).then(response => {
-                  return response || fetch(e.request).then(response => {
-                    cache.put(e.request, response.clone());
-                    return response;
-                  });
+                    if(response) {
+                        fetch(e.request).then(fetchResponse => {
+                            cache.put(e.request, fetchResponse);
+                        })
+                        return response;
+                    }
+                    else return fetch(e.request).then(response => {
+                        cache.put(e.request, response.clone());
+                        return response;
+                    });
                 });
               })
         )
