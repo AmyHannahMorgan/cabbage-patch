@@ -115,6 +115,10 @@ input[type="search"] {
     border-bottom: none;
 }
 
+.tabSelect:hover + .tabSelect {
+    border-left: solid medium var(--highlight-color-1);
+}
+
 .tabSelect > * {
     margin: 0;
 }
