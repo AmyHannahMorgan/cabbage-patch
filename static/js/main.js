@@ -419,7 +419,13 @@ fetch('/api/all/').then(response => response.json())
 });
 
 window.addEventListener('relicsUpdated', () => {
+    let flag = false
+    relics.forEach(relic => {
+        if(relic.selected) flag = true;
+    });
 
+    if(flag) SHOW_RELICS_BUTTON.classList.add('show')
+    else SHOW_RELICS_BUTTON.classList.remove('show');
 });
 
 const ITEM_SEARCH = document.querySelector('#itemSearch');
