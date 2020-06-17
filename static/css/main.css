@@ -514,4 +514,12 @@ button[collapsible-activator] > * {
     footer {
         display: none;
     }
+
+    #welcome {
+        display: none;
+    }
+
+    .tabSelect[tabID='welcome'] {
+        display: none;
+    }
 }
