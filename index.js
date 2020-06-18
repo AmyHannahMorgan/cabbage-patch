@@ -28,6 +28,7 @@ dataFunctions.open('./apiData.json').then(apiDataObject => {
     }
 });
 
+app.use(morgan('tiny'));
 app.use(express.static(`${__dirname}/static`));
 app.use('/api', (req, res, next) => {
     if(dataFlag) next();
