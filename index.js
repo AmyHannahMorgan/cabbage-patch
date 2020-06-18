@@ -1,6 +1,7 @@
 //TODO: create own web scraper to fetch prime drop data due to certain missing or poorly formatted items in APIs
 const dataFunctions = require('./apiDataFunctions');
 const express = require('express');
+const morgan = require('morgan');
 const eventEmitter = require('events');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,6 +28,7 @@ dataFunctions.open('./apiData.json').then(apiDataObject => {
     }
 });
 
+app.use(morgan('short'));
 app.use(express.static(`${__dirname}/static`));
 app.use('/api', (req, res, next) => {
     if(dataFlag) next();

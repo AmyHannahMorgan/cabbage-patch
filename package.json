@@ -19,6 +19,7 @@
   "homepage": "https://github.com/AmyHannahMorgan/cabbage-patch#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
   }
 }
